@@ -30,7 +30,7 @@ function Contact() {
 
 						<div>
 							<form id="leadForm" className="flex flex-col gap-[14px]" onSubmit={handleSubmit}>
-								<div className="flex gap-[10px]" aria-label="Tipo de usuario">
+								<div className="flex gap-[10px]" role="group" aria-label="Tipo de usuario">
 									<button
 										type="button"
 										onClick={() => setRole("usuario")}
@@ -38,8 +38,9 @@ function Contact() {
 											role === "usuario"
 												? "border-[#F5A623] bg-[rgba(212,165,55,0.14)] text-[#FFD166]"
 												: "border-[rgba(246,241,231,0.14)] bg-transparent text-[#C9C0DE]"
-										}`}
+										} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F5A623]`}
 										aria-label="Quiero ganar"
+										aria-pressed={role === "usuario"}
 									>
 										Quiero ganar
 									</button>
@@ -51,8 +52,9 @@ function Contact() {
 											role === "negocio"
 												? "border-[#F5A623] bg-[rgba(212,165,55,0.14)] text-[#FFD166]"
 												: "border-[rgba(246,241,231,0.14)] bg-transparent text-[#C9C0DE]"
-										}`}
+										} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F5A623]`}
 										aria-label="Tengo un negocio"
+										aria-pressed={role === "negocio"}
 									>
 										Tengo un negocio
 									</button>
@@ -99,7 +101,7 @@ function Contact() {
 
 								<button
 									type="submit"
-									className="mt-[8px] inline-flex items-center gap-[8px] rounded-[100px] border-none bg-[#F5A623] px-[26px] py-[14px] text-[0.95rem] font-[700] text-[#0F0626] shadow-[0_8px_24px_-8px_rgba(212,165,55,0.5)] transition-[transform,box-shadow] duration-150 ease-[ease] hover:-translate-y-[2px]"
+									className="mt-[8px] inline-flex items-center gap-[8px] rounded-[100px] border-none bg-[#F5A623] px-[26px] py-[14px] text-[0.95rem] font-[700] text-[#0F0626] shadow-[0_8px_24px_-8px_rgba(212,165,55,0.5)] transition-[transform,box-shadow] duration-150 ease-[ease] hover:-translate-y-[2px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F5A623]"
 								>
 									Registrar mi interés
 								</button>
