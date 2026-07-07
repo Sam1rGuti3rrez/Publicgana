@@ -1,25 +1,15 @@
-import Navbar from "../components/layout/Navbar";
+import Navbar from "../components/layouts/Navbar/Navbar";
 import Hero from "../components/sections/Hero/Hero";
-import howItWorks from "../components/sections/HowItWorks/HowItWorks";
-import Benefits from "../components/sections/Benefits/Benefits";
-import Business from "../components/sections/Business/Business";
-import FAQ from "../components/sections/FAQ/FAQ";
-import Contact from "../components/sections/Contact/Contact";
-import Footer from "../components/layout/Footer/Footer";
+import CampaignDistribution from "../components/sections/CampaignDistribution/CampaignDistribution";
 
 function Home() {
     return (
         <>
             <Navbar />
             <Hero />
-            <HowItWorks />
-            <Benefits />
-            <Business />
-            <FAQ />
-            <Contact />
-            <Footer />
+            <CampaignDistribution />
         </>
     );
-};
+}
 
 export default Home;
