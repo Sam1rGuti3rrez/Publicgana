@@ -4,6 +4,7 @@ import CampaignDistribution from "../components/sections/CampaignDistribution/Ca
 import HowItWorks from "../components/sections/HowItWorks/HowItWorks";
 import Benefits from "../components/sections/Benefits/Benefits";
 import SocialNetworks from "../components/sections/SocialNetworks/SocialNetworks";
+import Contact from "../components/sections/Contact/Contact";
 
 function Home() {
     return (
@@ -14,6 +15,7 @@ function Home() {
             <HowItWorks />
             <Benefits />
             <SocialNetworks />
+            <Contact />
         </>
     );
 }
