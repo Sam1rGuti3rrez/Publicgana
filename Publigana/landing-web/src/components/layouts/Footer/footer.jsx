@@ -8,12 +8,13 @@ function Footer() {
     >
       <div className="mx-auto flex max-w-[1120px] flex-col px-[24px]">
         <div className="flex flex-wrap items-center justify-between gap-[20px]">
-          <div className="text-[1.15rem]">
+          <div className="flex items-center gap-[10px] text-[1.15rem]">
             <img
               src={logo}
               alt="PubliGana"
-              className="block h-[34px] w-auto"
+              className="block h-[44px] w-[44px] rounded-[10px] border border-[rgba(246,241,231,0.24)] object-cover object-top shadow-[0_8px_20px_rgba(0,0,0,0.32)]"
             />
+            <span className="font-[700] text-[#F6F1E7]">PubliGana</span>
           </div>
 
           <nav
@@ -24,7 +25,7 @@ function Footer() {
               href="mailto:hola@publigana.com"
               className="transition-colors duration-150 hover:text-[#FFD166] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F5A623]"
             >
-              hola@publigana.com
+              contacto@publigana.com
             </a>
 
             <a

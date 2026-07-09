@@ -54,9 +54,13 @@ function Navbar() {
       className="sticky top-0 z-50 border-b border-[rgba(246,241,231,0.14)] bg-[rgba(31,17,71,0.85)] backdrop-blur-[10px]"
     >
       <div className="flex items-center justify-between px-[24px] py-[18px]">
-        <div className="flex items-center gap-[10px]">
-          <img src={logo} alt="PubliGana" className="block h-[65px] w-[65px]" />
-        </div>
+        <a href="#inicio" className="flex items-center gap-[10px]" aria-label="Ir al inicio">
+          <img
+            src={logo}
+            alt="PubliGana"
+            className="block h-[56px] w-[56px] rounded-[12px] border border-[rgba(246,241,231,0.24)] object-cover object-top shadow-[0_8px_24px_rgba(0,0,0,0.38)]"
+          />
+        </a>
 
         <nav aria-label="Navegación principal" className="hidden items-center gap-[32px] min-[881px]:flex">
           {navItems.map((item) => (
