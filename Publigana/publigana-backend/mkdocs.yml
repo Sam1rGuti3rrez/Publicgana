@@ -1,0 +1,157 @@
+site_name: Publigana Backend Documentation
+site_description: Documentacion tecnica oficial del backend de Publigana.
+site_author: Equipo de Arquitectura Publigana
+site_url: https://example.github.io/publigana-backend/
+repo_name: publigana-backend
+repo_url: https://github.com/example/publigana-backend
+edit_uri: edit/main/docs/
+copyright: Copyright 2026 Publigana
+
+docs_dir: docs
+theme:
+  name: material
+  language: es
+  custom_dir: docs/overrides
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.path
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.tabs.link
+    - content.action.edit
+    - content.action.view
+    - announce.dismiss
+    - header.autohide
+    - navigation.footer
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+    view: material/eye
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue grey
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Cambiar a modo oscuro
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue grey
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Cambiar a modo claro
+
+plugins:
+  - search
+  - mermaid2
+  - git-revision-date-localized:
+      type: timeago
+      locale: es
+      fallback_to_build_date: true
+  - minify:
+      minify_html: true
+  - plantuml:
+      puml_url: https://www.plantuml.com/plantuml/
+      theme:
+        enabled: true
+
+markdown_extensions:
+  - admonition
+  - footnotes
+  - tables
+  - attr_list
+  - md_in_html
+  - def_list
+  - toc:
+      permalink: true
+      title: En esta pagina
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+        - name: plantuml
+          class: plantuml
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.keys
+
+extra_css:
+  - assets/stylesheets/extra.css
+
+extra_javascript:
+  - assets/javascripts/extra.js
+
+extra:
+  version:
+    provider: mike
+    default: latest
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/example/publigana-backend
+      name: GitHub
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com
+      name: LinkedIn
+
+nav:
+  - Inicio: index.md
+  - Guia de Inicio:
+      - Vista General: getting-started/overview.md
+      - Instalacion y Entorno: getting-started/installation.md
+      - Convenciones del Proyecto: getting-started/conventions.md
+      - Tabla de Contenidos Global: getting-started/table-of-contents.md
+  - Backend:
+      - Fundamentos: backend/fundamentals.md
+      - Diseno de API: backend/api-design.md
+  - Java:
+      - Java para Backend Empresarial: java/java-enterprise.md
+      - Java 21 en Produccion: java/java-21.md
+  - Spring Boot:
+      - Introduccion: spring/spring-boot-intro.md
+      - Configuracion Profesional: spring/spring-boot-configuration.md
+  - Arquitectura:
+      - Hexagonal y Clean Architecture: architecture/hexagonal-clean.md
+      - SOLID y Clean Code: architecture/solid-clean-code.md
+  - Persistencia:
+      - JPA Base: jpa/jpa-fundamentals.md
+      - Hibernate Avanzado: hibernate/hibernate-advanced.md
+      - PostgreSQL para Produccion: postgresql/postgresql-production.md
+  - Seguridad:
+      - Fundamentos y Modelo de Amenazas: security/security-fundamentals.md
+      - JWT y Refresh Token: security/jwt-refresh.md
+      - OWASP Top 10 aplicado: security/owasp-top10.md
+  - Testing:
+      - Estrategia de Pruebas: testing/testing-strategy.md
+      - Pruebas de Integracion: testing/integration-tests.md
+  - Infraestructura:
+      - Docker: docker/docker-guide.md
+      - Redis: redis/redis-guide.md
+      - Kafka: kafka/kafka-guide.md
+      - Observabilidad: observability/observability-guide.md
+      - Deployment: deployment/deployment-guide.md
+  - Proyecto Publigana:
+      - Vision del Dominio: publigana/domain-vision.md
+      - Roadmap Tecnico: publigana/technical-roadmap.md
+  - Apendices:
+      - Glosario: publigana/glossary.md
+      - FAQ: publigana/faq.md

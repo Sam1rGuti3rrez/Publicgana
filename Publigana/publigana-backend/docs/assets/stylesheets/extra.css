@@ -1,0 +1,19 @@
+:root {
+  --md-primary-fg-color: #37474f;
+  --md-accent-fg-color: #3949ab;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  letter-spacing: 0.01em;
+}
+
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 8px;
+}
+
+.md-grid {
+  max-width: 1480px;
+}
