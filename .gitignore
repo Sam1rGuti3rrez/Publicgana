@@ -56,3 +56,21 @@ Thumbs.db
 
 # Archivos de TypeScript
 *.tsbuildinfo
+
+# ==========================
+# Spring Boot / Maven
+# ==========================
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Archivos compilados de Java
+*.class
+
+# Configuraciones locales de Spring
+application-local.properties
+application-local.yml
+application-dev.properties
+application-dev.yml
+
+# Maven Wrapper
+.mvn/timing.properties
