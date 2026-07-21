@@ -1,3 +1,13 @@
+import { FaFacebookF, FaInstagram, FaTiktok, FaWhatsapp, FaXTwitter } from "react-icons/fa6";
+
+const socialNetworks = [
+	{ name: "WhatsApp", icon: FaWhatsapp, iconClassName: "text-[#25D366]" },
+	{ name: "Instagram", icon: FaInstagram, iconClassName: "text-[#E4405F]" },
+	{ name: "Facebook", icon: FaFacebookF, iconClassName: "text-[#1877F2]" },
+	{ name: "TikTok", icon: FaTiktok, iconClassName: "text-[#F6F1E7]" },
+	{ name: "X", icon: FaXTwitter, iconClassName: "text-[#F6F1E7]" },
+];
+
 function SocialNetworks() {
 	return (
 		<section className="px-0 py-[84px]" aria-label="Redes contempladas">
@@ -13,21 +23,17 @@ function SocialNetworks() {
 				</div>
 
 				<div className="flex flex-wrap gap-[14px]">
-					<span className="rounded-[100px] border border-[rgba(246,241,231,0.14)] px-[20px] py-[10px] text-[0.92rem] font-[600] text-[#C9C0DE]">
-						WhatsApp
-					</span>
-					<span className="rounded-[100px] border border-[rgba(246,241,231,0.14)] px-[20px] py-[10px] text-[0.92rem] font-[600] text-[#C9C0DE]">
-						Instagram
-					</span>
-					<span className="rounded-[100px] border border-[rgba(246,241,231,0.14)] px-[20px] py-[10px] text-[0.92rem] font-[600] text-[#C9C0DE]">
-						Facebook
-					</span>
-					<span className="rounded-[100px] border border-[rgba(246,241,231,0.14)] px-[20px] py-[10px] text-[0.92rem] font-[600] text-[#C9C0DE]">
-						TikTok
-					</span>
-					<span className="rounded-[100px] border border-[rgba(246,241,231,0.14)] px-[20px] py-[10px] text-[0.92rem] font-[600] text-[#C9C0DE]">
-						X
-					</span>
+					{socialNetworks.map(({ name, icon: Icon, iconClassName }) => (
+						<span
+							key={name}
+							className="inline-flex items-center gap-[10px] rounded-[100px] border border-[rgba(246,241,231,0.14)] px-[18px] py-[10px] text-[0.92rem] font-[600] text-[#C9C0DE]"
+						>
+							<span className="inline-flex h-[24px] w-[24px] items-center justify-center rounded-[999px] bg-[rgba(246,241,231,0.06)]">
+								<Icon className={`h-[14px] w-[14px] ${iconClassName}`} aria-hidden="true" />
+							</span>
+							{name}
+						</span>
+					))}
 				</div>
 			</div>
 		</section>

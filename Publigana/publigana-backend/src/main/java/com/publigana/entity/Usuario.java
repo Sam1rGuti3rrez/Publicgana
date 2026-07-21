@@ -1,37 +1,39 @@
 package com.publigana.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "usuario")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
-    private Integer idUsuario;
+    private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false,length = 100)
     private String nombres;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false,length = 100)
     private String apellidos;
 
-    @Column( name = "correo", nullable = false, unique = true, length = 150)
+    @Column(nullable = false,unique = true)
     private String correo;
 
-    @Column(length = 20)
+    @Column(unique = true)
     private String telefono;
 
-    @Column(nullable = false)
-    private String password;
+    @Column(name = "contraseña",nullable = false)
+    private String Contraseña;
 
     @Column(name = "fecha_registro")
     private LocalDateTime fechaRegistro;
@@ -39,8 +41,16 @@ public class Usuario {
     private Boolean estado;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_rol", nullable = false)
-    @JsonBackReference
+    @JoinColumn(name = "id_rol")
     private Rol rol;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Empresa> empresas;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Comentario> comentarios;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Interaccion> interacciones;
 
 }

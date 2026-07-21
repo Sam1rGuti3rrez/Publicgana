@@ -53,12 +53,12 @@ function Navbar() {
       ref={menuContainerRef}
       className="sticky top-0 z-50 border-b border-[rgba(246,241,231,0.14)] bg-[rgba(31,17,71,0.85)] backdrop-blur-[10px]"
     >
-      <div className="flex items-center justify-between px-[24px] py-[18px]">
-        <a href="#inicio" className="flex items-center gap-[10px]" aria-label="Ir al inicio">
+      <div className="flex items-center justify-between px-[20px] py-[12px] sm:px-[24px] md:py-[14px]">
+        <a href="#inicio" className="flex items-center rounded-[16px] p-[4px] sm:p-[6px]" aria-label="Ir al inicio">
           <img
             src={logo}
             alt="PubliGana"
-            className="block h-[56px] w-[56px] rounded-[12px] border border-[rgba(246,241,231,0.24)] object-cover object-top shadow-[0_8px_24px_rgba(0,0,0,0.38)]"
+            className="block h-[58px] w-[58px] rounded-[14px] border border-[rgba(246,241,231,0.24)] object-contain shadow-[0_10px_28px_rgba(0,0,0,0.38)] sm:h-[64px] sm:w-[64px] md:h-[76px] md:w-[76px] lg:h-[92px] lg:w-[92px]"
           />
         </a>
 
