@@ -13,7 +13,7 @@ function Hero() {
 				<div className="mb-[52px] flex flex-col gap-[34px] lg:gap-[40px]">
 					<div className="flex flex-col items-center text-center lg:items-start lg:text-left">
 						<span className="mb-[24px] inline-flex items-center gap-[8px] rounded-[100px] border border-[rgba(212,165,55,0.35)] bg-[rgba(212,165,55,0.08)] px-[14px] py-[7px] text-[0.8rem] font-[700] uppercase tracking-[0.08em] text-[#FFD166]">
-							● Próximamente en Bogotá
+							● Próximamente en Colombia
 						</span>
 
 						<h1 className="mb-[22px] max-w-[820px] font-[Fraunces] text-[clamp(2.2rem,4.8vw,3.6rem)] leading-[1.06] tracking-[-0.01em] text-[#F6F1E7]">
