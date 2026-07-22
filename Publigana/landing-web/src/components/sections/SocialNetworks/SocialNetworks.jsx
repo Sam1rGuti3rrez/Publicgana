@@ -3,7 +3,7 @@ import { FaFacebookF, FaInstagram, FaTiktok, FaWhatsapp, FaXTwitter } from "reac
 const socialNetworks = [
 	{ name: "WhatsApp", icon: FaWhatsapp, iconClassName: "text-[#25D366]",url: "https://wa.me/573053030303" },
 	{ name: "Instagram", icon: FaInstagram, iconClassName: "text-[#E4405F]", url: "https://www.instagram.com/publi_gana/" },
-	{ name: "Facebook", icon: FaFacebookF, iconClassName: "text-[#1877F2]", url: "https://www.facebook.com/" },
+	{ name: "Facebook", icon: FaFacebookF, iconClassName: "text-[#1877F2]", url: "https://www.facebook.com/profile.php?id=61590848365852&rdid=TuM36gf7DF58zqx0&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1BJrtd6PLG%2F#" },
 	{ name: "TikTok", icon: FaTiktok, iconClassName: "text-[#F6F1E7]", url: "https://www.tiktok.com/@publi_gana?_r=1&_t=ZS-98EXmWtZJOX" },
 	
 ];

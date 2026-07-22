@@ -30,7 +30,7 @@ function Hero() {
 							</a>
 
 							<a
-								href="app-demo.html"
+								href="/app-demo.html"
 								target="_blank"
 								rel="noopener"
 								className={secondaryButtonClassName}
