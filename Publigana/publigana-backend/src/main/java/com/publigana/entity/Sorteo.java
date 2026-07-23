@@ -7,9 +7,12 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,31 +28,41 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "rol")
+@Table(name = "sorteo")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Rol {
+public class Sorteo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 
-    @NotBlank
-    @Size(max = 50)
-    @Column(name = "nombre", nullable = false, unique = true, length = 50)
-    private String nombre;
+    @NotNull
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "campania_id", nullable = false, unique = true)
+    private Campania campania;
 
-    @Size(max = 255)
-    @Column(name = "descripcion", length = 255)
-    private String descripcion;
+    @NotNull
+    @Column(name = "fecha_sorteo", nullable = false)
+    private LocalDateTime fechaSorteo;
+
+    @NotBlank
+    @Size(max = 100)
+    @Column(name = "metodo", nullable = false, length = 100)
+    private String metodo;
+
+    @NotBlank
+    @Size(max = 30)
+    @Column(name = "estado", nullable = false, length = 30)
+    private String estado;
 
     @Builder.Default
-    @OneToMany(mappedBy = "rol", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<Usuario> usuarios = new ArrayList<>();
+    @OneToMany(mappedBy = "sorteo", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ganador> ganadores = new ArrayList<>();
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

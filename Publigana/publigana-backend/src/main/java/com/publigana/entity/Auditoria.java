@@ -1,15 +1,16 @@
 package com.publigana.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,18 +21,16 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "rol")
+@Table(name = "auditoria")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Rol {
+public class Auditoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -39,17 +38,31 @@ public class Rol {
     private UUID id;
 
     @NotBlank
+    @Size(max = 120)
+    @Column(name = "entidad_afectada", nullable = false, length = 120)
+    private String entidadAfectada;
+
+    @NotNull
+    @Column(name = "entidad_id", nullable = false)
+    private UUID entidadId;
+
+    @NotBlank
     @Size(max = 50)
-    @Column(name = "nombre", nullable = false, unique = true, length = 50)
-    private String nombre;
+    @Column(name = "accion_realizada", nullable = false, length = 50)
+    private String accionRealizada;
 
-    @Size(max = 255)
-    @Column(name = "descripcion", length = 255)
-    private String descripcion;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_responsable_id")
+    private Usuario usuarioResponsable;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "rol", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<Usuario> usuarios = new ArrayList<>();
+    @NotNull
+    @Column(name = "fecha_accion", nullable = false)
+    private LocalDateTime fechaAccion;
+
+    @NotBlank
+    @Size(max = 4000)
+    @Column(name = "detalles_cambio", nullable = false, length = 4000)
+    private String detallesCambio;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

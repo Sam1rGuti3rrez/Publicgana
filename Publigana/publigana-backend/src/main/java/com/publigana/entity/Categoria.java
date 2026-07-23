@@ -1,6 +1,5 @@
 package com.publigana.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,13 +25,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "rol")
+@Table(name = "categoria")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Rol {
+public class Categoria {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -39,17 +39,21 @@ public class Rol {
     private UUID id;
 
     @NotBlank
-    @Size(max = 50)
-    @Column(name = "nombre", nullable = false, unique = true, length = 50)
+    @Size(max = 100)
+    @Column(name = "nombre", nullable = false, unique = true, length = 100)
     private String nombre;
 
     @Size(max = 255)
     @Column(name = "descripcion", length = 255)
     private String descripcion;
 
+    @NotNull
+    @Column(name = "activa", nullable = false)
+    private Boolean activa;
+
     @Builder.Default
-    @OneToMany(mappedBy = "rol", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<Usuario> usuarios = new ArrayList<>();
+    @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
+    private List<Campania> campanias = new ArrayList<>();
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
