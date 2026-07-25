@@ -39,7 +39,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Campania {
+public class Campaña {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -90,10 +90,6 @@ public class Campania {
             inverseJoinColumns = @JoinColumn(name = "red_social_id")
     )
     private Set<RedSocial> redesSociales = new LinkedHashSet<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "campania", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Publicacion> publicaciones = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "campania", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

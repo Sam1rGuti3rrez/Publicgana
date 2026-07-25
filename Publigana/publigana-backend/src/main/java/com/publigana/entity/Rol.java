@@ -34,9 +34,9 @@ import java.util.UUID;
 public class Rol {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", nullable = false, updatable = false)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_rol", nullable = false, updatable = false)
+    private Integer idRol;
 
     @NotBlank
     @Size(max = 50)

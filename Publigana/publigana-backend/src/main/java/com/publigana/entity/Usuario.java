@@ -80,7 +80,7 @@ public class Usuario {
 
     @Builder.Default
     @OneToMany(mappedBy = "creador", fetch = FetchType.LAZY)
-    private List<Campania> campaniasCreadas = new ArrayList<>();
+    private List<Campaña> campaniasCreadas = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)

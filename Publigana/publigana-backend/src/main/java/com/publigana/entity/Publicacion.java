@@ -59,8 +59,8 @@ public class Publicacion {
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "campania_id", nullable = false)
-	private Campania campania;
+	@JoinColumn(name = "empresa_id", nullable = false)
+	private Empresa empresa;
 
 	@CreationTimestamp
 	@Column(name = "created_at", nullable = false, updatable = false)

@@ -44,7 +44,7 @@ public class Sorteo {
     @NotNull
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "campania_id", nullable = false, unique = true)
-    private Campania campania;
+    private Campaña campania;
 
     @NotNull
     @Column(name = "fecha_sorteo", nullable = false)

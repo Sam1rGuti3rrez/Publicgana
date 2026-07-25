@@ -62,7 +62,7 @@ public class Premio {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "campania_id", nullable = false)
-    private Campania campania;
+    private Campaña campania;
 
     @Builder.Default
     @OneToMany(mappedBy = "premio", fetch = FetchType.LAZY)

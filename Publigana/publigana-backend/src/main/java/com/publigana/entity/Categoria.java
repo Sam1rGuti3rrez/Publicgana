@@ -53,7 +53,7 @@ public class Categoria {
 
     @Builder.Default
     @OneToMany(mappedBy = "categoria", fetch = FetchType.LAZY)
-    private List<Campania> campanias = new ArrayList<>();
+    private List<Campaña> campanias = new ArrayList<>();
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

@@ -57,7 +57,7 @@ public class RedSocial {
 
     @Builder.Default
     @ManyToMany(mappedBy = "redesSociales", fetch = FetchType.LAZY)
-    private Set<Campania> campanias = new LinkedHashSet<>();
+    private Set<Campaña> campanias = new LinkedHashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

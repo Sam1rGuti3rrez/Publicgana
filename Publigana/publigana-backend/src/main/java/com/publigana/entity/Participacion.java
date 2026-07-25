@@ -63,7 +63,7 @@ public class Participacion {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "campania_id", nullable = false)
-    private Campania campania;
+    private Campaña campania;
 
     @Builder.Default
     @OneToMany(mappedBy = "participacion", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
