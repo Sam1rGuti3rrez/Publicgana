@@ -1,6 +1,7 @@
 package com.publigana.controller;
 
 import com.publigana.dto.response.ApiErrorResponse;
+import com.publigana.exception.RecursoNoEncontradoException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -56,6 +57,14 @@ public class GlobalExceptionHandler {
             HttpServletRequest request
     ) {
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage(), request, Map.of());
+    }
+
+    @ExceptionHandler(RecursoNoEncontradoException.class)
+    public ResponseEntity<ApiErrorResponse> handleRecursoNoEncontrado(
+            RecursoNoEncontradoException exception,
+            HttpServletRequest request
+    ) {
+        return buildResponse(HttpStatus.NOT_FOUND, exception.getMessage(), request, Map.of());
     }
 
     private ResponseEntity<ApiErrorResponse> buildResponse(
