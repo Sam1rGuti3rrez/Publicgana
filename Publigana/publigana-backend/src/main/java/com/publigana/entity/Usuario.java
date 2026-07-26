@@ -10,10 +10,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,42 +37,36 @@ public class Usuario {
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 
-    @NotBlank
-    @Size(max = 100)
     @Column(name = "nombres", nullable = false, length = 100)
     private String nombres;
 
-    @NotBlank
-    @Size(max = 100)
-    @Column(name = "apellidos", nullable = false, length = 100)
+    @Column(name = "apellidos", length = 100)
     private String apellidos;
 
-    @Email
-    @NotBlank
-    @Size(max = 150)
     @Column(name = "correo", nullable = false, unique = true, length = 150)
     private String correo;
 
-    @Size(max = 20)
-    @Column(name = "telefono", unique = true, length = 20)
+    @Column(name = "telefono", length = 20)
     private String telefono;
 
-    @NotBlank
-    @Size(min = 8, max = 255)
     @Column(name = "contrasena", nullable = false, length = 255)
     private String contrasena;
 
-    @NotNull
     @Column(name = "activo", nullable = false)
     private Boolean activo;
 
     @Column(name = "ultimo_acceso")
     private LocalDateTime ultimoAcceso;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "rol_id", nullable = false)
     private Rol rol;
+
+    @Column(name = "foto_url", length = 255)
+    private String fotoUrl;
+
+    @Column(name = "bio", length = 300)
+    private String bio;
 
     @Builder.Default
     @OneToMany(mappedBy = "creador", fetch = FetchType.LAZY)

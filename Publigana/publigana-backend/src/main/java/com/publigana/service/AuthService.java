@@ -6,105 +6,67 @@ import com.publigana.entity.Rol;
 import com.publigana.entity.Usuario;
 import com.publigana.repository.RolRepository;
 import com.publigana.repository.UsuarioRepository;
-
-import lombok.RequiredArgsConstructor;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Locale;
 
 @Service
-@RequiredArgsConstructor
 public class AuthService {
-
 
     private final UsuarioRepository usuarioRepository;
     private final RolRepository rolRepository;
     private final PasswordEncoder passwordEncoder;
 
+    public AuthService(
+            UsuarioRepository usuarioRepository,
+            RolRepository rolRepository,
+            PasswordEncoder passwordEncoder
+    ) {
+        this.usuarioRepository = usuarioRepository;
+        this.rolRepository = rolRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Transactional
     public RegisterResponse registrar(RegisterRequest request) {
-
-
-        if (usuarioRepository.existsByCorreo(request.getCorreo())) {
-            throw new IllegalArgumentException(
-                    "El correo ya se encuentra registrado"
-            );
+        String correo = request.correo().trim().toLowerCase(Locale.ROOT);
+        if (usuarioRepository.existsByCorreo(correo)) {
+            throw new IllegalArgumentException("El correo ya se encuentra registrado");
         }
 
+        Rol rol = rolRepository.findByNombre(request.rol().trim().toLowerCase(Locale.ROOT))
+                .orElseThrow(() -> new IllegalStateException("El rol solicitado no está configurado"));
 
-        if (request.getTelefono() != null
-                && !request.getTelefono().isBlank()
-                && usuarioRepository.existsByTelefono(request.getTelefono())) {
+        Usuario usuario = Usuario.builder()
+                .nombres(request.nombres().trim())
+                .apellidos(normalizarOpcional(request.apellidos()))
+                .correo(correo)
+                .contrasena(passwordEncoder.encode(request.contrasena()))
+                .telefono(normalizarOpcional(request.telefono()))
+                .activo(true)
+                .rol(rol)
+                .build();
 
-            throw new IllegalArgumentException(
-                    "El telefono ya se encuentra registrado"
-            );
-        }
+        return toResponse(usuarioRepository.save(usuario));
+    }
 
+    private String normalizarOpcional(String valor) {
+        return valor == null || valor.isBlank() ? null : valor.trim();
+    }
 
-        Usuario usuario = new Usuario();
-
-
-        usuario.setNombres(request.getNombres());
-
-        usuario.setApellidos(request.getApellidos());
-
-        usuario.setCorreo(request.getCorreo());
-
-
-        usuario.setContrasena(
-                passwordEncoder.encode(
-                        request.getContrasena()
-                )
-        );
-
-
-        usuario.setTelefono(
-                request.getTelefono()
-        );
-
-
-        usuario.setActivo(true);
-
-
-
-        Rol rol = rolRepository.findByNombre("USER")
-                .orElseThrow(() ->
-                        new IllegalStateException(
-                                "El rol USER no existe"
-                        )
-                );
-
-
-        usuario.setRol(rol);
-
-
-
-        Usuario usuarioGuardado =
-                usuarioRepository.save(usuario);
-
-
-
+    private RegisterResponse toResponse(Usuario usuario) {
         return new RegisterResponse(
-
-                usuarioGuardado.getId(),
-
-                usuarioGuardado.getNombres(),
-
-                usuarioGuardado.getApellidos(),
-
-                usuarioGuardado.getCorreo(),
-
-                usuarioGuardado.getTelefono(),
-
-                usuarioGuardado.getActivo(),
-
-                usuarioGuardado.getRol().getNombre()
-
+                usuario.getId(),
+                usuario.getNombres(),
+                usuario.getApellidos(),
+                usuario.getCorreo(),
+                usuario.getTelefono(),
+                usuario.getActivo(),
+                usuario.getRol().getNombre(),
+                usuario.getFotoUrl(),
+                usuario.getBio()
         );
-
     }
 }

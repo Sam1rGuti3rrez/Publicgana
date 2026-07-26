@@ -1,5 +1,6 @@
 package com.publigana.controller;
 
+import com.publigana.dto.response.ApiErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -18,98 +19,59 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, Object>> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException ex,
+    public ResponseEntity<ApiErrorResponse> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException exception,
             HttpServletRequest request
     ) {
         Map<String, String> fieldErrors = new LinkedHashMap<>();
-
-        for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
+        for (FieldError fieldError : exception.getBindingResult().getFieldErrors()) {
             fieldErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(buildValidationBody(
-                        "Error de validacion en la solicitud",
-                        request,
-                        fieldErrors
-                ));
+        return buildResponse(HttpStatus.BAD_REQUEST, "Error de validación en la solicitud", request, fieldErrors);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Map<String, Object>> handleConstraintViolation(
-            ConstraintViolationException ex,
+    public ResponseEntity<ApiErrorResponse> handleConstraintViolation(
+            ConstraintViolationException exception,
             HttpServletRequest request
     ) {
         Map<String, String> fieldErrors = new LinkedHashMap<>();
-
-        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
-            String field = violation.getPropertyPath() != null
-                    ? violation.getPropertyPath().toString()
-                    : "campo";
-            fieldErrors.put(field, violation.getMessage());
+        for (ConstraintViolation<?> violation : exception.getConstraintViolations()) {
+            fieldErrors.put(violation.getPropertyPath().toString(), violation.getMessage());
         }
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(buildValidationBody(
-                        "Error de validacion de dominio",
-                        request,
-                        fieldErrors
-                ));
+        return buildResponse(HttpStatus.BAD_REQUEST, "Error de validación de dominio", request, fieldErrors);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, Object>> handleIllegalArgument(
-            IllegalArgumentException ex,
+    public ResponseEntity<ApiErrorResponse> handleIllegalArgument(
+            IllegalArgumentException exception,
             HttpServletRequest request
     ) {
-        return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(buildSimpleBody(
-                        HttpStatus.CONFLICT,
-                        ex.getMessage(),
-                        request
-                ));
+        return buildResponse(HttpStatus.CONFLICT, exception.getMessage(), request, Map.of());
     }
 
     @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<Map<String, Object>> handleIllegalState(
-            IllegalStateException ex,
+    public ResponseEntity<ApiErrorResponse> handleIllegalState(
+            IllegalStateException exception,
             HttpServletRequest request
     ) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(buildSimpleBody(
-                        HttpStatus.INTERNAL_SERVER_ERROR,
-                        ex.getMessage(),
-                        request
-                ));
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage(), request, Map.of());
     }
 
-    private Map<String, Object> buildValidationBody(
+    private ResponseEntity<ApiErrorResponse> buildResponse(
+            HttpStatus status,
             String message,
             HttpServletRequest request,
-            Map<String, String> fieldErrors
+            Map<String, String> validationErrors
     ) {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", OffsetDateTime.now().toString());
-        body.put("status", HttpStatus.BAD_REQUEST.value());
-        body.put("error", HttpStatus.BAD_REQUEST.getReasonPhrase());
-        body.put("message", message);
-        body.put("path", request.getRequestURI());
-        body.put("validationErrors", fieldErrors);
-        return body;
+        ApiErrorResponse body = new ApiErrorResponse(
+                OffsetDateTime.now(),
+                status.value(),
+                status.getReasonPhrase(),
+                message,
+                request.getRequestURI(),
+                validationErrors
+        );
+        return ResponseEntity.status(status).body(body);
     }
-
-        private Map<String, Object> buildSimpleBody(
-                        HttpStatus status,
-                        String message,
-                        HttpServletRequest request
-        ) {
-                Map<String, Object> body = new LinkedHashMap<>();
-                body.put("timestamp", OffsetDateTime.now().toString());
-                body.put("status", status.value());
-                body.put("error", status.getReasonPhrase());
-                body.put("message", message);
-                body.put("path", request.getRequestURI());
-                return body;
-        }
 }

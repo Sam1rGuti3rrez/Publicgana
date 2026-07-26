@@ -9,6 +9,8 @@ public record RegisterResponse(
         String correo,
         String telefono,
         Boolean activo,
-        String rol
+        String rol,
+        String fotoUrl,
+        String bio
 ) {
 }

@@ -1,6 +1,5 @@
 package com.publigana.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,8 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,17 +35,14 @@ public class Rol {
     @Column(name = "id_rol", nullable = false, updatable = false)
     private Integer idRol;
 
-    @NotBlank
-    @Size(max = 50)
     @Column(name = "nombre", nullable = false, unique = true, length = 50)
     private String nombre;
 
-    @Size(max = 255)
     @Column(name = "descripcion", length = 255)
     private String descripcion;
 
     @Builder.Default
-    @OneToMany(mappedBy = "rol", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "rol", fetch = FetchType.LAZY)
     private List<Usuario> usuarios = new ArrayList<>();
 
     @CreationTimestamp
