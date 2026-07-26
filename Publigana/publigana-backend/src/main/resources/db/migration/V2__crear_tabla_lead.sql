@@ -1,4 +1,4 @@
-CREATE TABLE leads (
+CREATE TABLE Interesados(
 
                       id UUID PRIMARY KEY,
 

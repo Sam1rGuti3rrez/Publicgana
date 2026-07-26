@@ -99,7 +99,7 @@ function Contact() {
 												: "border-[rgba(246,241,231,0.14)] bg-transparent text-[#C9C0DE]"
 										}`}
 									>
-										Tengo un negocio
+										Quiero Anunciar
 									</button>
 								</div>
 
@@ -173,7 +173,7 @@ function Contact() {
 
 								{showSuccess && (
 									<div className="rounded-[12px] border border-[rgba(212,165,55,0.4)] bg-[rgba(212,165,55,0.12)] p-[18px] text-[0.95rem] text-[#F6F1E7]">
-										¡Listo! Te avisaremos en cuanto haya campañas disponibles para ti.
+										¡Recibido tu registro!.
 									</div>
 								)}
 							</form>
