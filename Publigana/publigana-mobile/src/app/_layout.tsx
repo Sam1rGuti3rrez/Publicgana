@@ -1,16 +1,12 @@
-import {ThemeProvider} from "@react-navigation/native";
-import {Slot} from "expo-router";
+import { Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import {useColorScheme} from "react-native";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
-import {AuthProvider} from "@/context/AuthContext";
-import {darkTheme, lightTheme} from "@/theme";
+import { AuthProvider } from "@/context/AuthContext";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -36,12 +32,8 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider
-      value={colorScheme === "dark" ? darkTheme : lightTheme}
-    >
       <AuthProvider>
         <Slot />
       </AuthProvider>
-    </ThemeProvider>
   );
 }

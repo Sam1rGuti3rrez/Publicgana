@@ -1,98 +1,149 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import BalanceCard from "@/components/BalanceCard";
+import { colors } from "@/theme/colors";
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+export default function Home() {
+
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
+      <ScrollView
+          style={styles.container}
+          showsVerticalScrollIndicator={false}
+      >
+
+        <View style={styles.header}>
+
+          <Text style={styles.greeting}>
+            Hola 👋
+          </Text>
+
+          <Text style={styles.name}>
+            Bienvenido a Publigana
+          </Text>
+
+          <Text style={styles.subtitle}>
+            Gestiona tus campañas y ganancias
+          </Text>
+
+        </View>
+
+
+        <BalanceCard />
+
+
+        <Text style={styles.sectionTitle}>
+          Acciones rápidas
+        </Text>
+
+
+        <View style={styles.actions}>
+
+          <View style={styles.actionCard}>
+            <Text style={styles.actionTitle}>
+              📢 Campañas
+            </Text>
+
+            <Text style={styles.actionText}>
+              Explora nuevas oportunidades
+            </Text>
+          </View>
+
+
+          <View style={styles.actionCard}>
+            <Text style={styles.actionTitle}>
+              💰 Ganancias
+            </Text>
+
+            <Text style={styles.actionText}>
+              Revisa tus ingresos
+            </Text>
+          </View>
+
+        </View>
+
+
+        <Text style={styles.sectionTitle}>
+          Campañas disponibles
+        </Text>
+
+
+      </ScrollView>
   );
 }
 
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
-
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
-  );
-}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
+
+  container:{
+    flex:1,
+    backgroundColor: colors.background,
+    paddingHorizontal:20,
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+
+
+  header:{
+    marginTop:50,
+    marginBottom:25,
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+
+
+  greeting:{
+    color:colors.gray400,
+    fontSize:16,
   },
-  title: {
-    textAlign: 'center',
+
+
+  name:{
+    color:colors.white,
+    fontSize:28,
+    fontWeight:"bold",
+    marginTop:5,
   },
-  code: {
-    textTransform: 'uppercase',
+
+
+  subtitle:{
+    color:colors.gray400,
+    marginTop:8,
+    fontSize:15,
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+
+
+  sectionTitle:{
+    color:colors.white,
+    fontSize:20,
+    fontWeight:"bold",
+    marginTop:30,
+    marginBottom:15,
   },
+
+
+  actions:{
+    flexDirection:"row",
+    justifyContent:"space-between",
+  },
+
+
+  actionCard:{
+    backgroundColor:colors.surface,
+    width:"48%",
+    padding:16,
+    borderRadius:18,
+    borderWidth:1,
+    borderColor:colors.border,
+  },
+
+
+  actionTitle:{
+    color:colors.white,
+    fontSize:16,
+    fontWeight:"bold",
+  },
+
+
+  actionText:{
+    color:colors.gray400,
+    marginTop:8,
+    fontSize:13,
+  }
+
 });
