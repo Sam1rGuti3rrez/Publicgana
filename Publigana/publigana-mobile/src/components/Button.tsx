@@ -6,8 +6,7 @@ import {
     ActivityIndicator,
 } from "react-native";
 
-// @ts-ignore
-import { Colors } from "@/theme/colors";
+import { colors } from "@/theme/colors";
 
 interface ButtonProps {
     title: string;
@@ -27,10 +26,10 @@ export default function Button({
             activeOpacity={0.85}
             onPress={onPress}
             disabled={disabled || loading}
-            style={[
-                styles.button,
-                disabled && styles.disabled,
-            ]}
+              style={[
+        styles.button,
+        disabled && styles.disabled,
+      ]}
         >
             {loading ? (
                 <ActivityIndicator color={Colors.background} />
@@ -42,21 +41,19 @@ export default function Button({
 }
 
 const styles = StyleSheet.create({
-    button: {
-        backgroundColor: Colors.gold,
-        height: 56,
-        borderRadius: 16,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-
-    disabled: {
-        opacity: 0.6,
-    },
-
-    text: {
-        color: Colors.background,
-        fontWeight: "700",
-        fontSize: 17,
-    },
+  button: {
+    backgroundColor: colors.gold,
+    height: 56,
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  disabled: {
+    opacity: 0.6,
+  },
+  text: {
+    color: colors.background,
+    fontWeight: "700",
+    fontSize: 17,
+  },
 });

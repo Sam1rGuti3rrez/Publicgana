@@ -6,7 +6,7 @@ import {
     StyleSheet,
 } from "react-native";
 
-import { Colors } from "@/theme/colors";
+import { colors } from "@/theme/colors";
 
 interface InputProps {
     label: string;
@@ -31,49 +31,39 @@ export default function Input({
                               }: InputProps) {
     return (
         <View style={styles.container}>
-            <Text style={styles.label}>{label}</Text>
-
-            <TextInput
-                style={styles.input}
-                placeholder={placeholder}
-                placeholderTextColor={Colors.placeholder}
-                value={value}
-                onChangeText={onChangeText}
-                secureTextEntry={secureTextEntry}
-                keyboardType={keyboardType}
-                autoCapitalize="none"
-            />
+      <Text style={styles.label}>{label}</Text>
+      <TextInput
+        style={styles.input}
+        placeholder={placeholder}
+        placeholderTextColor={colors.placeholder}
+        value={value}
+        onChangeText={onChangeText}
+        secureTextEntry={secureTextEntry}
+        keyboardType={keyboardType}
+        autoCapitalize="none"
+      />
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        marginBottom: 18,
-    },
-
-    label: {
-        color: Colors.white,
-        marginBottom: 8,
-        fontWeight: "600",
-        fontSize: 15,
-    },
-
-    input: {
-        height: 56,
-
-        backgroundColor: Colors.inputBackground,
-
-        borderRadius: 14,
-
-        paddingHorizontal: 18,
-
-        color: Colors.white,
-
-        borderWidth: 1,
-
-        borderColor: Colors.border,
-
-        fontSize: 16,
-    },
+  container: {
+    marginBottom: 18,
+  },
+  label: {
+    color: colors.white,
+    marginBottom: 8,
+    fontWeight: "600",
+    fontSize: 15,
+  },
+  input: {
+    height: 56,
+    backgroundColor: colors.inputBackground,
+    borderRadius: 14,
+    paddingHorizontal: 18,
+    color: colors.white,
+    borderWidth: 1,
+    borderColor: colors.border,
+    fontSize: 16,
+  },
 });
