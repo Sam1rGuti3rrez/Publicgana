@@ -1,5 +1,12 @@
 import { Redirect } from "expo-router";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Index() {
-  return <Redirect href="/tabs" />;
+  const { activeRole } = useAuth();
+
+  return activeRole === "empresa" ? (
+    <Redirect href="/empresa/(tabs)" />
+  ) : (
+    <Redirect href="/promotor/(tabs)" />
+  );
 }

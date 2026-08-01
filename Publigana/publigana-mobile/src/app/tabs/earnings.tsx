@@ -1,9 +1,7 @@
-import { View, Text, StyleSheet, ScrollView, Dimensions } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/theme/colors";
 import type { Earning, BarData } from "@/types";
-
-const { width } = Dimensions.get("window");
 
 const MOCK_BARS: BarData[] = [
   { dia: "L", valor: 12000 },

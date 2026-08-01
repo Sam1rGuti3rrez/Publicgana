@@ -32,7 +32,7 @@ export default function Button({
       ]}
         >
             {loading ? (
-                <ActivityIndicator color={Colors.background} />
+              <ActivityIndicator color={colors.background} />
             ) : (
                 <Text style={styles.text}>{title}</Text>
             )}

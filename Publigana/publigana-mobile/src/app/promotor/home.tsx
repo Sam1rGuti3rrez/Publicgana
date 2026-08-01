@@ -1,300 +1,167 @@
-import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
-import BalanceCard from "@/components/BalanceCard";
+import { useMemo } from "react";
+import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { useRouter } from "expo-router";
+
+import AppButton from "@/components/buttons/AppButton";
+import RoleSwitcher from "@/components/common/RoleSwitcher";
+import SectionHeader from "@/components/common/SectionHeader";
+import EmptyState from "@/components/common/EmptyState";
+import ResponsiveContainer from "@/components/layout/ResponsiveContainer";
+import CampaignCard, { PromotorCampaign } from "@/components/promotor/CampaignCard";
+import EarningsCard from "@/components/promotor/EarningsCard";
+import StatsCard from "@/components/promotor/StatsCard";
+import { useAuth } from "@/context/AuthContext";
 import { colors } from "@/theme/colors";
 
+const PROMOTOR_NAME = "Juan";
+
+const DASHBOARD_STATS = [
+  { id: "active", label: "Campanas activas", value: "3", accent: colors.info },
+  { id: "pending", label: "Tareas pendientes", value: "5", accent: colors.secondary },
+  { id: "reach", label: "Seguidores alcanzados", value: "12.5K", accent: colors.success },
+];
+
+const AVAILABLE_CAMPAIGNS: PromotorCampaign[] = [
+  {
+    id: 1,
+    company: "Nike Colombia",
+    platform: "Instagram",
+    reward: "$35.000 COP",
+    status: "activa",
+  },
+  {
+    id: 2,
+    company: "Samsung LATAM",
+    platform: "TikTok",
+    reward: "$52.000 COP",
+    status: "nueva",
+  },
+  {
+    id: 3,
+    company: "Adidas",
+    platform: "Facebook",
+    reward: "$40.000 COP",
+    status: "cerrando",
+  },
+];
+
 export default function Home() {
+  const router = useRouter();
+  const { devRole, setDevRole } = useAuth();
+  const { width } = useWindowDimensions();
+
+  const statBasis = useMemo(() => {
+    if (width >= 980) return "31.5%";
+    if (width >= 620) return "48%";
+    return "100%";
+  }, [width]);
+
+  const handleRoleChange = (nextRole: "promotor" | "empresa") => {
+    setDevRole(nextRole);
+    router.replace(nextRole === "empresa" ? "/empresa/(tabs)" : "/promotor/(tabs)");
+  };
+
+  const handleViewCampaign = () => {
+    router.push("/promotor/(tabs)/campaigns");
+  };
+
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={styles.content}
-      showsVerticalScrollIndicator={false}
-    >
-      {/* Header */}
+    <ResponsiveContainer maxWidth={980} contentStyle={styles.content}>
+      <RoleSwitcher value={devRole} onChange={handleRoleChange} />
 
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.greeting}>
-            Hola 👋
-          </Text>
-
-          <Text style={styles.name}>
-            Bienvenido a Publigana
-          </Text>
-
-          <Text style={styles.subtitle}>
-            Gestiona tus campañas y ganancias
-          </Text>
-        </View>
-
-        <Pressable style={styles.notification}>
-          <Text style={styles.notificationIcon}>🔔</Text>
-        </Pressable>
+      <View style={styles.headerBlock}>
+        <Text style={styles.greeting}>Hola, {PROMOTOR_NAME} 👋</Text>
+        <Text style={styles.subtitle}>Listo para ganar mas con tus campanas</Text>
       </View>
 
-      {/* Saldo */}
+      <EarningsCard
+        title="Ganancias acumuladas"
+        amount="$250.000 COP"
+        growthLabel="+12% este mes"
+      />
 
-      <BalanceCard />
-
-      {/* Acciones */}
-
-      <Text style={styles.sectionTitle}>
-        Acciones rápidas
-      </Text>
-
-      <View style={styles.actions}>
-
-        <Pressable style={styles.actionCard}>
-          <Text style={styles.actionIcon}>📢</Text>
-
-          <Text style={styles.actionTitle}>
-            Campañas
-          </Text>
-
-          <Text style={styles.actionText}>
-            Explora nuevas oportunidades
-          </Text>
-        </Pressable>
-
-        <Pressable style={styles.actionCard}>
-          <Text style={styles.actionIcon}>💰</Text>
-
-          <Text style={styles.actionTitle}>
-            Ganancias
-          </Text>
-
-          <Text style={styles.actionText}>
-            Consulta tus ingresos
-          </Text>
-        </Pressable>
-
+      <SectionHeader title="Estadisticas" subtitle="Resumen de tu rendimiento actual" />
+      <View style={styles.statsGrid}>
+        {DASHBOARD_STATS.map((stat) => (
+          <View key={stat.id} style={[styles.statSlot, { flexBasis: statBasis }]}>
+            <StatsCard label={stat.label} value={stat.value} accent={stat.accent} />
+          </View>
+        ))}
       </View>
 
-      {/* Campañas */}
+      <SectionHeader
+        title="Campanas disponibles"
+        subtitle="Selecciona una campana y comienza a monetizar"
+        rightSlot={
+          <AppButton
+            label="Ver todas"
+            variant="secondary"
+            fullWidth={false}
+            onPress={() => router.push("/promotor/(tabs)/campaigns")}
+            style={styles.headerButton}
+          />
+        }
+      />
 
-      <Text style={styles.sectionTitle}>
-        Campañas disponibles
-      </Text>
-
-      <Pressable style={styles.campaignCard}>
-
-        <Text style={styles.company}>
-          Nike Colombia
-        </Text>
-
-        <Text style={styles.platform}>
-          Instagram
-        </Text>
-
-        <View style={styles.rewardContainer}>
-
-          <Text style={styles.reward}>
-            $35.000 COP
-          </Text>
-
-          <View style={styles.badge}>
-            <Text style={styles.badgeText}>
-              Activa
-            </Text>
-          </View>
-
-        </View>
-
-      </Pressable>
-
-      <Pressable style={styles.campaignCard}>
-
-        <Text style={styles.company}>
-          McDonald's
-        </Text>
-
-        <Text style={styles.platform}>
-          TikTok
-        </Text>
-
-        <View style={styles.rewardContainer}>
-
-          <Text style={styles.reward}>
-            $20.000 COP
-          </Text>
-
-          <View style={styles.badge}>
-            <Text style={styles.badgeText}>
-              Activa
-            </Text>
-          </View>
-
-        </View>
-
-      </Pressable>
-
-      <Pressable style={styles.campaignCard}>
-
-        <Text style={styles.company}>
-          Adidas
-        </Text>
-
-        <Text style={styles.platform}>
-          Facebook
-        </Text>
-
-        <View style={styles.rewardContainer}>
-
-          <Text style={styles.reward}>
-            $50.000 COP
-          </Text>
-
-          <View style={styles.badge}>
-            <Text style={styles.badgeText}>
-              Activa
-            </Text>
-          </View>
-
-        </View>
-
-      </Pressable>
-
-      <View style={{ height: 80 }} />
-    </ScrollView>
+      <View style={styles.campaignStack}>
+        {AVAILABLE_CAMPAIGNS.length === 0 ? (
+          <EmptyState
+            title="No hay campanas por ahora"
+            message="Pronto veras nuevas colaboraciones disponibles para tu perfil."
+          />
+        ) : (
+          AVAILABLE_CAMPAIGNS.map((campaign) => (
+            <CampaignCard key={campaign.id} campaign={campaign} onView={handleViewCampaign} />
+          ))
+        )}
+      </View>
+    </ResponsiveContainer>
   );
 }
 
 const styles = StyleSheet.create({
-
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-
   content: {
-    paddingHorizontal: 20,
-    paddingTop: 55,
-    paddingBottom: 20,
+    paddingTop: 18,
+    paddingBottom: 42,
+    gap: 16,
   },
-
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 25,
-  },
-
-  notification: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
+  headerBlock: {
+    width: "100%",
     backgroundColor: colors.surface,
-    justifyContent: "center",
-    alignItems: "center",
+    borderRadius: 22,
     borderWidth: 1,
     borderColor: colors.border,
+    paddingHorizontal: 18,
+    paddingVertical: 16,
   },
-
-  notificationIcon: {
-    fontSize: 20,
-  },
-
   greeting: {
-    color: colors.gray400,
-    fontSize: 16,
+    color: colors.textPrimary,
+    fontSize: 26,
+    fontWeight: "800",
   },
-
-  name: {
-    color: colors.white,
-    fontSize: 28,
-    fontWeight: "bold",
-    marginTop: 4,
-  },
-
   subtitle: {
-    color: colors.gray400,
-    marginTop: 8,
-    fontSize: 15,
+    color: colors.textSecondary,
+    marginTop: 6,
+    fontSize: 14,
+    fontWeight: "500",
   },
-
-  sectionTitle: {
-    color: colors.white,
-    fontWeight: "bold",
-    fontSize: 20,
-    marginTop: 30,
-    marginBottom: 15,
-  },
-
-  actions: {
+  statsGrid: {
+    width: "100%",
     flexDirection: "row",
-    justifyContent: "space-between",
+    flexWrap: "wrap",
+    gap: 10,
   },
-
-  actionCard: {
-    width: "48%",
-    backgroundColor: colors.surface,
-    borderRadius: 18,
-    padding: 18,
-    borderWidth: 1,
-    borderColor: colors.border,
+  statSlot: {
+    minWidth: 210,
+    flexGrow: 1,
   },
-
-  actionIcon: {
-    fontSize: 30,
-  },
-
-  actionTitle: {
-    color: colors.white,
-    fontWeight: "bold",
-    fontSize: 17,
-    marginTop: 14,
-  },
-
-  actionText: {
-    color: colors.gray400,
-    marginTop: 8,
-    fontSize: 13,
-    lineHeight: 18,
-  },
-
-  campaignCard: {
-    backgroundColor: colors.card,
-    borderRadius: 18,
-    padding: 18,
-    marginBottom: 16,
-    borderWidth: 1,
-    borderColor: colors.border,
-  },
-
-  company: {
-    color: colors.white,
-    fontWeight: "bold",
-    fontSize: 18,
-  },
-
-  platform: {
-    color: colors.gray400,
-    marginTop: 8,
-  },
-
-  rewardContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 18,
-  },
-
-  reward: {
-    color: colors.success,
-    fontWeight: "bold",
-    fontSize: 18,
-  },
-
-  badge: {
-    backgroundColor: colors.primary,
+  headerButton: {
+    minHeight: 40,
+    borderRadius: 12,
     paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 50,
   },
-
-  badgeText: {
-    color: colors.white,
-    fontWeight: "600",
-    fontSize: 12,
+  campaignStack: {
+    width: "100%",
+    gap: 10,
   },
-
 });
