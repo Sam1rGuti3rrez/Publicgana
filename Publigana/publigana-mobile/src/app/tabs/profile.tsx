@@ -96,13 +96,13 @@ export default function Profile() {
         </View>
         <View style={styles.statDivider} />
         <View style={styles.statItem}>
-          <Text style={[styles.statValue, { color: colors.success }]}>8</Text>
-          <Text style={styles.statLabel}>Campañas</Text>
+          <Text style={[styles.statValue, { color: colors.success }]}>4</Text>
+          <Text style={styles.statLabel}>Redes sociales</Text>
         </View>
       </View>
 
       {/* Redes sociales */}
-      <Text style={styles.sectionLabel}>REDES CONECTADAS</Text>
+      <Text style={styles.sectionLabel}>REDES SOCIALES CONECTADAS</Text>
       <View style={styles.networksCard}>
         {SOCIAL_NETWORKS.map((net, i) => (
           <View key={net.label}>
