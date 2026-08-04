@@ -1,9 +1,12 @@
 export interface RegisterRequest {
-  nombres: string;
-  apellidos: string;
+  nombres?: string;
+  apellidos?: string;
+  nombreEmpresa?: string;
+  nit?: string;
   correo: string;
   telefono: string;
   contrasena: string;
+  rol: "promotor" | "negocio";
 }
 
 export interface LoginRequest {
@@ -11,17 +14,17 @@ export interface LoginRequest {
   contrasena: string;
 }
 
-export interface User {
+export interface UserResponse {
   id: string;
-  nombres: string;
-  apellidos: string;
+  nombres?: string;
+  apellidos?: string;
   correo: string;
-  telefono: string;
-  rol: string;
+  telefono?: string;
+  rol: "promotor" | "negocio";
 }
 
 export interface LoginResponse {
   accessToken: string;
   refreshToken?: string;
-  usuario: User;
+  usuario: UserResponse;
 }

@@ -11,7 +11,7 @@ import { getAccessToken } from "@/storage/tokenStorage";
 
 const API_URL =
   Constants.expoConfig?.extra?.apiUrl ??
-  "http://10.0.2.2:8080/api";
+  "http://192.168.101.74:8080/api";
 
 export const api = axios.create({
   baseURL: API_URL,
