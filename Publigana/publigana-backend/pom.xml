@@ -23,34 +23,39 @@
         <java.version>21</java.version>
     </properties>
 
+
     <dependencies>
 
-        <!-- Spring Web MVC REST API -->
+        <!-- REST API -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
 
-        <!-- Spring Data JPA + Hibernate -->
+
+        <!-- JPA Hibernate -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- Bean Validation Jakarta -->
+
+        <!-- Validaciones -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <!-- PostgreSQL Driver -->
+
+        <!-- PostgreSQL -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Flyway migrations -->
+
+        <!-- Flyway -->
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
@@ -61,11 +66,13 @@
             <artifactId>flyway-database-postgresql</artifactId>
         </dependency>
 
-        <!-- Password hashing (without full Spring Security stack) -->
+
+        <!-- BCrypt -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-crypto</artifactId>
         </dependency>
+
 
         <!-- Lombok -->
         <dependency>
@@ -73,6 +80,7 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
 
         <!-- DevTools -->
         <dependency>
@@ -82,20 +90,24 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- Testing -->
+
+        <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
 
+
     </dependencies>
 
 
+
     <build>
+
         <plugins>
 
-            <!-- Spring Boot Plugin -->
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -112,12 +124,13 @@
             </plugin>
 
 
-            <!-- Java Compiler -->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
 
                 <configuration>
+
                     <release>21</release>
 
                     <annotationProcessorPaths>
@@ -133,7 +146,10 @@
 
             </plugin>
 
+
         </plugins>
+
     </build>
+
 
 </project>

@@ -37,7 +37,7 @@ public class Usuario {
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 
-    @Column(name = "nombres", nullable = false, length = 100)
+    @Column(name = "nombres", length = 100)
     private String nombres;
 
     @Column(name = "apellidos", length = 100)

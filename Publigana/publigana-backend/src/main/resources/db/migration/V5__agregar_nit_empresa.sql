@@ -1,0 +1,5 @@
+ALTER TABLE empresa
+ADD COLUMN nit VARCHAR(50);
+
+ALTER TABLE empresa
+ADD CONSTRAINT uk_empresa_nit UNIQUE (nit);

@@ -23,6 +23,9 @@ public class Empresa {
     @Column(nullable = false, length = 150)
     private String nombre;
 
+    @Column(name = "nit", nullable = false, unique = true, length = 50)
+    private String nit;
+
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
