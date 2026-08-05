@@ -4,13 +4,13 @@ export const API_CONFIG = {
 
 export const API_ENDPOINTS = {
   AUTH: {
-    LOGIN: "/auth/login",
-    REGISTER: "/auth/register",
+    LOGIN: "/api/auth/login",
+    REGISTER: "/api/auth/register",
     PROFILE: "/auth/profile",
   },
   CAMPAIGNS: {
-    LIST: "/campaigns",
-    DETAIL: (campaignId) => `/campaigns/${campaignId}`,
-    CREATE: "/campaigns",
+    LIST: "/api/campaigns",
+    DETAIL: (campaignId) => `/api/campaigns/${campaignId}`,
+    CREATE: "/api/campaigns",
   },
 };
