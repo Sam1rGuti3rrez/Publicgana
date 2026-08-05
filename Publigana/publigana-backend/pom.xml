@@ -12,6 +12,7 @@
         <relativePath/>
     </parent>
 
+
     <groupId>com.publigana</groupId>
     <artifactId>publigana-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -19,12 +20,25 @@
     <name>publigana-backend</name>
     <description>Backend API Publigana</description>
 
+
     <properties>
+
         <java.version>21</java.version>
+
+        <!-- SonarQube -->
+        <sonar.projectKey>publigana-backend</sonar.projectKey>
+        <sonar.projectName>Publigana Backend</sonar.projectName>
+        <sonar.host.url>http://localhost:9000</sonar.host.url>
+        <sonar.java.source>21</sonar.java.source>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <!-- Pasar el token en CLI: -Dsonar.token=<tu_token> -->
+
     </properties>
 
 
+
     <dependencies>
+
 
         <!-- REST API -->
         <dependency>
@@ -60,6 +74,7 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
+
 
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -103,11 +118,13 @@
 
 
 
+
     <build>
 
         <plugins>
 
 
+            <!-- Spring Boot -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -125,6 +142,7 @@
 
 
 
+            <!-- Java 21 Compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -146,6 +164,36 @@
 
             </plugin>
 
+
+
+            <!-- SonarQube -->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>5.1.0.4751</version>
+            </plugin>
+
+            <!-- JaCoCo: cobertura de código para SonarQube -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.12</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
         </plugins>
 
