@@ -5,11 +5,10 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.0</version>
+        <version>3.5.10</version>
         <relativePath/>
     </parent>
 
@@ -18,41 +17,37 @@
     <artifactId>publigana-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>publigana-backend</name>
-    <description>Backend API Publigana</description>
-
 
     <properties>
         <java.version>21</java.version>
     </properties>
 
 
-
     <dependencies>
 
 
-        <!-- REST API -->
+        <!-- Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
 
-        <!-- JPA Hibernate -->
+        <!-- JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
 
-        <!-- Validaciones DTO -->
+        <!-- Validation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
 
-        <!-- Seguridad -->
+        <!-- Security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -72,6 +67,7 @@
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
+
 
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -103,12 +99,11 @@
 
 
 
-        <!-- Health Check Render -->
+        <!-- Actuator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
 
 
         <!-- Lombok -->
@@ -119,17 +114,6 @@
         </dependency>
 
 
-
-        <!-- DevTools -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
-
-
-
         <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -137,42 +121,31 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+
 
     </dependencies>
-
-
 
 
     <build>
 
         <plugins>
 
-
-            <!-- Spring Boot -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-
             </plugin>
 
 
-
-            <!-- Java 21 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
 
                 <configuration>
-
                     <release>21</release>
 
                     <annotationProcessorPaths>
@@ -190,7 +163,6 @@
 
 
         </plugins>
-
 
     </build>
 
