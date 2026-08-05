@@ -86,6 +86,19 @@ WHERE id IS NULL
    OR created_at IS NULL
    OR updated_at IS NULL;
 
+-- Asegurar rol USER para poder completar rol_id antes de SET NOT NULL
+INSERT INTO rol (nombre, descripcion, created_at, updated_at)
+SELECT 'USER', 'Rol por defecto para usuarios registrados', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
+WHERE NOT EXISTS (
+    SELECT 1 FROM rol WHERE nombre = 'USER'
+);
+
+UPDATE usuario u
+SET rol_id = r.id_rol
+FROM rol r
+WHERE u.rol_id IS NULL
+  AND r.nombre = 'USER';
+
 DO $$
 BEGIN
     IF NOT EXISTS (
@@ -125,22 +138,80 @@ CREATE INDEX IF NOT EXISTS idx_usuario_rol_id ON usuario(rol_id);
 ALTER TABLE IF EXISTS empresa
     ADD COLUMN IF NOT EXISTS id_usuario_uuid UUID;
 
-UPDATE empresa e
-SET id_usuario_uuid = u.id
-FROM usuario u
-WHERE e.id_usuario_uuid IS NULL
-  AND e.id_usuario IS NOT NULL
-  AND u.id_usuario = e.id_usuario;
+DO $$
+DECLARE
+    empresa_has_id_usuario BOOLEAN;
+    usuario_has_id_usuario BOOLEAN;
+    empresa_id_usuario_type TEXT;
+BEGIN
+    SELECT EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'empresa' AND column_name = 'id_usuario'
+    ) INTO empresa_has_id_usuario;
+
+    SELECT EXISTS (
+        SELECT 1
+        FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'usuario' AND column_name = 'id_usuario'
+    ) INTO usuario_has_id_usuario;
+
+    SELECT c.data_type
+    FROM information_schema.columns c
+    WHERE c.table_schema = 'public' AND c.table_name = 'empresa' AND c.column_name = 'id_usuario'
+    INTO empresa_id_usuario_type;
+
+    IF empresa_has_id_usuario THEN
+        IF empresa_id_usuario_type = 'uuid' THEN
+            UPDATE empresa
+            SET id_usuario_uuid = COALESCE(id_usuario_uuid, id_usuario)
+            WHERE id_usuario_uuid IS NULL
+              AND id_usuario IS NOT NULL;
+
+        ELSE
+            IF usuario_has_id_usuario THEN
+                EXECUTE '
+                    UPDATE empresa e
+                    SET id_usuario_uuid = u.id
+                    FROM usuario u
+                    WHERE e.id_usuario_uuid IS NULL
+                      AND e.id_usuario IS NOT NULL
+                      AND u.id_usuario = e.id_usuario
+                ';
+            END IF;
+
+            IF empresa_id_usuario_type IN ('character varying', 'character', 'text') THEN
+                UPDATE empresa e
+                SET id_usuario_uuid = u.id
+                FROM usuario u
+                WHERE e.id_usuario_uuid IS NULL
+                  AND e.id_usuario IS NOT NULL
+                  AND e.id_usuario::text ~* '^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
+                  AND u.id = e.id_usuario::uuid;
+            END IF;
+        END IF;
+    END IF;
+END $$;
 
 DO $$
+DECLARE
+    empresa_id_usuario_type TEXT;
 BEGIN
-    IF EXISTS (
-        SELECT 1 FROM information_schema.columns
-        WHERE table_schema = 'public' AND table_name = 'empresa' AND column_name = 'id_usuario'
-    ) AND NOT EXISTS (
-        SELECT 1 FROM information_schema.columns
-        WHERE table_schema = 'public' AND table_name = 'empresa' AND column_name = 'id_usuario_legacy'
-    ) THEN
+    SELECT c.data_type
+    FROM information_schema.columns c
+    WHERE c.table_schema = 'public' AND c.table_name = 'empresa' AND c.column_name = 'id_usuario'
+    INTO empresa_id_usuario_type;
+
+    IF empresa_id_usuario_type IS NOT NULL
+       AND empresa_id_usuario_type <> 'uuid'
+       AND EXISTS (
+            SELECT 1 FROM information_schema.columns
+            WHERE table_schema = 'public' AND table_name = 'empresa' AND column_name = 'id_usuario'
+       )
+       AND NOT EXISTS (
+            SELECT 1 FROM information_schema.columns
+            WHERE table_schema = 'public' AND table_name = 'empresa' AND column_name = 'id_usuario_legacy'
+       ) THEN
         ALTER TABLE empresa RENAME COLUMN id_usuario TO id_usuario_legacy;
     END IF;
 END $$;
@@ -160,13 +231,38 @@ END $$;
 
 DO $$
 DECLARE
+    empresa_id_usuario_type TEXT;
+BEGIN
+    SELECT c.data_type
+    FROM information_schema.columns c
+    WHERE c.table_schema = 'public' AND c.table_name = 'empresa' AND c.column_name = 'id_usuario'
+    INTO empresa_id_usuario_type;
+
+    IF empresa_id_usuario_type = 'uuid'
+       AND EXISTS (
+            SELECT 1 FROM information_schema.columns
+            WHERE table_schema = 'public' AND table_name = 'empresa' AND column_name = 'id_usuario_uuid'
+       ) THEN
+        UPDATE empresa
+        SET id_usuario = COALESCE(id_usuario, id_usuario_uuid)
+        WHERE id_usuario IS NULL
+          AND id_usuario_uuid IS NOT NULL;
+
+        ALTER TABLE empresa DROP COLUMN id_usuario_uuid;
+    END IF;
+END $$;
+
+DO $$
+DECLARE
     c RECORD;
 BEGIN
     FOR c IN
         SELECT con.conname
         FROM pg_constraint con
         JOIN pg_class rel ON rel.oid = con.conrelid
+        JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
         WHERE rel.relname = 'empresa'
+          AND nsp.nspname = 'public'
           AND con.contype = 'f'
     LOOP
         EXECUTE format('ALTER TABLE empresa DROP CONSTRAINT IF EXISTS %I', c.conname);
@@ -175,7 +271,13 @@ END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS (
+    IF EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'empresa' AND column_name = 'id_usuario'
+    ) AND EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'usuario' AND column_name = 'id'
+    ) AND NOT EXISTS (
         SELECT 1 FROM pg_constraint WHERE conname = 'fk_empresa_usuario_uuid'
     ) THEN
         ALTER TABLE empresa
@@ -186,7 +288,13 @@ END $$;
 
 DO $$
 BEGIN
-    IF NOT EXISTS (
+    IF EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'empresa' AND column_name = 'id_categoria'
+    ) AND EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'categoria_empresa' AND column_name = 'id_categoria'
+    ) AND NOT EXISTS (
         SELECT 1 FROM pg_constraint WHERE conname = 'fk_empresa_categoria'
     ) THEN
         ALTER TABLE empresa
@@ -268,7 +376,9 @@ BEGIN
         SELECT con.conname
         FROM pg_constraint con
         JOIN pg_class rel ON rel.oid = con.conrelid
+        JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
         WHERE rel.relname = 'publicacion'
+          AND nsp.nspname = 'public'
           AND con.contype = 'f'
     LOOP
         EXECUTE format('ALTER TABLE publicacion DROP CONSTRAINT IF EXISTS %I', c.conname);
