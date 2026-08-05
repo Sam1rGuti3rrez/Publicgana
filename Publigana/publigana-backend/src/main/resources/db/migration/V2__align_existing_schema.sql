@@ -69,6 +69,10 @@ END $$;
 
 ALTER TABLE IF EXISTS usuario
     ADD COLUMN IF NOT EXISTS id UUID,
+    ADD COLUMN IF NOT EXISTS nombres VARCHAR(100),
+    ADD COLUMN IF NOT EXISTS apellidos VARCHAR(100),
+    ADD COLUMN IF NOT EXISTS correo VARCHAR(150),
+    ADD COLUMN IF NOT EXISTS telefono VARCHAR(20),
     ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP,
     ADD COLUMN IF NOT EXISTS ultimo_acceso TIMESTAMP,
     ADD COLUMN IF NOT EXISTS contrasena VARCHAR(255),
@@ -79,10 +83,18 @@ ALTER TABLE IF EXISTS usuario
 UPDATE usuario
 SET id = COALESCE(id, gen_random_uuid()),
     activo = COALESCE(activo, TRUE),
+    nombres = COALESCE(NULLIF(TRIM(nombres), ''), 'Usuario'),
+    apellidos = COALESCE(NULLIF(TRIM(apellidos), ''), 'Legacy'),
+    correo = COALESCE(NULLIF(TRIM(correo), ''), CONCAT('legacy+', COALESCE(id::text, gen_random_uuid()::text), '@publigana.local')),
+    contrasena = COALESCE(NULLIF(TRIM(contrasena), ''), CONCAT('legacy$', substr(md5(COALESCE(id::text, random()::text)), 1, 40))),
     created_at = COALESCE(created_at, CURRENT_TIMESTAMP),
     updated_at = COALESCE(updated_at, created_at, CURRENT_TIMESTAMP)
 WHERE id IS NULL
    OR activo IS NULL
+   OR nombres IS NULL
+   OR apellidos IS NULL
+   OR correo IS NULL
+   OR contrasena IS NULL
    OR created_at IS NULL
    OR updated_at IS NULL;
 
@@ -313,22 +325,97 @@ ALTER TABLE IF EXISTS publicacion
     ADD COLUMN IF NOT EXISTS enlace VARCHAR(500),
     ADD COLUMN IF NOT EXISTS fecha_programada TIMESTAMP,
     ADD COLUMN IF NOT EXISTS fecha_publicacion TIMESTAMP,
+    ADD COLUMN IF NOT EXISTS estado VARCHAR(30),
+    ADD COLUMN IF NOT EXISTS empresa_id BIGINT,
     ADD COLUMN IF NOT EXISTS created_at TIMESTAMP,
     ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP;
 
+DO $$
+DECLARE
+    has_descripcion BOOLEAN;
+    has_titulo BOOLEAN;
+    has_fecha_creacion BOOLEAN;
+    has_fecha_inicio BOOLEAN;
+    has_fecha_fin BOOLEAN;
+    sql_stmt TEXT;
+    contenido_expr TEXT;
+    created_expr TEXT;
+    fecha_prog_expr TEXT;
+    fecha_pub_expr TEXT;
+BEGIN
+    SELECT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'publicacion' AND column_name = 'descripcion'
+    ) INTO has_descripcion;
+
+    SELECT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'publicacion' AND column_name = 'titulo'
+    ) INTO has_titulo;
+
+    SELECT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'publicacion' AND column_name = 'fecha_creacion'
+    ) INTO has_fecha_creacion;
+
+    SELECT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'publicacion' AND column_name = 'fecha_inicio'
+    ) INTO has_fecha_inicio;
+
+    SELECT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'publicacion' AND column_name = 'fecha_fin'
+    ) INTO has_fecha_fin;
+
+    contenido_expr := 'contenido';
+    IF has_descripcion THEN
+        contenido_expr := contenido_expr || ', descripcion';
+    END IF;
+    IF has_titulo THEN
+        contenido_expr := contenido_expr || ', titulo';
+    END IF;
+
+    created_expr := 'created_at';
+    IF has_fecha_creacion THEN
+        created_expr := created_expr || ', fecha_creacion';
+    END IF;
+    created_expr := created_expr || ', CURRENT_TIMESTAMP';
+
+    fecha_prog_expr := 'fecha_programada';
+    IF has_fecha_inicio THEN
+        fecha_prog_expr := fecha_prog_expr || ', fecha_inicio';
+    END IF;
+
+    fecha_pub_expr := 'fecha_publicacion';
+    IF has_fecha_fin THEN
+        fecha_pub_expr := fecha_pub_expr || ', fecha_fin';
+    END IF;
+
+    sql_stmt := format(
+        'UPDATE publicacion
+         SET id = COALESCE(id, gen_random_uuid()),
+             contenido = COALESCE(%s, ''PUBLICACION LEGACY''),
+             created_at = COALESCE(%s),
+             updated_at = COALESCE(updated_at, created_at, CURRENT_TIMESTAMP),
+             fecha_programada = COALESCE(%s),
+             fecha_publicacion = COALESCE(%s)
+         WHERE id IS NULL
+            OR contenido IS NULL
+            OR created_at IS NULL
+            OR updated_at IS NULL',
+        contenido_expr,
+        created_expr,
+        fecha_prog_expr,
+        fecha_pub_expr
+    );
+
+    EXECUTE sql_stmt;
+END $$;
+
 UPDATE publicacion
-SET id = COALESCE(id, gen_random_uuid()),
-    contenido = COALESCE(contenido, descripcion, titulo),
-    created_at = COALESCE(created_at, fecha_creacion, CURRENT_TIMESTAMP),
-    updated_at = COALESCE(updated_at, created_at, CURRENT_TIMESTAMP),
-    fecha_programada = COALESCE(fecha_programada, fecha_inicio),
-    fecha_publicacion = COALESCE(fecha_publicacion, fecha_fin)
-WHERE id IS NULL
-   OR contenido IS NULL
-   OR created_at IS NULL
-   OR updated_at IS NULL
-   OR fecha_programada IS NULL
-   OR fecha_publicacion IS NULL;
+SET estado = COALESCE(NULLIF(TRIM(estado), ''), 'ACTIVA')
+WHERE estado IS NULL OR TRIM(estado) = '';
 
 DO $$
 BEGIN
@@ -357,6 +444,19 @@ BEGIN
                 ELSE estado::text
             END;
     END IF;
+END $$;
+
+DO $$
+BEGIN
+    UPDATE publicacion p
+    SET empresa_id = e.id_empresa
+    FROM (
+        SELECT id_empresa
+        FROM empresa
+        ORDER BY id_empresa
+        LIMIT 1
+    ) e
+    WHERE p.empresa_id IS NULL;
 END $$;
 
 DO $$
@@ -400,9 +500,20 @@ ALTER TABLE IF EXISTS publicacion
     ALTER COLUMN id SET NOT NULL,
     ALTER COLUMN contenido SET NOT NULL,
     ALTER COLUMN estado SET NOT NULL,
-    ALTER COLUMN empresa_id SET NOT NULL,
     ALTER COLUMN created_at SET NOT NULL,
     ALTER COLUMN updated_at SET NOT NULL;
+
+DO $$
+BEGIN
+    IF EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_schema = 'public' AND table_name = 'publicacion' AND column_name = 'empresa_id'
+    ) AND NOT EXISTS (
+        SELECT 1 FROM publicacion WHERE empresa_id IS NULL
+    ) THEN
+        ALTER TABLE publicacion ALTER COLUMN empresa_id SET NOT NULL;
+    END IF;
+END $$;
 
 CREATE INDEX IF NOT EXISTS idx_publicacion_empresa ON publicacion(empresa_id);
 
