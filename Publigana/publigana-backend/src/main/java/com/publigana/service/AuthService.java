@@ -45,6 +45,10 @@ public class AuthService {
                 .trim()
                 .toLowerCase(Locale.ROOT);
 
+        String rolNorm = request.rol().trim().toLowerCase(Locale.ROOT);
+        boolean esNegocio = "negocio".equals(rolNorm);
+        boolean esPromotor = "promotor".equals(rolNorm);
+
 
         if (usuarioRepository.existsByCorreo(correo)) {
             throw new IllegalArgumentException(
@@ -66,12 +70,7 @@ public class AuthService {
 
 
 
-        Rol rol = rolRepository.findByNombre(
-                request.rol()
-                        .trim()
-                        .toLowerCase(Locale.ROOT)
-
-        ).orElseThrow(() ->
+        Rol rol = rolRepository.findByNombre(rolNorm).orElseThrow(() ->
                 new IllegalStateException(
                         "El rol solicitado no está configurado"
                 )
@@ -79,7 +78,7 @@ public class AuthService {
 
 
 
-        if (request.rol().equalsIgnoreCase("negocio")) {
+        if (esNegocio) {
 
 
             if (request.nombreEmpresa() == null ||
@@ -115,12 +114,12 @@ public class AuthService {
         Usuario usuario = Usuario.builder()
 
         .nombres(
-                request.rol().equalsIgnoreCase("promotor")
+                esPromotor
                 ? request.nombres()
                 : request.nombreEmpresa()
 )
         .apellidos(
-                request.rol().equalsIgnoreCase("promotor")
+                esPromotor
                 ? normalizarOpcional(request.apellidos())
                 : null
 )
@@ -147,11 +146,9 @@ public class AuthService {
 
 
 
-        if (request.rol().equalsIgnoreCase("negocio")) {
-
+        if (esNegocio) {
 
             Empresa empresa = Empresa.builder()
-
                     .nombre(
                             request.nombreEmpresa()
                                     .trim()

@@ -12,12 +12,17 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.OffsetDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiErrorResponse> handleMethodArgumentNotValid(
@@ -56,7 +61,8 @@ public class GlobalExceptionHandler {
             IllegalStateException exception,
             HttpServletRequest request
     ) {
-        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage(), request, Map.of());
+        log.error("Error de estado en {}: {}", request.getRequestURI(), exception.getMessage(), exception);
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", request, Map.of());
     }
 
     @ExceptionHandler(RecursoNoEncontradoException.class)

@@ -36,7 +36,7 @@ public class Lead {
     private LocalDateTime fechaRegistro;
 
     @PrePersist
-    public void prePersist() {
+    protected void prePersist() {
         this.fechaRegistro = LocalDateTime.now();
     }
 }
