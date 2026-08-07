@@ -149,15 +149,7 @@ export default function RegisterScreen() {
       await authService.register(payload);
 
       setSuccessMessage("Cuenta creada correctamente.");
-
-      setNombres("");
-      setApellidos("");
-      setNombreEmpresa("");
-      setNit("");
-      setCorreo("");
-      setContrasena("");
-      setTelefono("");
-      setRol("promotor");
+      setTimeout(() => router.replace("/auth/login"), 1500);
     } catch (error) {
       setErrorMessage(getAxiosErrorMessage(error));
     } finally {

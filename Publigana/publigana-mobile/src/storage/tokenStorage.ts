@@ -4,7 +4,7 @@ const ACCESS_TOKEN = "access_token";
 const REFRESH_TOKEN = "refresh_token";
 
 export async function saveAccessToken(token: string) {
-  await SecureStore.setItemAsync(ACCESS_TOKEN, token);
+  return SecureStore.setItemAsync(ACCESS_TOKEN, token);
 }
 
 export async function getAccessToken() {
@@ -12,11 +12,12 @@ export async function getAccessToken() {
 }
 
 export async function removeAccessToken() {
+  console.log("SecureStore object:", SecureStore);
   await SecureStore.deleteItemAsync(ACCESS_TOKEN);
 }
 
 export async function saveRefreshToken(token: string) {
-  await SecureStore.setItemAsync(REFRESH_TOKEN, token);
+  return SecureStore.setItemAsync(REFRESH_TOKEN, token);
 }
 
 export async function getRefreshToken() {
@@ -24,7 +25,7 @@ export async function getRefreshToken() {
 }
 
 export async function removeRefreshToken() {
-  await SecureStore.deleteItemAsync(REFRESH_TOKEN);
+  return SecureStore.deleteItemAsync(REFRESH_TOKEN);
 }
 
 export async function clearSession() {

@@ -1,39 +1,30 @@
 import { Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-import { AuthProvider } from "@/context/AuthContext";
+import { AuthProvider, useAuth } from "@/context/AuthContext";
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const [ready, setReady] = useState(false);
+// Must live inside AuthProvider to access isLoading from context
+function InitLayout() {
+  const { isLoading } = useAuth();
 
   useEffect(() => {
-    async function bootstrap() {
-      try {
-        /**
-         * Próximamente:
-         * - Cargar JWT
-         * - Obtener usuario
-         * - Obtener rol
-         */
-      } finally {
-        setReady(true);
-        await SplashScreen.hideAsync();
-      }
+    if (!isLoading) {
+      SplashScreen.hideAsync();
     }
+  }, [isLoading]);
 
-    bootstrap();
-  }, []);
+  if (isLoading) return null;
 
-  if (!ready) {
-    return null;
-  }
+  return <Slot />;
+}
 
+export default function RootLayout() {
   return (
-      <AuthProvider>
-        <Slot />
-      </AuthProvider>
+    <AuthProvider>
+      <InitLayout />
+    </AuthProvider>
   );
 }
