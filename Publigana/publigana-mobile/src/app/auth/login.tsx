@@ -32,32 +32,64 @@ export default function LoginScreen() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const canSubmit = useMemo(
-    () => correo.trim() !== "" && contrasena.trim() !== "" && !loading,
+    () =>
+      correo.trim() !== "" &&
+      contrasena.trim() !== "" &&
+      !loading,
     [correo, contrasena, loading]
   );
 
   const getErrorMessage = (error: unknown): string => {
     if (error instanceof AxiosError) {
-      if (!error.response) return "No se pudo conectar con el servidor.";
+      if (!error.response) {
+        return "No se pudo conectar con el servidor.";
+      }
+
       const data = error.response.data as ApiErrorBody;
-      return data?.message ?? data?.error ?? `Error HTTP ${error.response.status}`;
+
+      return (
+        data?.message ??
+        data?.error ??
+        `Error HTTP ${error.response.status}`
+      );
     }
-    if (error instanceof Error) return error.message;
+
+    if (error instanceof Error) {
+      return error.message;
+    }
+
     return "Error desconocido.";
   };
 
   const handleLogin = async () => {
     if (!canSubmit) return;
+
     setLoading(true);
     setErrorMessage("");
+
     try {
       const response = await authService.login({
         correo: correo.trim(),
         contrasena: contrasena.trim(),
       });
+
+      // Guardar token y actualizar el usuario en AuthContext
       await login(response);
-      router.replace("/");
+
+      // Obtener el rol del usuario autenticado
+      const role = response.usuario.rol?.toLowerCase();
+
+      // Redirigir según el rol
+      if (role === "empresa") {
+        router.replace("/empresa/(tabs)");
+      } else if (role === "promotor") {
+        router.replace("/promotor/(tabs)");
+      } else {
+        // Ruta general para otros roles
+        router.replace("/tabs");
+      }
     } catch (error) {
+      console.error("Error al iniciar sesión:", error);
       setErrorMessage(getErrorMessage(error));
     } finally {
       setLoading(false);
@@ -66,7 +98,10 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor={colors.background} />
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={colors.background}
+      />
 
       <KeyboardAvoidingView
         style={styles.flex}
@@ -79,6 +114,7 @@ export default function LoginScreen() {
         >
           <View style={styles.headerBlock}>
             <Text style={styles.title}>Iniciar sesión</Text>
+
             <Text style={styles.subtitle}>
               Ingresa tus credenciales para continuar.
             </Text>
@@ -87,6 +123,7 @@ export default function LoginScreen() {
           <View style={styles.section}>
             <View style={styles.inputGroup}>
               <Text style={styles.inputLabel}>Correo</Text>
+
               <TextInput
                 value={correo}
                 onChangeText={setCorreo}
@@ -100,6 +137,7 @@ export default function LoginScreen() {
 
             <View style={styles.inputGroup}>
               <Text style={styles.inputLabel}>Contraseña</Text>
+
               <TextInput
                 value={contrasena}
                 onChangeText={setContrasena}
@@ -114,17 +152,24 @@ export default function LoginScreen() {
 
           {!!errorMessage && (
             <View style={styles.errorBox}>
-              <Text style={styles.errorText}>{errorMessage}</Text>
+              <Text style={styles.errorText}>
+                {errorMessage}
+              </Text>
             </View>
           )}
 
           <Pressable
             onPress={handleLogin}
             disabled={!canSubmit}
-            style={[styles.submitButton, !canSubmit && styles.submitButtonDisabled]}
+            style={[
+              styles.submitButton,
+              !canSubmit && styles.submitButtonDisabled,
+            ]}
           >
             <Text style={styles.submitButtonText}>
-              {loading ? "Iniciando sesión..." : "Iniciar sesión"}
+              {loading
+                ? "Iniciando sesión..."
+                : "Iniciar sesión"}
             </Text>
           </Pressable>
 
@@ -147,38 +192,47 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
+
   flex: {
     flex: 1,
   },
+
   scrollContent: {
     padding: 24,
     flexGrow: 1,
     justifyContent: "center",
   },
+
   headerBlock: {
     marginBottom: 32,
   },
+
   title: {
     color: colors.textPrimary,
     fontSize: 30,
     fontWeight: "700",
     marginBottom: 8,
   },
+
   subtitle: {
     color: colors.muted,
     fontSize: 16,
   },
+
   section: {
     marginBottom: 24,
   },
+
   inputGroup: {
     marginBottom: 16,
   },
+
   inputLabel: {
     color: colors.textPrimary,
     marginBottom: 6,
     fontWeight: "500",
   },
+
   input: {
     backgroundColor: colors.inputBackground,
     color: colors.textPrimary,
@@ -188,16 +242,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
   },
+
   errorBox: {
     backgroundColor: "#3b1a1a",
     borderRadius: 8,
     padding: 12,
     marginBottom: 16,
   },
+
   errorText: {
     color: colors.error,
     fontSize: 14,
   },
+
   submitButton: {
     backgroundColor: colors.primary,
     borderRadius: 8,
@@ -205,18 +262,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 12,
   },
+
   submitButtonDisabled: {
     opacity: 0.55,
   },
+
   submitButtonText: {
     color: colors.white,
     fontSize: 15,
     fontWeight: "700",
   },
+
   secondaryAction: {
     alignItems: "center",
     paddingVertical: 8,
   },
+
   secondaryActionText: {
     color: colors.goldLight,
     fontSize: 14,

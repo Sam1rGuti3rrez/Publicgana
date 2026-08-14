@@ -7,18 +7,33 @@ import RoleSwitcher from "@/components/common/RoleSwitcher";
 import SectionHeader from "@/components/common/SectionHeader";
 import EmptyState from "@/components/common/EmptyState";
 import ResponsiveContainer from "@/components/layout/ResponsiveContainer";
-import CampaignCard, { PromotorCampaign } from "@/components/promotor/CampaignCard";
+import CampaignCard, {
+  PromotorCampaign,
+} from "@/components/promotor/CampaignCard";
 import EarningsCard from "@/components/promotor/EarningsCard";
 import StatsCard from "@/components/promotor/StatsCard";
 import { useAuth } from "@/context/AuthContext";
 import { colors } from "@/theme/colors";
 
-const PROMOTOR_NAME = "Juan";
-
 const DASHBOARD_STATS = [
-  { id: "active", label: "Campanas activas", value: "3", accent: colors.info },
-  { id: "pending", label: "Tareas pendientes", value: "5", accent: colors.secondary },
-  { id: "reach", label: "Seguidores alcanzados", value: "12.5K", accent: colors.success },
+  {
+    id: "active",
+    label: "Campanas activas",
+    value: "3",
+    accent: colors.info,
+  },
+  {
+    id: "pending",
+    label: "Tareas pendientes",
+    value: "5",
+    accent: colors.secondary,
+  },
+  {
+    id: "reach",
+    label: "Seguidores alcanzados",
+    value: "12.5K",
+    accent: colors.success,
+  },
 ];
 
 const AVAILABLE_CAMPAIGNS: PromotorCampaign[] = [
@@ -47,8 +62,17 @@ const AVAILABLE_CAMPAIGNS: PromotorCampaign[] = [
 
 export default function Home() {
   const router = useRouter();
-  const { devRole, setDevRole } = useAuth();
+
+  const {
+    user,
+    devRole,
+    setDevRole,
+  } = useAuth();
+
   const { width } = useWindowDimensions();
+
+  // Nombre del usuario autenticado
+  const userName = user?.nombres ?? "Usuario";
 
   const statBasis = useMemo(() => {
     if (width >= 980) return "31.5%";
@@ -58,7 +82,12 @@ export default function Home() {
 
   const handleRoleChange = (nextRole: "promotor" | "empresa") => {
     setDevRole(nextRole);
-    router.replace(nextRole === "empresa" ? "/empresa/(tabs)" : "/promotor/(tabs)");
+
+    router.replace(
+      nextRole === "empresa"
+        ? "/empresa/(tabs)"
+        : "/promotor/(tabs)"
+    );
   };
 
   const handleViewCampaign = () => {
@@ -66,12 +95,23 @@ export default function Home() {
   };
 
   return (
-    <ResponsiveContainer maxWidth={980} contentStyle={styles.content}>
-      <RoleSwitcher value={devRole} onChange={handleRoleChange} />
+    <ResponsiveContainer
+      maxWidth={980}
+      contentStyle={styles.content}
+    >
+      <RoleSwitcher
+        value={devRole}
+        onChange={handleRoleChange}
+      />
 
       <View style={styles.headerBlock}>
-        <Text style={styles.greeting}>Hola, {PROMOTOR_NAME} 👋</Text>
-        <Text style={styles.subtitle}>Listo para ganar mas con tus campanas</Text>
+        <Text style={styles.greeting}>
+          Hola, {userName} 👋
+        </Text>
+
+        <Text style={styles.subtitle}>
+          Listo para ganar mas con tus campanas
+        </Text>
       </View>
 
       <EarningsCard
@@ -80,11 +120,25 @@ export default function Home() {
         growthLabel="+12% este mes"
       />
 
-      <SectionHeader title="Estadisticas" subtitle="Resumen de tu rendimiento actual" />
+      <SectionHeader
+        title="Estadisticas"
+        subtitle="Resumen de tu rendimiento actual"
+      />
+
       <View style={styles.statsGrid}>
         {DASHBOARD_STATS.map((stat) => (
-          <View key={stat.id} style={[styles.statSlot, { flexBasis: statBasis }]}>
-            <StatsCard label={stat.label} value={stat.value} accent={stat.accent} />
+          <View
+            key={stat.id}
+            style={[
+              styles.statSlot,
+              { flexBasis: statBasis },
+            ]}
+          >
+            <StatsCard
+              label={stat.label}
+              value={stat.value}
+              accent={stat.accent}
+            />
           </View>
         ))}
       </View>
@@ -97,7 +151,9 @@ export default function Home() {
             label="Ver todas"
             variant="secondary"
             fullWidth={false}
-            onPress={() => router.push("/promotor/(tabs)/campaigns")}
+            onPress={() =>
+              router.push("/promotor/(tabs)/campaigns")
+            }
             style={styles.headerButton}
           />
         }
@@ -111,7 +167,11 @@ export default function Home() {
           />
         ) : (
           AVAILABLE_CAMPAIGNS.map((campaign) => (
-            <CampaignCard key={campaign.id} campaign={campaign} onView={handleViewCampaign} />
+            <CampaignCard
+              key={campaign.id}
+              campaign={campaign}
+              onView={handleViewCampaign}
+            />
           ))
         )}
       </View>
@@ -125,6 +185,7 @@ const styles = StyleSheet.create({
     paddingBottom: 42,
     gap: 16,
   },
+
   headerBlock: {
     width: "100%",
     backgroundColor: colors.surface,
@@ -134,32 +195,38 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingVertical: 16,
   },
+
   greeting: {
     color: colors.textPrimary,
     fontSize: 26,
     fontWeight: "800",
   },
+
   subtitle: {
     color: colors.textSecondary,
     marginTop: 6,
     fontSize: 14,
     fontWeight: "500",
   },
+
   statsGrid: {
     width: "100%",
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 10,
   },
+
   statSlot: {
     minWidth: 210,
     flexGrow: 1,
   },
+
   headerButton: {
     minHeight: 40,
     borderRadius: 12,
     paddingHorizontal: 12,
   },
+
   campaignStack: {
     width: "100%",
     gap: 10,
