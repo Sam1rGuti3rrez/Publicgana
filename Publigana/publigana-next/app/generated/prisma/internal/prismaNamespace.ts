@@ -1857,8 +1857,7 @@ export const EmpresaScalarFieldEnum = {
   estado: 'estado',
   fechaRegistro: 'fechaRegistro',
   idUsuario: 'idUsuario',
-  idCategoria: 'idCategoria',
-  nit: 'nit'
+  idCategoria: 'idCategoria'
 } as const
 
 export type EmpresaScalarFieldEnum = (typeof EmpresaScalarFieldEnum)[keyof typeof EmpresaScalarFieldEnum]

@@ -50,7 +50,6 @@ export type EmpresaMinAggregateOutputType = {
   fechaRegistro: Date | null
   idUsuario: string | null
   idCategoria: bigint | null
-  nit: string | null
 }
 
 export type EmpresaMaxAggregateOutputType = {
@@ -67,7 +66,6 @@ export type EmpresaMaxAggregateOutputType = {
   fechaRegistro: Date | null
   idUsuario: string | null
   idCategoria: bigint | null
-  nit: string | null
 }
 
 export type EmpresaCountAggregateOutputType = {
@@ -84,7 +82,6 @@ export type EmpresaCountAggregateOutputType = {
   fechaRegistro: number
   idUsuario: number
   idCategoria: number
-  nit: number
   _all: number
 }
 
@@ -113,7 +110,6 @@ export type EmpresaMinAggregateInputType = {
   fechaRegistro?: true
   idUsuario?: true
   idCategoria?: true
-  nit?: true
 }
 
 export type EmpresaMaxAggregateInputType = {
@@ -130,7 +126,6 @@ export type EmpresaMaxAggregateInputType = {
   fechaRegistro?: true
   idUsuario?: true
   idCategoria?: true
-  nit?: true
 }
 
 export type EmpresaCountAggregateInputType = {
@@ -147,7 +142,6 @@ export type EmpresaCountAggregateInputType = {
   fechaRegistro?: true
   idUsuario?: true
   idCategoria?: true
-  nit?: true
   _all?: true
 }
 
@@ -251,7 +245,6 @@ export type EmpresaGroupByOutputType = {
   fechaRegistro: Date | null
   idUsuario: string | null
   idCategoria: bigint | null
-  nit: string | null
   _count: EmpresaCountAggregateOutputType | null
   _avg: EmpresaAvgAggregateOutputType | null
   _sum: EmpresaSumAggregateOutputType | null
@@ -291,7 +284,6 @@ export type EmpresaWhereInput = {
   fechaRegistro?: Prisma.DateTimeNullableFilter<"Empresa"> | Date | string | null
   idUsuario?: Prisma.UuidNullableFilter<"Empresa"> | string | null
   idCategoria?: Prisma.BigIntNullableFilter<"Empresa"> | bigint | number | null
-  nit?: Prisma.StringNullableFilter<"Empresa"> | string | null
   categoria?: Prisma.XOR<Prisma.CategoriaEmpresaNullableScalarRelationFilter, Prisma.CategoriaEmpresaWhereInput> | null
   usuario?: Prisma.XOR<Prisma.UsuarioNullableScalarRelationFilter, Prisma.UsuarioWhereInput> | null
   publicacion?: Prisma.PublicacionListRelationFilter
@@ -311,7 +303,6 @@ export type EmpresaOrderByWithRelationInput = {
   fechaRegistro?: Prisma.SortOrderInput | Prisma.SortOrder
   idUsuario?: Prisma.SortOrderInput | Prisma.SortOrder
   idCategoria?: Prisma.SortOrderInput | Prisma.SortOrder
-  nit?: Prisma.SortOrderInput | Prisma.SortOrder
   categoria?: Prisma.CategoriaEmpresaOrderByWithRelationInput
   usuario?: Prisma.UsuarioOrderByWithRelationInput
   publicacion?: Prisma.publicacionOrderByRelationAggregateInput
@@ -353,7 +344,6 @@ export type EmpresaOrderByWithAggregationInput = {
   fechaRegistro?: Prisma.SortOrderInput | Prisma.SortOrder
   idUsuario?: Prisma.SortOrderInput | Prisma.SortOrder
   idCategoria?: Prisma.SortOrderInput | Prisma.SortOrder
-  nit?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.EmpresaCountOrderByAggregateInput
   _avg?: Prisma.EmpresaAvgOrderByAggregateInput
   _max?: Prisma.EmpresaMaxOrderByAggregateInput
@@ -378,7 +368,6 @@ export type EmpresaScalarWhereWithAggregatesInput = {
   fechaRegistro?: Prisma.DateTimeNullableWithAggregatesFilter<"Empresa"> | Date | string | null
   idUsuario?: Prisma.UuidNullableWithAggregatesFilter<"Empresa"> | string | null
   idCategoria?: Prisma.BigIntNullableWithAggregatesFilter<"Empresa"> | bigint | number | null
-  nit?: Prisma.StringNullableWithAggregatesFilter<"Empresa"> | string | null
 }
 
 export type EmpresaCreateInput = {
@@ -393,7 +382,6 @@ export type EmpresaCreateInput = {
   sitioWeb?: string | null
   estado?: boolean | null
   fechaRegistro?: Date | string | null
-  nit?: string | null
   categoria?: Prisma.CategoriaEmpresaCreateNestedOneWithoutEmpresasInput
   usuario?: Prisma.UsuarioCreateNestedOneWithoutEmpresasInput
   publicacion?: Prisma.publicacionCreateNestedManyWithoutEmpresaInput
@@ -413,7 +401,6 @@ export type EmpresaUncheckedCreateInput = {
   fechaRegistro?: Date | string | null
   idUsuario?: string | null
   idCategoria?: bigint | number | null
-  nit?: string | null
   publicacion?: Prisma.publicacionUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
@@ -429,7 +416,6 @@ export type EmpresaUpdateInput = {
   sitioWeb?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fechaRegistro?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoria?: Prisma.CategoriaEmpresaUpdateOneWithoutEmpresasNestedInput
   usuario?: Prisma.UsuarioUpdateOneWithoutEmpresasNestedInput
   publicacion?: Prisma.publicacionUpdateManyWithoutEmpresaNestedInput
@@ -449,7 +435,6 @@ export type EmpresaUncheckedUpdateInput = {
   fechaRegistro?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idUsuario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idCategoria?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publicacion?: Prisma.publicacionUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
@@ -467,7 +452,6 @@ export type EmpresaCreateManyInput = {
   fechaRegistro?: Date | string | null
   idUsuario?: string | null
   idCategoria?: bigint | number | null
-  nit?: string | null
 }
 
 export type EmpresaUpdateManyMutationInput = {
@@ -482,7 +466,6 @@ export type EmpresaUpdateManyMutationInput = {
   sitioWeb?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fechaRegistro?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type EmpresaUncheckedUpdateManyInput = {
@@ -499,7 +482,6 @@ export type EmpresaUncheckedUpdateManyInput = {
   fechaRegistro?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idUsuario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idCategoria?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type EmpresaListRelationFilter = {
@@ -526,7 +508,6 @@ export type EmpresaCountOrderByAggregateInput = {
   fechaRegistro?: Prisma.SortOrder
   idUsuario?: Prisma.SortOrder
   idCategoria?: Prisma.SortOrder
-  nit?: Prisma.SortOrder
 }
 
 export type EmpresaAvgOrderByAggregateInput = {
@@ -548,7 +529,6 @@ export type EmpresaMaxOrderByAggregateInput = {
   fechaRegistro?: Prisma.SortOrder
   idUsuario?: Prisma.SortOrder
   idCategoria?: Prisma.SortOrder
-  nit?: Prisma.SortOrder
 }
 
 export type EmpresaMinOrderByAggregateInput = {
@@ -565,7 +545,6 @@ export type EmpresaMinOrderByAggregateInput = {
   fechaRegistro?: Prisma.SortOrder
   idUsuario?: Prisma.SortOrder
   idCategoria?: Prisma.SortOrder
-  nit?: Prisma.SortOrder
 }
 
 export type EmpresaSumOrderByAggregateInput = {
@@ -700,7 +679,6 @@ export type EmpresaCreateWithoutUsuarioInput = {
   sitioWeb?: string | null
   estado?: boolean | null
   fechaRegistro?: Date | string | null
-  nit?: string | null
   categoria?: Prisma.CategoriaEmpresaCreateNestedOneWithoutEmpresasInput
   publicacion?: Prisma.publicacionCreateNestedManyWithoutEmpresaInput
 }
@@ -718,7 +696,6 @@ export type EmpresaUncheckedCreateWithoutUsuarioInput = {
   estado?: boolean | null
   fechaRegistro?: Date | string | null
   idCategoria?: bigint | number | null
-  nit?: string | null
   publicacion?: Prisma.publicacionUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
@@ -765,7 +742,6 @@ export type EmpresaScalarWhereInput = {
   fechaRegistro?: Prisma.DateTimeNullableFilter<"Empresa"> | Date | string | null
   idUsuario?: Prisma.UuidNullableFilter<"Empresa"> | string | null
   idCategoria?: Prisma.BigIntNullableFilter<"Empresa"> | bigint | number | null
-  nit?: Prisma.StringNullableFilter<"Empresa"> | string | null
 }
 
 export type EmpresaCreateWithoutCategoriaInput = {
@@ -780,7 +756,6 @@ export type EmpresaCreateWithoutCategoriaInput = {
   sitioWeb?: string | null
   estado?: boolean | null
   fechaRegistro?: Date | string | null
-  nit?: string | null
   usuario?: Prisma.UsuarioCreateNestedOneWithoutEmpresasInput
   publicacion?: Prisma.publicacionCreateNestedManyWithoutEmpresaInput
 }
@@ -798,7 +773,6 @@ export type EmpresaUncheckedCreateWithoutCategoriaInput = {
   estado?: boolean | null
   fechaRegistro?: Date | string | null
   idUsuario?: string | null
-  nit?: string | null
   publicacion?: Prisma.publicacionUncheckedCreateNestedManyWithoutEmpresaInput
 }
 
@@ -840,7 +814,6 @@ export type EmpresaCreateWithoutPublicacionInput = {
   sitioWeb?: string | null
   estado?: boolean | null
   fechaRegistro?: Date | string | null
-  nit?: string | null
   categoria?: Prisma.CategoriaEmpresaCreateNestedOneWithoutEmpresasInput
   usuario?: Prisma.UsuarioCreateNestedOneWithoutEmpresasInput
 }
@@ -859,7 +832,6 @@ export type EmpresaUncheckedCreateWithoutPublicacionInput = {
   fechaRegistro?: Date | string | null
   idUsuario?: string | null
   idCategoria?: bigint | number | null
-  nit?: string | null
 }
 
 export type EmpresaCreateOrConnectWithoutPublicacionInput = {
@@ -890,7 +862,6 @@ export type EmpresaUpdateWithoutPublicacionInput = {
   sitioWeb?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fechaRegistro?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoria?: Prisma.CategoriaEmpresaUpdateOneWithoutEmpresasNestedInput
   usuario?: Prisma.UsuarioUpdateOneWithoutEmpresasNestedInput
 }
@@ -909,7 +880,6 @@ export type EmpresaUncheckedUpdateWithoutPublicacionInput = {
   fechaRegistro?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idUsuario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   idCategoria?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type EmpresaCreateManyUsuarioInput = {
@@ -925,7 +895,6 @@ export type EmpresaCreateManyUsuarioInput = {
   estado?: boolean | null
   fechaRegistro?: Date | string | null
   idCategoria?: bigint | number | null
-  nit?: string | null
 }
 
 export type EmpresaUpdateWithoutUsuarioInput = {
@@ -940,7 +909,6 @@ export type EmpresaUpdateWithoutUsuarioInput = {
   sitioWeb?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fechaRegistro?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   categoria?: Prisma.CategoriaEmpresaUpdateOneWithoutEmpresasNestedInput
   publicacion?: Prisma.publicacionUpdateManyWithoutEmpresaNestedInput
 }
@@ -958,7 +926,6 @@ export type EmpresaUncheckedUpdateWithoutUsuarioInput = {
   estado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fechaRegistro?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idCategoria?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publicacion?: Prisma.publicacionUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
@@ -975,7 +942,6 @@ export type EmpresaUncheckedUpdateManyWithoutUsuarioInput = {
   estado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fechaRegistro?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idCategoria?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type EmpresaCreateManyCategoriaInput = {
@@ -991,7 +957,6 @@ export type EmpresaCreateManyCategoriaInput = {
   estado?: boolean | null
   fechaRegistro?: Date | string | null
   idUsuario?: string | null
-  nit?: string | null
 }
 
 export type EmpresaUpdateWithoutCategoriaInput = {
@@ -1006,7 +971,6 @@ export type EmpresaUpdateWithoutCategoriaInput = {
   sitioWeb?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fechaRegistro?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   usuario?: Prisma.UsuarioUpdateOneWithoutEmpresasNestedInput
   publicacion?: Prisma.publicacionUpdateManyWithoutEmpresaNestedInput
 }
@@ -1024,7 +988,6 @@ export type EmpresaUncheckedUpdateWithoutCategoriaInput = {
   estado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fechaRegistro?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idUsuario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publicacion?: Prisma.publicacionUncheckedUpdateManyWithoutEmpresaNestedInput
 }
 
@@ -1041,7 +1004,6 @@ export type EmpresaUncheckedUpdateManyWithoutCategoriaInput = {
   estado?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   fechaRegistro?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   idUsuario?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  nit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1089,7 +1051,6 @@ export type EmpresaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   fechaRegistro?: boolean
   idUsuario?: boolean
   idCategoria?: boolean
-  nit?: boolean
   categoria?: boolean | Prisma.Empresa$categoriaArgs<ExtArgs>
   usuario?: boolean | Prisma.Empresa$usuarioArgs<ExtArgs>
   publicacion?: boolean | Prisma.Empresa$publicacionArgs<ExtArgs>
@@ -1110,7 +1071,6 @@ export type EmpresaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   fechaRegistro?: boolean
   idUsuario?: boolean
   idCategoria?: boolean
-  nit?: boolean
   categoria?: boolean | Prisma.Empresa$categoriaArgs<ExtArgs>
   usuario?: boolean | Prisma.Empresa$usuarioArgs<ExtArgs>
 }, ExtArgs["result"]["empresa"]>
@@ -1129,7 +1089,6 @@ export type EmpresaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   fechaRegistro?: boolean
   idUsuario?: boolean
   idCategoria?: boolean
-  nit?: boolean
   categoria?: boolean | Prisma.Empresa$categoriaArgs<ExtArgs>
   usuario?: boolean | Prisma.Empresa$usuarioArgs<ExtArgs>
 }, ExtArgs["result"]["empresa"]>
@@ -1148,14 +1107,9 @@ export type EmpresaSelectScalar = {
   fechaRegistro?: boolean
   idUsuario?: boolean
   idCategoria?: boolean
-  nit?: boolean
 }
 
-<<<<<<< HEAD
-export type EmpresaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"idEmpresa" | "nombre" | "descripcion" | "direccion" | "telefono" | "correo" | "logo" | "sitioWeb" | "estado" | "fechaRegistro" | "idUsuario" | "idCategoria" | "nit", ExtArgs["result"]["empresa"]>
-=======
 export type EmpresaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"idEmpresa" | "nombre" | "nit" | "descripcion" | "direccion" | "telefono" | "correo" | "logo" | "sitioWeb" | "estado" | "fechaRegistro" | "idUsuario" | "idCategoria", ExtArgs["result"]["empresa"]>
->>>>>>> 0fb7a11fd72ebae5151ac0a88ef494f9600e0f8e
 export type EmpresaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categoria?: boolean | Prisma.Empresa$categoriaArgs<ExtArgs>
   usuario?: boolean | Prisma.Empresa$usuarioArgs<ExtArgs>
@@ -1192,7 +1146,6 @@ export type $EmpresaPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     fechaRegistro: Date | null
     idUsuario: string | null
     idCategoria: bigint | null
-    nit: string | null
   }, ExtArgs["result"]["empresa"]>
   composites: {}
 }
@@ -1632,7 +1585,6 @@ export interface EmpresaFieldRefs {
   readonly fechaRegistro: Prisma.FieldRef<"Empresa", 'DateTime'>
   readonly idUsuario: Prisma.FieldRef<"Empresa", 'String'>
   readonly idCategoria: Prisma.FieldRef<"Empresa", 'BigInt'>
-  readonly nit: Prisma.FieldRef<"Empresa", 'String'>
 }
     
 
