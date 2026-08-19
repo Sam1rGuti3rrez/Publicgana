@@ -412,7 +412,9 @@ export const ModelName = {
   Ganador: 'Ganador',
   Notificacion: 'Notificacion',
   Auditoria: 'Auditoria',
-  publicacion: 'publicacion'
+  publicacion: 'publicacion',
+  flyway_schema_history: 'flyway_schema_history',
+  leads: 'leads'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -428,7 +430,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "rol" | "usuario" | "categoriaEmpresa" | "empresa" | "categoria" | "redSocial" | "campania" | "campaniaRedSocial" | "premio" | "participacion" | "evidenciaParticipacion" | "sorteo" | "ganador" | "notificacion" | "auditoria" | "publicacion"
+    modelProps: "rol" | "usuario" | "categoriaEmpresa" | "empresa" | "categoria" | "redSocial" | "campania" | "campaniaRedSocial" | "premio" | "participacion" | "evidenciaParticipacion" | "sorteo" | "ganador" | "notificacion" | "auditoria" | "publicacion" | "flyway_schema_history" | "leads"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1616,6 +1618,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    flyway_schema_history: {
+      payload: Prisma.$flyway_schema_historyPayload<ExtArgs>
+      fields: Prisma.flyway_schema_historyFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.flyway_schema_historyFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$flyway_schema_historyPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.flyway_schema_historyFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$flyway_schema_historyPayload>
+        }
+        findFirst: {
+          args: Prisma.flyway_schema_historyFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$flyway_schema_historyPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.flyway_schema_historyFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$flyway_schema_historyPayload>
+        }
+        findMany: {
+          args: Prisma.flyway_schema_historyFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$flyway_schema_historyPayload>[]
+        }
+        create: {
+          args: Prisma.flyway_schema_historyCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$flyway_schema_historyPayload>
+        }
+        createMany: {
+          args: Prisma.flyway_schema_historyCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.flyway_schema_historyCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$flyway_schema_historyPayload>[]
+        }
+        delete: {
+          args: Prisma.flyway_schema_historyDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$flyway_schema_historyPayload>
+        }
+        update: {
+          args: Prisma.flyway_schema_historyUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$flyway_schema_historyPayload>
+        }
+        deleteMany: {
+          args: Prisma.flyway_schema_historyDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.flyway_schema_historyUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.flyway_schema_historyUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$flyway_schema_historyPayload>[]
+        }
+        upsert: {
+          args: Prisma.flyway_schema_historyUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$flyway_schema_historyPayload>
+        }
+        aggregate: {
+          args: Prisma.Flyway_schema_historyAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFlyway_schema_history>
+        }
+        groupBy: {
+          args: Prisma.flyway_schema_historyGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Flyway_schema_historyGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.flyway_schema_historyCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Flyway_schema_historyCountAggregateOutputType> | number
+        }
+      }
+    }
+    leads: {
+      payload: Prisma.$leadsPayload<ExtArgs>
+      fields: Prisma.leadsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.leadsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$leadsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.leadsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$leadsPayload>
+        }
+        findFirst: {
+          args: Prisma.leadsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$leadsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.leadsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$leadsPayload>
+        }
+        findMany: {
+          args: Prisma.leadsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$leadsPayload>[]
+        }
+        create: {
+          args: Prisma.leadsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$leadsPayload>
+        }
+        createMany: {
+          args: Prisma.leadsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.leadsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$leadsPayload>[]
+        }
+        delete: {
+          args: Prisma.leadsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$leadsPayload>
+        }
+        update: {
+          args: Prisma.leadsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$leadsPayload>
+        }
+        deleteMany: {
+          args: Prisma.leadsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.leadsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.leadsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$leadsPayload>[]
+        }
+        upsert: {
+          args: Prisma.leadsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$leadsPayload>
+        }
+        aggregate: {
+          args: Prisma.LeadsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLeads>
+        }
+        groupBy: {
+          args: Prisma.leadsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LeadsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.leadsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LeadsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1677,7 +1827,9 @@ export const UsuarioScalarFieldEnum = {
   ultimoAcceso: 'ultimoAcceso',
   rolId: 'rolId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  foto_url: 'foto_url',
+  bio: 'bio'
 } as const
 
 export type UsuarioScalarFieldEnum = (typeof UsuarioScalarFieldEnum)[keyof typeof UsuarioScalarFieldEnum]
@@ -1704,7 +1856,8 @@ export const EmpresaScalarFieldEnum = {
   estado: 'estado',
   fechaRegistro: 'fechaRegistro',
   idUsuario: 'idUsuario',
-  idCategoria: 'idCategoria'
+  idCategoria: 'idCategoria',
+  nit: 'nit'
 } as const
 
 export type EmpresaScalarFieldEnum = (typeof EmpresaScalarFieldEnum)[keyof typeof EmpresaScalarFieldEnum]
@@ -1871,6 +2024,34 @@ export const PublicacionScalarFieldEnum = {
 } as const
 
 export type PublicacionScalarFieldEnum = (typeof PublicacionScalarFieldEnum)[keyof typeof PublicacionScalarFieldEnum]
+
+
+export const Flyway_schema_historyScalarFieldEnum = {
+  installed_rank: 'installed_rank',
+  version: 'version',
+  description: 'description',
+  type: 'type',
+  script: 'script',
+  checksum: 'checksum',
+  installed_by: 'installed_by',
+  installed_on: 'installed_on',
+  execution_time: 'execution_time',
+  success: 'success'
+} as const
+
+export type Flyway_schema_historyScalarFieldEnum = (typeof Flyway_schema_historyScalarFieldEnum)[keyof typeof Flyway_schema_historyScalarFieldEnum]
+
+
+export const LeadsScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  correo: 'correo',
+  ciudad: 'ciudad',
+  tipo_usuario: 'tipo_usuario',
+  fecha_registro: 'fecha_registro'
+} as const
+
+export type LeadsScalarFieldEnum = (typeof LeadsScalarFieldEnum)[keyof typeof LeadsScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -2160,6 +2341,8 @@ export type GlobalOmitConfig = {
   notificacion?: Prisma.NotificacionOmit
   auditoria?: Prisma.AuditoriaOmit
   publicacion?: Prisma.publicacionOmit
+  flyway_schema_history?: Prisma.flyway_schema_historyOmit
+  leads?: Prisma.leadsOmit
 }
 
 /* Types for Logging */

@@ -19,17 +19,19 @@ model Rol {
 }
 
 model Usuario {
-  id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id              String          @id @unique(map: "uq_usuario_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   nombres         String          @db.VarChar(100)
-  apellidos       String          @db.VarChar(100)
+  apellidos       String?         @db.VarChar(100)
   correo          String          @unique @db.VarChar(150)
-  telefono        String?         @unique @db.VarChar(20)
+  telefono        String?         @db.VarChar(20)
   contrasena      String          @db.VarChar(255)
-  activo          Boolean
+  activo          Boolean         @default(true)
   ultimoAcceso    DateTime?       @map("ultimo_acceso") @db.Timestamp(6)
   rolId           Int             @map("rol_id")
   createdAt       DateTime        @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt       DateTime        @default(now()) @map("updated_at") @db.Timestamp(6)
+  foto_url        String?         @db.VarChar(255)
+  bio             String?         @db.VarChar(300)
   auditorias      Auditoria[]
   campanias       Campania[]
   empresas        Empresa[]
@@ -39,6 +41,7 @@ model Usuario {
   rol             Rol             @relation(fields: [rolId], references: [idRol], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_rol")
 
   @@index([rolId], map: "idx_usuario_rol_id")
+  @@index([correo], map: "idx_usuario_correo")
   @@map("usuario")
 }
 
@@ -64,6 +67,7 @@ model Empresa {
   fechaRegistro DateTime?         @map("fecha_registro") @db.Timestamp(6)
   idUsuario     String?           @map("id_usuario") @db.Uuid
   idCategoria   BigInt?           @map("id_categoria")
+  nit           String?           @unique(map: "uk_empresa_nit") @db.VarChar(50)
   categoria     CategoriaEmpresa? @relation(fields: [idCategoria], references: [idCategoria], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_categoria")
   usuario       Usuario?          @relation(fields: [idUsuario], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_usuario")
   publicacion   publicacion[]
@@ -246,7 +250,7 @@ model Auditoria {
 }
 
 model publicacion {
-  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id                String    @id @unique(map: "uq_publicacion_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   contenido         String    @db.VarChar(5000)
   enlace            String?   @db.VarChar(500)
   fecha_programada  DateTime? @db.Timestamp(6)
@@ -258,4 +262,28 @@ model publicacion {
   empresa           Empresa   @relation(fields: [empresa_id], references: [idEmpresa], onDelete: NoAction, onUpdate: NoAction, map: "fk_publicacion_empresa")
 
   @@index([empresa_id], map: "idx_publicacion_empresa")
+}
+
+model flyway_schema_history {
+  installed_rank Int      @id(map: "flyway_schema_history_pk")
+  version        String?  @db.VarChar(50)
+  description    String   @db.VarChar(200)
+  type           String   @db.VarChar(20)
+  script         String   @db.VarChar(1000)
+  checksum       Int?
+  installed_by   String   @db.VarChar(100)
+  installed_on   DateTime @default(now()) @db.Timestamp(6)
+  execution_time Int
+  success        Boolean
+
+  @@index([success], map: "flyway_schema_history_s_idx")
+}
+
+model leads {
+  id             String   @id @db.Uuid
+  nombre         String   @db.VarChar(150)
+  correo         String   @unique @db.VarChar(150)
+  ciudad         String   @db.VarChar(100)
+  tipo_usuario   String   @db.VarChar(50)
+  fecha_registro DateTime @default(now()) @db.Timestamp(6)
 }

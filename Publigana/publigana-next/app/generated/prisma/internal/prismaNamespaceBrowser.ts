@@ -66,7 +66,9 @@ export const ModelName = {
   Ganador: 'Ganador',
   Notificacion: 'Notificacion',
   Auditoria: 'Auditoria',
-  publicacion: 'publicacion'
+  publicacion: 'publicacion',
+  flyway_schema_history: 'flyway_schema_history',
+  leads: 'leads'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -107,7 +109,9 @@ export const UsuarioScalarFieldEnum = {
   ultimoAcceso: 'ultimoAcceso',
   rolId: 'rolId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  foto_url: 'foto_url',
+  bio: 'bio'
 } as const
 
 export type UsuarioScalarFieldEnum = (typeof UsuarioScalarFieldEnum)[keyof typeof UsuarioScalarFieldEnum]
@@ -134,7 +138,8 @@ export const EmpresaScalarFieldEnum = {
   estado: 'estado',
   fechaRegistro: 'fechaRegistro',
   idUsuario: 'idUsuario',
-  idCategoria: 'idCategoria'
+  idCategoria: 'idCategoria',
+  nit: 'nit'
 } as const
 
 export type EmpresaScalarFieldEnum = (typeof EmpresaScalarFieldEnum)[keyof typeof EmpresaScalarFieldEnum]
@@ -301,6 +306,34 @@ export const PublicacionScalarFieldEnum = {
 } as const
 
 export type PublicacionScalarFieldEnum = (typeof PublicacionScalarFieldEnum)[keyof typeof PublicacionScalarFieldEnum]
+
+
+export const Flyway_schema_historyScalarFieldEnum = {
+  installed_rank: 'installed_rank',
+  version: 'version',
+  description: 'description',
+  type: 'type',
+  script: 'script',
+  checksum: 'checksum',
+  installed_by: 'installed_by',
+  installed_on: 'installed_on',
+  execution_time: 'execution_time',
+  success: 'success'
+} as const
+
+export type Flyway_schema_historyScalarFieldEnum = (typeof Flyway_schema_historyScalarFieldEnum)[keyof typeof Flyway_schema_historyScalarFieldEnum]
+
+
+export const LeadsScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  correo: 'correo',
+  ciudad: 'ciudad',
+  tipo_usuario: 'tipo_usuario',
+  fecha_registro: 'fecha_registro'
+} as const
+
+export type LeadsScalarFieldEnum = (typeof LeadsScalarFieldEnum)[keyof typeof LeadsScalarFieldEnum]
 
 
 export const SortOrder = {

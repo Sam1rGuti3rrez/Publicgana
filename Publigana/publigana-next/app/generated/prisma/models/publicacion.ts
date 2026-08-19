@@ -278,7 +278,7 @@ export type publicacionWhereUniqueInput = Prisma.AtLeast<{
   created_at?: Prisma.DateTimeFilter<"publicacion"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"publicacion"> | Date | string
   empresa?: Prisma.XOR<Prisma.EmpresaScalarRelationFilter, Prisma.EmpresaWhereInput>
-}, "id">
+}, "id" | "id">
 
 export type publicacionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

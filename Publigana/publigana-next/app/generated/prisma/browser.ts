@@ -97,3 +97,13 @@ export type Auditoria = Prisma.AuditoriaModel
  * 
  */
 export type publicacion = Prisma.publicacionModel
+/**
+ * Model flyway_schema_history
+ * 
+ */
+export type flyway_schema_history = Prisma.flyway_schema_historyModel
+/**
+ * Model leads
+ * 
+ */
+export type leads = Prisma.leadsModel

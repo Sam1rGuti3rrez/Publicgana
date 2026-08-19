@@ -46,6 +46,8 @@ export type UsuarioMinAggregateOutputType = {
   rolId: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  foto_url: string | null
+  bio: string | null
 }
 
 export type UsuarioMaxAggregateOutputType = {
@@ -60,6 +62,8 @@ export type UsuarioMaxAggregateOutputType = {
   rolId: number | null
   createdAt: Date | null
   updatedAt: Date | null
+  foto_url: string | null
+  bio: string | null
 }
 
 export type UsuarioCountAggregateOutputType = {
@@ -74,6 +78,8 @@ export type UsuarioCountAggregateOutputType = {
   rolId: number
   createdAt: number
   updatedAt: number
+  foto_url: number
+  bio: number
   _all: number
 }
 
@@ -98,6 +104,8 @@ export type UsuarioMinAggregateInputType = {
   rolId?: true
   createdAt?: true
   updatedAt?: true
+  foto_url?: true
+  bio?: true
 }
 
 export type UsuarioMaxAggregateInputType = {
@@ -112,6 +120,8 @@ export type UsuarioMaxAggregateInputType = {
   rolId?: true
   createdAt?: true
   updatedAt?: true
+  foto_url?: true
+  bio?: true
 }
 
 export type UsuarioCountAggregateInputType = {
@@ -126,6 +136,8 @@ export type UsuarioCountAggregateInputType = {
   rolId?: true
   createdAt?: true
   updatedAt?: true
+  foto_url?: true
+  bio?: true
   _all?: true
 }
 
@@ -218,7 +230,7 @@ export type UsuarioGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type UsuarioGroupByOutputType = {
   id: string
   nombres: string
-  apellidos: string
+  apellidos: string | null
   correo: string
   telefono: string | null
   contrasena: string
@@ -227,6 +239,8 @@ export type UsuarioGroupByOutputType = {
   rolId: number
   createdAt: Date
   updatedAt: Date
+  foto_url: string | null
+  bio: string | null
   _count: UsuarioCountAggregateOutputType | null
   _avg: UsuarioAvgAggregateOutputType | null
   _sum: UsuarioSumAggregateOutputType | null
@@ -255,7 +269,7 @@ export type UsuarioWhereInput = {
   NOT?: Prisma.UsuarioWhereInput | Prisma.UsuarioWhereInput[]
   id?: Prisma.UuidFilter<"Usuario"> | string
   nombres?: Prisma.StringFilter<"Usuario"> | string
-  apellidos?: Prisma.StringFilter<"Usuario"> | string
+  apellidos?: Prisma.StringNullableFilter<"Usuario"> | string | null
   correo?: Prisma.StringFilter<"Usuario"> | string
   telefono?: Prisma.StringNullableFilter<"Usuario"> | string | null
   contrasena?: Prisma.StringFilter<"Usuario"> | string
@@ -264,6 +278,8 @@ export type UsuarioWhereInput = {
   rolId?: Prisma.IntFilter<"Usuario"> | number
   createdAt?: Prisma.DateTimeFilter<"Usuario"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Usuario"> | Date | string
+  foto_url?: Prisma.StringNullableFilter<"Usuario"> | string | null
+  bio?: Prisma.StringNullableFilter<"Usuario"> | string | null
   auditorias?: Prisma.AuditoriaListRelationFilter
   campanias?: Prisma.CampaniaListRelationFilter
   empresas?: Prisma.EmpresaListRelationFilter
@@ -276,7 +292,7 @@ export type UsuarioWhereInput = {
 export type UsuarioOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   nombres?: Prisma.SortOrder
-  apellidos?: Prisma.SortOrder
+  apellidos?: Prisma.SortOrderInput | Prisma.SortOrder
   correo?: Prisma.SortOrder
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
   contrasena?: Prisma.SortOrder
@@ -285,6 +301,8 @@ export type UsuarioOrderByWithRelationInput = {
   rolId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  foto_url?: Prisma.SortOrderInput | Prisma.SortOrder
+  bio?: Prisma.SortOrderInput | Prisma.SortOrder
   auditorias?: Prisma.AuditoriaOrderByRelationAggregateInput
   campanias?: Prisma.CampaniaOrderByRelationAggregateInput
   empresas?: Prisma.EmpresaOrderByRelationAggregateInput
@@ -297,18 +315,20 @@ export type UsuarioOrderByWithRelationInput = {
 export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   correo?: string
-  telefono?: string
   AND?: Prisma.UsuarioWhereInput | Prisma.UsuarioWhereInput[]
   OR?: Prisma.UsuarioWhereInput[]
   NOT?: Prisma.UsuarioWhereInput | Prisma.UsuarioWhereInput[]
   nombres?: Prisma.StringFilter<"Usuario"> | string
-  apellidos?: Prisma.StringFilter<"Usuario"> | string
+  apellidos?: Prisma.StringNullableFilter<"Usuario"> | string | null
+  telefono?: Prisma.StringNullableFilter<"Usuario"> | string | null
   contrasena?: Prisma.StringFilter<"Usuario"> | string
   activo?: Prisma.BoolFilter<"Usuario"> | boolean
   ultimoAcceso?: Prisma.DateTimeNullableFilter<"Usuario"> | Date | string | null
   rolId?: Prisma.IntFilter<"Usuario"> | number
   createdAt?: Prisma.DateTimeFilter<"Usuario"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Usuario"> | Date | string
+  foto_url?: Prisma.StringNullableFilter<"Usuario"> | string | null
+  bio?: Prisma.StringNullableFilter<"Usuario"> | string | null
   auditorias?: Prisma.AuditoriaListRelationFilter
   campanias?: Prisma.CampaniaListRelationFilter
   empresas?: Prisma.EmpresaListRelationFilter
@@ -316,12 +336,12 @@ export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
   notificaciones?: Prisma.NotificacionListRelationFilter
   participaciones?: Prisma.ParticipacionListRelationFilter
   rol?: Prisma.XOR<Prisma.RolScalarRelationFilter, Prisma.RolWhereInput>
-}, "id" | "correo" | "telefono">
+}, "id" | "id" | "correo">
 
 export type UsuarioOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   nombres?: Prisma.SortOrder
-  apellidos?: Prisma.SortOrder
+  apellidos?: Prisma.SortOrderInput | Prisma.SortOrder
   correo?: Prisma.SortOrder
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
   contrasena?: Prisma.SortOrder
@@ -330,6 +350,8 @@ export type UsuarioOrderByWithAggregationInput = {
   rolId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  foto_url?: Prisma.SortOrderInput | Prisma.SortOrder
+  bio?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UsuarioCountOrderByAggregateInput
   _avg?: Prisma.UsuarioAvgOrderByAggregateInput
   _max?: Prisma.UsuarioMaxOrderByAggregateInput
@@ -343,7 +365,7 @@ export type UsuarioScalarWhereWithAggregatesInput = {
   NOT?: Prisma.UsuarioScalarWhereWithAggregatesInput | Prisma.UsuarioScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"Usuario"> | string
   nombres?: Prisma.StringWithAggregatesFilter<"Usuario"> | string
-  apellidos?: Prisma.StringWithAggregatesFilter<"Usuario"> | string
+  apellidos?: Prisma.StringNullableWithAggregatesFilter<"Usuario"> | string | null
   correo?: Prisma.StringWithAggregatesFilter<"Usuario"> | string
   telefono?: Prisma.StringNullableWithAggregatesFilter<"Usuario"> | string | null
   contrasena?: Prisma.StringWithAggregatesFilter<"Usuario"> | string
@@ -352,19 +374,23 @@ export type UsuarioScalarWhereWithAggregatesInput = {
   rolId?: Prisma.IntWithAggregatesFilter<"Usuario"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Usuario"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Usuario"> | Date | string
+  foto_url?: Prisma.StringNullableWithAggregatesFilter<"Usuario"> | string | null
+  bio?: Prisma.StringNullableWithAggregatesFilter<"Usuario"> | string | null
 }
 
 export type UsuarioCreateInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutUsuarioResponsableInput
   campanias?: Prisma.CampaniaCreateNestedManyWithoutCreadorInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutUsuarioInput
@@ -377,15 +403,17 @@ export type UsuarioCreateInput = {
 export type UsuarioUncheckedCreateInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   rolId: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutUsuarioResponsableInput
   campanias?: Prisma.CampaniaUncheckedCreateNestedManyWithoutCreadorInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutUsuarioInput
@@ -397,7 +425,7 @@ export type UsuarioUncheckedCreateInput = {
 export type UsuarioUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -405,6 +433,8 @@ export type UsuarioUpdateInput = {
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUpdateManyWithoutUsuarioResponsableNestedInput
   campanias?: Prisma.CampaniaUpdateManyWithoutCreadorNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutUsuarioNestedInput
@@ -417,7 +447,7 @@ export type UsuarioUpdateInput = {
 export type UsuarioUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -426,6 +456,8 @@ export type UsuarioUncheckedUpdateInput = {
   rolId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutUsuarioResponsableNestedInput
   campanias?: Prisma.CampaniaUncheckedUpdateManyWithoutCreadorNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -437,21 +469,23 @@ export type UsuarioUncheckedUpdateInput = {
 export type UsuarioCreateManyInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   rolId: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
 }
 
 export type UsuarioUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -459,12 +493,14 @@ export type UsuarioUpdateManyMutationInput = {
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UsuarioUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -473,6 +509,8 @@ export type UsuarioUncheckedUpdateManyInput = {
   rolId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UsuarioListRelationFilter = {
@@ -497,6 +535,8 @@ export type UsuarioCountOrderByAggregateInput = {
   rolId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  foto_url?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
 }
 
 export type UsuarioAvgOrderByAggregateInput = {
@@ -515,6 +555,8 @@ export type UsuarioMaxOrderByAggregateInput = {
   rolId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  foto_url?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
 }
 
 export type UsuarioMinOrderByAggregateInput = {
@@ -529,6 +571,8 @@ export type UsuarioMinOrderByAggregateInput = {
   rolId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  foto_url?: Prisma.SortOrder
+  bio?: Prisma.SortOrder
 }
 
 export type UsuarioSumOrderByAggregateInput = {
@@ -686,14 +730,16 @@ export type UsuarioUpdateOneWithoutAuditoriasNestedInput = {
 export type UsuarioCreateWithoutRolInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutUsuarioResponsableInput
   campanias?: Prisma.CampaniaCreateNestedManyWithoutCreadorInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutUsuarioInput
@@ -705,14 +751,16 @@ export type UsuarioCreateWithoutRolInput = {
 export type UsuarioUncheckedCreateWithoutRolInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutUsuarioResponsableInput
   campanias?: Prisma.CampaniaUncheckedCreateNestedManyWithoutCreadorInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutUsuarioInput
@@ -753,7 +801,7 @@ export type UsuarioScalarWhereInput = {
   NOT?: Prisma.UsuarioScalarWhereInput | Prisma.UsuarioScalarWhereInput[]
   id?: Prisma.UuidFilter<"Usuario"> | string
   nombres?: Prisma.StringFilter<"Usuario"> | string
-  apellidos?: Prisma.StringFilter<"Usuario"> | string
+  apellidos?: Prisma.StringNullableFilter<"Usuario"> | string | null
   correo?: Prisma.StringFilter<"Usuario"> | string
   telefono?: Prisma.StringNullableFilter<"Usuario"> | string | null
   contrasena?: Prisma.StringFilter<"Usuario"> | string
@@ -762,19 +810,23 @@ export type UsuarioScalarWhereInput = {
   rolId?: Prisma.IntFilter<"Usuario"> | number
   createdAt?: Prisma.DateTimeFilter<"Usuario"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Usuario"> | Date | string
+  foto_url?: Prisma.StringNullableFilter<"Usuario"> | string | null
+  bio?: Prisma.StringNullableFilter<"Usuario"> | string | null
 }
 
 export type UsuarioCreateWithoutEmpresasInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutUsuarioResponsableInput
   campanias?: Prisma.CampaniaCreateNestedManyWithoutCreadorInput
   ganadores?: Prisma.GanadorCreateNestedManyWithoutUsuarioInput
@@ -786,15 +838,17 @@ export type UsuarioCreateWithoutEmpresasInput = {
 export type UsuarioUncheckedCreateWithoutEmpresasInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   rolId: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutUsuarioResponsableInput
   campanias?: Prisma.CampaniaUncheckedCreateNestedManyWithoutCreadorInput
   ganadores?: Prisma.GanadorUncheckedCreateNestedManyWithoutUsuarioInput
@@ -821,7 +875,7 @@ export type UsuarioUpdateToOneWithWhereWithoutEmpresasInput = {
 export type UsuarioUpdateWithoutEmpresasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -829,6 +883,8 @@ export type UsuarioUpdateWithoutEmpresasInput = {
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUpdateManyWithoutUsuarioResponsableNestedInput
   campanias?: Prisma.CampaniaUpdateManyWithoutCreadorNestedInput
   ganadores?: Prisma.GanadorUpdateManyWithoutUsuarioNestedInput
@@ -840,7 +896,7 @@ export type UsuarioUpdateWithoutEmpresasInput = {
 export type UsuarioUncheckedUpdateWithoutEmpresasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -849,6 +905,8 @@ export type UsuarioUncheckedUpdateWithoutEmpresasInput = {
   rolId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutUsuarioResponsableNestedInput
   campanias?: Prisma.CampaniaUncheckedUpdateManyWithoutCreadorNestedInput
   ganadores?: Prisma.GanadorUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -859,14 +917,16 @@ export type UsuarioUncheckedUpdateWithoutEmpresasInput = {
 export type UsuarioCreateWithoutCampaniasInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutUsuarioResponsableInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutUsuarioInput
   ganadores?: Prisma.GanadorCreateNestedManyWithoutUsuarioInput
@@ -878,15 +938,17 @@ export type UsuarioCreateWithoutCampaniasInput = {
 export type UsuarioUncheckedCreateWithoutCampaniasInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   rolId: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutUsuarioResponsableInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutUsuarioInput
   ganadores?: Prisma.GanadorUncheckedCreateNestedManyWithoutUsuarioInput
@@ -913,7 +975,7 @@ export type UsuarioUpdateToOneWithWhereWithoutCampaniasInput = {
 export type UsuarioUpdateWithoutCampaniasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -921,6 +983,8 @@ export type UsuarioUpdateWithoutCampaniasInput = {
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUpdateManyWithoutUsuarioResponsableNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutUsuarioNestedInput
   ganadores?: Prisma.GanadorUpdateManyWithoutUsuarioNestedInput
@@ -932,7 +996,7 @@ export type UsuarioUpdateWithoutCampaniasInput = {
 export type UsuarioUncheckedUpdateWithoutCampaniasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -941,6 +1005,8 @@ export type UsuarioUncheckedUpdateWithoutCampaniasInput = {
   rolId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutUsuarioResponsableNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutUsuarioNestedInput
   ganadores?: Prisma.GanadorUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -951,14 +1017,16 @@ export type UsuarioUncheckedUpdateWithoutCampaniasInput = {
 export type UsuarioCreateWithoutParticipacionesInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutUsuarioResponsableInput
   campanias?: Prisma.CampaniaCreateNestedManyWithoutCreadorInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutUsuarioInput
@@ -970,15 +1038,17 @@ export type UsuarioCreateWithoutParticipacionesInput = {
 export type UsuarioUncheckedCreateWithoutParticipacionesInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   rolId: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutUsuarioResponsableInput
   campanias?: Prisma.CampaniaUncheckedCreateNestedManyWithoutCreadorInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutUsuarioInput
@@ -1005,7 +1075,7 @@ export type UsuarioUpdateToOneWithWhereWithoutParticipacionesInput = {
 export type UsuarioUpdateWithoutParticipacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1013,6 +1083,8 @@ export type UsuarioUpdateWithoutParticipacionesInput = {
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUpdateManyWithoutUsuarioResponsableNestedInput
   campanias?: Prisma.CampaniaUpdateManyWithoutCreadorNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutUsuarioNestedInput
@@ -1024,7 +1096,7 @@ export type UsuarioUpdateWithoutParticipacionesInput = {
 export type UsuarioUncheckedUpdateWithoutParticipacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1033,6 +1105,8 @@ export type UsuarioUncheckedUpdateWithoutParticipacionesInput = {
   rolId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutUsuarioResponsableNestedInput
   campanias?: Prisma.CampaniaUncheckedUpdateManyWithoutCreadorNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -1043,14 +1117,16 @@ export type UsuarioUncheckedUpdateWithoutParticipacionesInput = {
 export type UsuarioCreateWithoutGanadoresInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutUsuarioResponsableInput
   campanias?: Prisma.CampaniaCreateNestedManyWithoutCreadorInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutUsuarioInput
@@ -1062,15 +1138,17 @@ export type UsuarioCreateWithoutGanadoresInput = {
 export type UsuarioUncheckedCreateWithoutGanadoresInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   rolId: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutUsuarioResponsableInput
   campanias?: Prisma.CampaniaUncheckedCreateNestedManyWithoutCreadorInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutUsuarioInput
@@ -1097,7 +1175,7 @@ export type UsuarioUpdateToOneWithWhereWithoutGanadoresInput = {
 export type UsuarioUpdateWithoutGanadoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1105,6 +1183,8 @@ export type UsuarioUpdateWithoutGanadoresInput = {
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUpdateManyWithoutUsuarioResponsableNestedInput
   campanias?: Prisma.CampaniaUpdateManyWithoutCreadorNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutUsuarioNestedInput
@@ -1116,7 +1196,7 @@ export type UsuarioUpdateWithoutGanadoresInput = {
 export type UsuarioUncheckedUpdateWithoutGanadoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1125,6 +1205,8 @@ export type UsuarioUncheckedUpdateWithoutGanadoresInput = {
   rolId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutUsuarioResponsableNestedInput
   campanias?: Prisma.CampaniaUncheckedUpdateManyWithoutCreadorNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -1135,14 +1217,16 @@ export type UsuarioUncheckedUpdateWithoutGanadoresInput = {
 export type UsuarioCreateWithoutNotificacionesInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
   auditorias?: Prisma.AuditoriaCreateNestedManyWithoutUsuarioResponsableInput
   campanias?: Prisma.CampaniaCreateNestedManyWithoutCreadorInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutUsuarioInput
@@ -1154,15 +1238,17 @@ export type UsuarioCreateWithoutNotificacionesInput = {
 export type UsuarioUncheckedCreateWithoutNotificacionesInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   rolId: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
   auditorias?: Prisma.AuditoriaUncheckedCreateNestedManyWithoutUsuarioResponsableInput
   campanias?: Prisma.CampaniaUncheckedCreateNestedManyWithoutCreadorInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutUsuarioInput
@@ -1189,7 +1275,7 @@ export type UsuarioUpdateToOneWithWhereWithoutNotificacionesInput = {
 export type UsuarioUpdateWithoutNotificacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1197,6 +1283,8 @@ export type UsuarioUpdateWithoutNotificacionesInput = {
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUpdateManyWithoutUsuarioResponsableNestedInput
   campanias?: Prisma.CampaniaUpdateManyWithoutCreadorNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutUsuarioNestedInput
@@ -1208,7 +1296,7 @@ export type UsuarioUpdateWithoutNotificacionesInput = {
 export type UsuarioUncheckedUpdateWithoutNotificacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1217,6 +1305,8 @@ export type UsuarioUncheckedUpdateWithoutNotificacionesInput = {
   rolId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutUsuarioResponsableNestedInput
   campanias?: Prisma.CampaniaUncheckedUpdateManyWithoutCreadorNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -1227,14 +1317,16 @@ export type UsuarioUncheckedUpdateWithoutNotificacionesInput = {
 export type UsuarioCreateWithoutAuditoriasInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
   campanias?: Prisma.CampaniaCreateNestedManyWithoutCreadorInput
   empresas?: Prisma.EmpresaCreateNestedManyWithoutUsuarioInput
   ganadores?: Prisma.GanadorCreateNestedManyWithoutUsuarioInput
@@ -1246,15 +1338,17 @@ export type UsuarioCreateWithoutAuditoriasInput = {
 export type UsuarioUncheckedCreateWithoutAuditoriasInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   rolId: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
   campanias?: Prisma.CampaniaUncheckedCreateNestedManyWithoutCreadorInput
   empresas?: Prisma.EmpresaUncheckedCreateNestedManyWithoutUsuarioInput
   ganadores?: Prisma.GanadorUncheckedCreateNestedManyWithoutUsuarioInput
@@ -1281,7 +1375,7 @@ export type UsuarioUpdateToOneWithWhereWithoutAuditoriasInput = {
 export type UsuarioUpdateWithoutAuditoriasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1289,6 +1383,8 @@ export type UsuarioUpdateWithoutAuditoriasInput = {
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campanias?: Prisma.CampaniaUpdateManyWithoutCreadorNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutUsuarioNestedInput
   ganadores?: Prisma.GanadorUpdateManyWithoutUsuarioNestedInput
@@ -1300,7 +1396,7 @@ export type UsuarioUpdateWithoutAuditoriasInput = {
 export type UsuarioUncheckedUpdateWithoutAuditoriasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1309,6 +1405,8 @@ export type UsuarioUncheckedUpdateWithoutAuditoriasInput = {
   rolId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campanias?: Prisma.CampaniaUncheckedUpdateManyWithoutCreadorNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutUsuarioNestedInput
   ganadores?: Prisma.GanadorUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -1319,20 +1417,22 @@ export type UsuarioUncheckedUpdateWithoutAuditoriasInput = {
 export type UsuarioCreateManyRolInput = {
   id?: string
   nombres: string
-  apellidos: string
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
-  activo: boolean
+  activo?: boolean
   ultimoAcceso?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  foto_url?: string | null
+  bio?: string | null
 }
 
 export type UsuarioUpdateWithoutRolInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1340,6 +1440,8 @@ export type UsuarioUpdateWithoutRolInput = {
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUpdateManyWithoutUsuarioResponsableNestedInput
   campanias?: Prisma.CampaniaUpdateManyWithoutCreadorNestedInput
   empresas?: Prisma.EmpresaUpdateManyWithoutUsuarioNestedInput
@@ -1351,7 +1453,7 @@ export type UsuarioUpdateWithoutRolInput = {
 export type UsuarioUncheckedUpdateWithoutRolInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1359,6 +1461,8 @@ export type UsuarioUncheckedUpdateWithoutRolInput = {
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   auditorias?: Prisma.AuditoriaUncheckedUpdateManyWithoutUsuarioResponsableNestedInput
   campanias?: Prisma.CampaniaUncheckedUpdateManyWithoutCreadorNestedInput
   empresas?: Prisma.EmpresaUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -1370,7 +1474,7 @@ export type UsuarioUncheckedUpdateWithoutRolInput = {
 export type UsuarioUncheckedUpdateManyWithoutRolInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1378,6 +1482,8 @@ export type UsuarioUncheckedUpdateManyWithoutRolInput = {
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  foto_url?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1468,6 +1574,8 @@ export type UsuarioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   rolId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  foto_url?: boolean
+  bio?: boolean
   auditorias?: boolean | Prisma.Usuario$auditoriasArgs<ExtArgs>
   campanias?: boolean | Prisma.Usuario$campaniasArgs<ExtArgs>
   empresas?: boolean | Prisma.Usuario$empresasArgs<ExtArgs>
@@ -1490,6 +1598,8 @@ export type UsuarioSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   rolId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  foto_url?: boolean
+  bio?: boolean
   rol?: boolean | Prisma.RolDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["usuario"]>
 
@@ -1505,6 +1615,8 @@ export type UsuarioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   rolId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  foto_url?: boolean
+  bio?: boolean
   rol?: boolean | Prisma.RolDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["usuario"]>
 
@@ -1520,9 +1632,11 @@ export type UsuarioSelectScalar = {
   rolId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  foto_url?: boolean
+  bio?: boolean
 }
 
-export type UsuarioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombres" | "apellidos" | "correo" | "telefono" | "contrasena" | "activo" | "ultimoAcceso" | "rolId" | "createdAt" | "updatedAt", ExtArgs["result"]["usuario"]>
+export type UsuarioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombres" | "apellidos" | "correo" | "telefono" | "contrasena" | "activo" | "ultimoAcceso" | "rolId" | "createdAt" | "updatedAt" | "foto_url" | "bio", ExtArgs["result"]["usuario"]>
 export type UsuarioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   auditorias?: boolean | Prisma.Usuario$auditoriasArgs<ExtArgs>
   campanias?: boolean | Prisma.Usuario$campaniasArgs<ExtArgs>
@@ -1554,7 +1668,7 @@ export type $UsuarioPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     nombres: string
-    apellidos: string
+    apellidos: string | null
     correo: string
     telefono: string | null
     contrasena: string
@@ -1563,6 +1677,8 @@ export type $UsuarioPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     rolId: number
     createdAt: Date
     updatedAt: Date
+    foto_url: string | null
+    bio: string | null
   }, ExtArgs["result"]["usuario"]>
   composites: {}
 }
@@ -2004,6 +2120,8 @@ export interface UsuarioFieldRefs {
   readonly rolId: Prisma.FieldRef<"Usuario", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Usuario", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Usuario", 'DateTime'>
+  readonly foto_url: Prisma.FieldRef<"Usuario", 'String'>
+  readonly bio: Prisma.FieldRef<"Usuario", 'String'>
 }
     
 
