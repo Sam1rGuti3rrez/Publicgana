@@ -8,17 +8,19 @@ datasource db {
 }
 
 model Rol {
-  idRol       Int       @id @default(autoincrement()) @map("id_rol")
-  nombre      String    @unique @db.VarChar(50)
-  descripcion String?   @db.VarChar(255)
-  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt   DateTime  @default(now()) @map("updated_at") @db.Timestamp(6)
-  usuarios    Usuario[]
+  idRol       Int      @id @default(autoincrement()) @map("id_rol")
+  nombre      String   @unique @db.VarChar(50)
+  descripcion String?  @db.VarChar(255)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime @default(now()) @map("updated_at") @db.Timestamp(6)
+
+  usuarios Usuario[]
 
   @@map("rol")
 }
 
 model Usuario {
+<<<<<<< HEAD
   id              String          @id @unique(map: "uq_usuario_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   nombres         String          @db.VarChar(100)
   apellidos       String?         @db.VarChar(100)
@@ -32,13 +34,28 @@ model Usuario {
   updatedAt       DateTime        @default(now()) @map("updated_at") @db.Timestamp(6)
   foto_url        String?         @db.VarChar(255)
   bio             String?         @db.VarChar(300)
+=======
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nombres      String?   @db.VarChar(100)
+  apellidos    String?   @db.VarChar(100)
+  correo       String    @unique @db.VarChar(150)
+  telefono     String?   @unique @db.VarChar(20)
+  contrasena   String    @db.VarChar(255)
+  activo       Boolean
+  ultimoAcceso DateTime? @map("ultimo_acceso") @db.Timestamp(6)
+  rolId        Int       @map("rol_id")
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt    DateTime  @default(now()) @map("updated_at") @db.Timestamp(6)
+
+>>>>>>> 0fb7a11fd72ebae5151ac0a88ef494f9600e0f8e
   auditorias      Auditoria[]
   campanias       Campania[]
   empresas        Empresa[]
   ganadores       Ganador[]
   notificaciones  Notificacion[]
   participaciones Participacion[]
-  rol             Rol             @relation(fields: [rolId], references: [idRol], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_rol")
+
+  rol Rol @relation(fields: [rolId], references: [idRol], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_rol")
 
   @@index([rolId], map: "idx_usuario_rol_id")
   @@index([correo], map: "idx_usuario_correo")
@@ -46,24 +63,27 @@ model Usuario {
 }
 
 model CategoriaEmpresa {
-  idCategoria BigInt    @id @default(autoincrement()) @map("id_categoria")
-  nombre      String    @unique @db.VarChar(255)
+  idCategoria BigInt  @id @default(autoincrement()) @map("id_categoria")
+  nombre      String  @unique @db.VarChar(255)
   descripcion String?
-  empresas    Empresa[]
+
+  empresas Empresa[]
 
   @@map("categoria_empresa")
 }
 
 model Empresa {
-  idEmpresa     BigInt            @id @default(autoincrement()) @map("id_empresa")
-  nombre        String?           @db.VarChar(150)
+  idEmpresa     BigInt    @id @default(autoincrement()) @map("id_empresa")
+  nombre        String?   @db.VarChar(150)
+  nit           String    @unique @db.VarChar(30)
   descripcion   String?
-  direccion     String?           @db.VarChar(255)
-  telefono      String?           @db.VarChar(20)
-  correo        String?           @db.VarChar(150)
-  logo          String?           @db.VarChar(255)
-  sitioWeb      String?           @map("sitio_web") @db.VarChar(255)
+  direccion     String?   @db.VarChar(255)
+  telefono      String?   @db.VarChar(20)
+  correo        String?   @db.VarChar(150)
+  logo          String?   @db.VarChar(255)
+  sitioWeb      String?   @map("sitio_web") @db.VarChar(255)
   estado        Boolean?
+<<<<<<< HEAD
   fechaRegistro DateTime?         @map("fecha_registro") @db.Timestamp(6)
   idUsuario     String?           @map("id_usuario") @db.Uuid
   idCategoria   BigInt?           @map("id_categoria")
@@ -71,6 +91,17 @@ model Empresa {
   categoria     CategoriaEmpresa? @relation(fields: [idCategoria], references: [idCategoria], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_categoria")
   usuario       Usuario?          @relation(fields: [idUsuario], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_usuario")
   publicacion   publicacion[]
+=======
+  fechaRegistro DateTime? @map("fecha_registro") @db.Timestamp(6)
+  idUsuario     String?   @map("id_usuario") @db.Uuid
+  idCategoria   BigInt?   @map("id_categoria")
+
+  categoria CategoriaEmpresa? @relation(fields: [idCategoria], references: [idCategoria], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_categoria")
+
+  usuario Usuario? @relation(fields: [idUsuario], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_empresa_usuario")
+
+  publicacion publicacion[]
+>>>>>>> 0fb7a11fd72ebae5151ac0a88ef494f9600e0f8e
 
   @@index([idCategoria], map: "idx_empresa_categoria")
   @@index([idUsuario], map: "idx_empresa_usuario")
@@ -78,44 +109,49 @@ model Empresa {
 }
 
 model Categoria {
-  id          String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  nombre      String     @unique @db.VarChar(100)
-  descripcion String?    @db.VarChar(255)
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nombre      String   @unique @db.VarChar(100)
+  descripcion String?  @db.VarChar(255)
   activa      Boolean
-  createdAt   DateTime   @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt   DateTime   @default(now()) @map("updated_at") @db.Timestamp(6)
-  campanias   Campania[]
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime @default(now()) @map("updated_at") @db.Timestamp(6)
+
+  campanias Campania[]
 
   @@map("categoria")
 }
 
 model RedSocial {
-  id          String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  nombre      String              @unique @db.VarChar(80)
-  descripcion String?             @db.VarChar(255)
-  urlBase     String?             @map("url_base") @db.VarChar(255)
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nombre      String   @unique @db.VarChar(80)
+  descripcion String?  @db.VarChar(255)
+  urlBase     String?  @map("url_base") @db.VarChar(255)
   activa      Boolean
-  createdAt   DateTime            @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt   DateTime            @default(now()) @map("updated_at") @db.Timestamp(6)
-  campanias   CampaniaRedSocial[]
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime @default(now()) @map("updated_at") @db.Timestamp(6)
+
+  campanias CampaniaRedSocial[]
 
   @@map("red_social")
 }
 
 model Campania {
-  id              String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  titulo          String              @db.VarChar(150)
-  descripcion     String              @db.VarChar(4000)
-  bases           String?             @db.VarChar(5000)
-  fechaInicio     DateTime            @map("fecha_inicio") @db.Timestamp(6)
-  fechaFin        DateTime            @map("fecha_fin") @db.Timestamp(6)
-  activa          Boolean
-  creadorId       String              @map("creador_id") @db.Uuid
-  categoriaId     String              @map("categoria_id") @db.Uuid
-  createdAt       DateTime            @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt       DateTime            @default(now()) @map("updated_at") @db.Timestamp(6)
-  categoria       Categoria           @relation(fields: [categoriaId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_campania_categoria")
-  creador         Usuario             @relation(fields: [creadorId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_campania_creador")
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  titulo      String   @db.VarChar(150)
+  descripcion String   @db.VarChar(4000)
+  bases       String?  @db.VarChar(5000)
+  fechaInicio DateTime @map("fecha_inicio") @db.Timestamp(6)
+  fechaFin    DateTime @map("fecha_fin") @db.Timestamp(6)
+  activa      Boolean
+  creadorId   String   @map("creador_id") @db.Uuid
+  categoriaId String   @map("categoria_id") @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime @default(now()) @map("updated_at") @db.Timestamp(6)
+
+  categoria Categoria @relation(fields: [categoriaId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_campania_categoria")
+
+  creador Usuario @relation(fields: [creadorId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_campania_creador")
+
   redesSociales   CampaniaRedSocial[]
   participaciones Participacion[]
   premios         Premio[]
@@ -127,43 +163,50 @@ model Campania {
 }
 
 model CampaniaRedSocial {
-  campaniaId  String    @map("campania_id") @db.Uuid
-  redSocialId String    @map("red_social_id") @db.Uuid
-  campania    Campania  @relation(fields: [campaniaId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_campania_red_social_campania")
-  redSocial   RedSocial @relation(fields: [redSocialId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_campania_red_social_red_social")
+  campaniaId  String @map("campania_id") @db.Uuid
+  redSocialId String @map("red_social_id") @db.Uuid
+
+  campania Campania @relation(fields: [campaniaId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_campania_red_social_campania")
+
+  redSocial RedSocial @relation(fields: [redSocialId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_campania_red_social_red_social")
 
   @@id([campaniaId, redSocialId])
   @@map("campania_red_social")
 }
 
 model Premio {
-  id                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  nombre             String    @db.VarChar(150)
-  descripcion        String?   @db.VarChar(1000)
-  cantidadDisponible Int       @map("cantidad_disponible")
-  valorReferencial   Decimal?  @map("valor_referencial") @db.Decimal(12, 2)
-  campaniaId         String    @map("campania_id") @db.Uuid
-  createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt          DateTime  @default(now()) @map("updated_at") @db.Timestamp(6)
-  ganadores          Ganador[]
-  campania           Campania  @relation(fields: [campaniaId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_premio_campania")
+  id                 String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nombre             String   @db.VarChar(150)
+  descripcion        String?  @db.VarChar(1000)
+  cantidadDisponible Int      @map("cantidad_disponible")
+  valorReferencial   Decimal? @map("valor_referencial") @db.Decimal(12, 2)
+  campaniaId         String   @map("campania_id") @db.Uuid
+  createdAt          DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt          DateTime @default(now()) @map("updated_at") @db.Timestamp(6)
+
+  ganadores Ganador[]
+
+  campania Campania @relation(fields: [campaniaId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_premio_campania")
 
   @@index([campaniaId], map: "idx_premio_campania")
   @@map("premio")
 }
 
 model Participacion {
-  id                  String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  codigoParticipacion String                   @unique @map("codigo_participacion") @db.VarChar(50)
-  estado              String                   @db.VarChar(30)
-  fechaParticipacion  DateTime                 @map("fecha_participacion") @db.Timestamp(6)
-  usuarioId           String                   @map("usuario_id") @db.Uuid
-  campaniaId          String                   @map("campania_id") @db.Uuid
-  createdAt           DateTime                 @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt           DateTime                 @default(now()) @map("updated_at") @db.Timestamp(6)
-  evidencias          EvidenciaParticipacion[]
-  campania            Campania                 @relation(fields: [campaniaId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_participacion_campania")
-  usuario             Usuario                  @relation(fields: [usuarioId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_participacion_usuario")
+  id                  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  codigoParticipacion String   @unique @map("codigo_participacion") @db.VarChar(50)
+  estado              String   @db.VarChar(30)
+  fechaParticipacion  DateTime @map("fecha_participacion") @db.Timestamp(6)
+  usuarioId           String   @map("usuario_id") @db.Uuid
+  campaniaId          String   @map("campania_id") @db.Uuid
+  createdAt           DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt           DateTime @default(now()) @map("updated_at") @db.Timestamp(6)
+
+  evidencias EvidenciaParticipacion[]
+
+  campania Campania @relation(fields: [campaniaId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_participacion_campania")
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_participacion_usuario")
 
   @@index([campaniaId], map: "idx_participacion_campania")
   @@index([usuarioId], map: "idx_participacion_usuario")
@@ -171,29 +214,32 @@ model Participacion {
 }
 
 model EvidenciaParticipacion {
-  id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  tipo            String        @db.VarChar(50)
-  urlArchivo      String        @map("url_archivo") @db.VarChar(500)
-  descripcion     String?       @db.VarChar(500)
-  participacionId String        @map("participacion_id") @db.Uuid
-  createdAt       DateTime      @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt       DateTime      @default(now()) @map("updated_at") @db.Timestamp(6)
-  participacion   Participacion @relation(fields: [participacionId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_evidencia_participacion")
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  tipo            String   @db.VarChar(50)
+  urlArchivo      String   @map("url_archivo") @db.VarChar(500)
+  descripcion     String?  @db.VarChar(500)
+  participacionId String   @map("participacion_id") @db.Uuid
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt       DateTime @default(now()) @map("updated_at") @db.Timestamp(6)
+
+  participacion Participacion @relation(fields: [participacionId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_evidencia_participacion")
 
   @@index([participacionId], map: "idx_evidencia_participacion")
   @@map("evidencia_participacion")
 }
 
 model Sorteo {
-  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  campaniaId  String    @unique @map("campania_id") @db.Uuid
-  fechaSorteo DateTime  @map("fecha_sorteo") @db.Timestamp(6)
-  metodo      String    @db.VarChar(100)
-  estado      String    @db.VarChar(30)
-  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt   DateTime  @default(now()) @map("updated_at") @db.Timestamp(6)
-  ganadores   Ganador[]
-  campania    Campania  @relation(fields: [campaniaId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_sorteo_campania")
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  campaniaId  String   @unique @map("campania_id") @db.Uuid
+  fechaSorteo DateTime @map("fecha_sorteo") @db.Timestamp(6)
+  metodo      String   @db.VarChar(100)
+  estado      String   @db.VarChar(30)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt   DateTime @default(now()) @map("updated_at") @db.Timestamp(6)
+
+  ganadores Ganador[]
+
+  campania Campania @relation(fields: [campaniaId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_sorteo_campania")
 
   @@map("sorteo")
 }
@@ -207,9 +253,12 @@ model Ganador {
   estadoNotificacion String   @map("estado_notificacion") @db.VarChar(30)
   createdAt          DateTime @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt          DateTime @default(now()) @map("updated_at") @db.Timestamp(6)
-  premio             Premio   @relation(fields: [premioId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ganador_premio")
-  sorteo             Sorteo   @relation(fields: [sorteoId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ganador_sorteo")
-  usuario            Usuario  @relation(fields: [usuarioId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ganador_usuario")
+
+  premio Premio @relation(fields: [premioId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ganador_premio")
+
+  sorteo Sorteo @relation(fields: [sorteoId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ganador_sorteo")
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_ganador_usuario")
 
   @@index([premioId], map: "idx_ganador_premio")
   @@index([sorteoId], map: "idx_ganador_sorteo")
@@ -227,7 +276,8 @@ model Notificacion {
   fechaLectura DateTime? @map("fecha_lectura") @db.Timestamp(6)
   createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt    DateTime  @default(now()) @map("updated_at") @db.Timestamp(6)
-  usuario      Usuario   @relation(fields: [usuarioId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_notificacion_usuario")
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_notificacion_usuario")
 
   @@index([usuarioId], map: "idx_notificacion_usuario")
   @@map("notificacion")
@@ -243,7 +293,8 @@ model Auditoria {
   detallesCambio       String   @map("detalles_cambio") @db.VarChar(4000)
   createdAt            DateTime @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt            DateTime @default(now()) @map("updated_at") @db.Timestamp(6)
-  usuarioResponsable   Usuario? @relation(fields: [usuarioResponsableId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_auditoria_usuario")
+
+  usuarioResponsable Usuario? @relation(fields: [usuarioResponsableId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_auditoria_usuario")
 
   @@index([usuarioResponsableId], map: "idx_auditoria_usuario")
   @@map("auditoria")
@@ -259,9 +310,11 @@ model publicacion {
   empresa_id        BigInt
   created_at        DateTime  @default(now()) @db.Timestamp(6)
   updated_at        DateTime  @default(now()) @db.Timestamp(6)
-  empresa           Empresa   @relation(fields: [empresa_id], references: [idEmpresa], onDelete: NoAction, onUpdate: NoAction, map: "fk_publicacion_empresa")
 
-  @@index([empresa_id], map: "idx_publicacion_empresa")
+  empresa Empresa @relation(fields: [empresa_id], references: [idEmpresa], onDelete: NoAction, onUpdate: NoAction, map: "fk_publicacion_empresa")
+
+  @@index([empresa_id], map: "idx_empresa_publicacion")
+  @@map("publicacion")
 }
 
 model flyway_schema_history {

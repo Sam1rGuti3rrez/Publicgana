@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getAccessToken } from "@/storage/tokenStorage";
 
-const API_URL = "http://192.168.101.76:3000/api";
+const API_URL = "http://192.168.101.85:3000/api";
 
 export const api = axios.create({
   baseURL: API_URL,
