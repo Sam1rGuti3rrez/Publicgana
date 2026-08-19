@@ -39,6 +39,7 @@ export type EmpresaSumAggregateOutputType = {
 export type EmpresaMinAggregateOutputType = {
   idEmpresa: bigint | null
   nombre: string | null
+  nit: string | null
   descripcion: string | null
   direccion: string | null
   telefono: string | null
@@ -54,6 +55,7 @@ export type EmpresaMinAggregateOutputType = {
 export type EmpresaMaxAggregateOutputType = {
   idEmpresa: bigint | null
   nombre: string | null
+  nit: string | null
   descripcion: string | null
   direccion: string | null
   telefono: string | null
@@ -69,6 +71,7 @@ export type EmpresaMaxAggregateOutputType = {
 export type EmpresaCountAggregateOutputType = {
   idEmpresa: number
   nombre: number
+  nit: number
   descripcion: number
   direccion: number
   telefono: number
@@ -96,6 +99,7 @@ export type EmpresaSumAggregateInputType = {
 export type EmpresaMinAggregateInputType = {
   idEmpresa?: true
   nombre?: true
+  nit?: true
   descripcion?: true
   direccion?: true
   telefono?: true
@@ -111,6 +115,7 @@ export type EmpresaMinAggregateInputType = {
 export type EmpresaMaxAggregateInputType = {
   idEmpresa?: true
   nombre?: true
+  nit?: true
   descripcion?: true
   direccion?: true
   telefono?: true
@@ -126,6 +131,7 @@ export type EmpresaMaxAggregateInputType = {
 export type EmpresaCountAggregateInputType = {
   idEmpresa?: true
   nombre?: true
+  nit?: true
   descripcion?: true
   direccion?: true
   telefono?: true
@@ -228,6 +234,7 @@ export type EmpresaGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type EmpresaGroupByOutputType = {
   idEmpresa: bigint
   nombre: string | null
+  nit: string
   descripcion: string | null
   direccion: string | null
   telefono: string | null
@@ -266,6 +273,7 @@ export type EmpresaWhereInput = {
   NOT?: Prisma.EmpresaWhereInput | Prisma.EmpresaWhereInput[]
   idEmpresa?: Prisma.BigIntFilter<"Empresa"> | bigint | number
   nombre?: Prisma.StringNullableFilter<"Empresa"> | string | null
+  nit?: Prisma.StringFilter<"Empresa"> | string
   descripcion?: Prisma.StringNullableFilter<"Empresa"> | string | null
   direccion?: Prisma.StringNullableFilter<"Empresa"> | string | null
   telefono?: Prisma.StringNullableFilter<"Empresa"> | string | null
@@ -284,6 +292,7 @@ export type EmpresaWhereInput = {
 export type EmpresaOrderByWithRelationInput = {
   idEmpresa?: Prisma.SortOrder
   nombre?: Prisma.SortOrderInput | Prisma.SortOrder
+  nit?: Prisma.SortOrder
   descripcion?: Prisma.SortOrderInput | Prisma.SortOrder
   direccion?: Prisma.SortOrderInput | Prisma.SortOrder
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -301,6 +310,7 @@ export type EmpresaOrderByWithRelationInput = {
 
 export type EmpresaWhereUniqueInput = Prisma.AtLeast<{
   idEmpresa?: bigint | number
+  nit?: string
   AND?: Prisma.EmpresaWhereInput | Prisma.EmpresaWhereInput[]
   OR?: Prisma.EmpresaWhereInput[]
   NOT?: Prisma.EmpresaWhereInput | Prisma.EmpresaWhereInput[]
@@ -318,11 +328,12 @@ export type EmpresaWhereUniqueInput = Prisma.AtLeast<{
   categoria?: Prisma.XOR<Prisma.CategoriaEmpresaNullableScalarRelationFilter, Prisma.CategoriaEmpresaWhereInput> | null
   usuario?: Prisma.XOR<Prisma.UsuarioNullableScalarRelationFilter, Prisma.UsuarioWhereInput> | null
   publicacion?: Prisma.PublicacionListRelationFilter
-}, "idEmpresa">
+}, "idEmpresa" | "nit">
 
 export type EmpresaOrderByWithAggregationInput = {
   idEmpresa?: Prisma.SortOrder
   nombre?: Prisma.SortOrderInput | Prisma.SortOrder
+  nit?: Prisma.SortOrder
   descripcion?: Prisma.SortOrderInput | Prisma.SortOrder
   direccion?: Prisma.SortOrderInput | Prisma.SortOrder
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -346,6 +357,7 @@ export type EmpresaScalarWhereWithAggregatesInput = {
   NOT?: Prisma.EmpresaScalarWhereWithAggregatesInput | Prisma.EmpresaScalarWhereWithAggregatesInput[]
   idEmpresa?: Prisma.BigIntWithAggregatesFilter<"Empresa"> | bigint | number
   nombre?: Prisma.StringNullableWithAggregatesFilter<"Empresa"> | string | null
+  nit?: Prisma.StringWithAggregatesFilter<"Empresa"> | string
   descripcion?: Prisma.StringNullableWithAggregatesFilter<"Empresa"> | string | null
   direccion?: Prisma.StringNullableWithAggregatesFilter<"Empresa"> | string | null
   telefono?: Prisma.StringNullableWithAggregatesFilter<"Empresa"> | string | null
@@ -361,6 +373,7 @@ export type EmpresaScalarWhereWithAggregatesInput = {
 export type EmpresaCreateInput = {
   idEmpresa?: bigint | number
   nombre?: string | null
+  nit: string
   descripcion?: string | null
   direccion?: string | null
   telefono?: string | null
@@ -377,6 +390,7 @@ export type EmpresaCreateInput = {
 export type EmpresaUncheckedCreateInput = {
   idEmpresa?: bigint | number
   nombre?: string | null
+  nit: string
   descripcion?: string | null
   direccion?: string | null
   telefono?: string | null
@@ -393,6 +407,7 @@ export type EmpresaUncheckedCreateInput = {
 export type EmpresaUpdateInput = {
   idEmpresa?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -409,6 +424,7 @@ export type EmpresaUpdateInput = {
 export type EmpresaUncheckedUpdateInput = {
   idEmpresa?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -425,6 +441,7 @@ export type EmpresaUncheckedUpdateInput = {
 export type EmpresaCreateManyInput = {
   idEmpresa?: bigint | number
   nombre?: string | null
+  nit: string
   descripcion?: string | null
   direccion?: string | null
   telefono?: string | null
@@ -440,6 +457,7 @@ export type EmpresaCreateManyInput = {
 export type EmpresaUpdateManyMutationInput = {
   idEmpresa?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -453,6 +471,7 @@ export type EmpresaUpdateManyMutationInput = {
 export type EmpresaUncheckedUpdateManyInput = {
   idEmpresa?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -478,6 +497,7 @@ export type EmpresaOrderByRelationAggregateInput = {
 export type EmpresaCountOrderByAggregateInput = {
   idEmpresa?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
+  nit?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
   direccion?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
@@ -498,6 +518,7 @@ export type EmpresaAvgOrderByAggregateInput = {
 export type EmpresaMaxOrderByAggregateInput = {
   idEmpresa?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
+  nit?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
   direccion?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
@@ -513,6 +534,7 @@ export type EmpresaMaxOrderByAggregateInput = {
 export type EmpresaMinOrderByAggregateInput = {
   idEmpresa?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
+  nit?: Prisma.SortOrder
   descripcion?: Prisma.SortOrder
   direccion?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
@@ -648,6 +670,7 @@ export type EmpresaUpdateOneRequiredWithoutPublicacionNestedInput = {
 export type EmpresaCreateWithoutUsuarioInput = {
   idEmpresa?: bigint | number
   nombre?: string | null
+  nit: string
   descripcion?: string | null
   direccion?: string | null
   telefono?: string | null
@@ -663,6 +686,7 @@ export type EmpresaCreateWithoutUsuarioInput = {
 export type EmpresaUncheckedCreateWithoutUsuarioInput = {
   idEmpresa?: bigint | number
   nombre?: string | null
+  nit: string
   descripcion?: string | null
   direccion?: string | null
   telefono?: string | null
@@ -707,6 +731,7 @@ export type EmpresaScalarWhereInput = {
   NOT?: Prisma.EmpresaScalarWhereInput | Prisma.EmpresaScalarWhereInput[]
   idEmpresa?: Prisma.BigIntFilter<"Empresa"> | bigint | number
   nombre?: Prisma.StringNullableFilter<"Empresa"> | string | null
+  nit?: Prisma.StringFilter<"Empresa"> | string
   descripcion?: Prisma.StringNullableFilter<"Empresa"> | string | null
   direccion?: Prisma.StringNullableFilter<"Empresa"> | string | null
   telefono?: Prisma.StringNullableFilter<"Empresa"> | string | null
@@ -722,6 +747,7 @@ export type EmpresaScalarWhereInput = {
 export type EmpresaCreateWithoutCategoriaInput = {
   idEmpresa?: bigint | number
   nombre?: string | null
+  nit: string
   descripcion?: string | null
   direccion?: string | null
   telefono?: string | null
@@ -737,6 +763,7 @@ export type EmpresaCreateWithoutCategoriaInput = {
 export type EmpresaUncheckedCreateWithoutCategoriaInput = {
   idEmpresa?: bigint | number
   nombre?: string | null
+  nit: string
   descripcion?: string | null
   direccion?: string | null
   telefono?: string | null
@@ -778,6 +805,7 @@ export type EmpresaUpdateManyWithWhereWithoutCategoriaInput = {
 export type EmpresaCreateWithoutPublicacionInput = {
   idEmpresa?: bigint | number
   nombre?: string | null
+  nit: string
   descripcion?: string | null
   direccion?: string | null
   telefono?: string | null
@@ -793,6 +821,7 @@ export type EmpresaCreateWithoutPublicacionInput = {
 export type EmpresaUncheckedCreateWithoutPublicacionInput = {
   idEmpresa?: bigint | number
   nombre?: string | null
+  nit: string
   descripcion?: string | null
   direccion?: string | null
   telefono?: string | null
@@ -824,6 +853,7 @@ export type EmpresaUpdateToOneWithWhereWithoutPublicacionInput = {
 export type EmpresaUpdateWithoutPublicacionInput = {
   idEmpresa?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -839,6 +869,7 @@ export type EmpresaUpdateWithoutPublicacionInput = {
 export type EmpresaUncheckedUpdateWithoutPublicacionInput = {
   idEmpresa?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -854,6 +885,7 @@ export type EmpresaUncheckedUpdateWithoutPublicacionInput = {
 export type EmpresaCreateManyUsuarioInput = {
   idEmpresa?: bigint | number
   nombre?: string | null
+  nit: string
   descripcion?: string | null
   direccion?: string | null
   telefono?: string | null
@@ -868,6 +900,7 @@ export type EmpresaCreateManyUsuarioInput = {
 export type EmpresaUpdateWithoutUsuarioInput = {
   idEmpresa?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -883,6 +916,7 @@ export type EmpresaUpdateWithoutUsuarioInput = {
 export type EmpresaUncheckedUpdateWithoutUsuarioInput = {
   idEmpresa?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -898,6 +932,7 @@ export type EmpresaUncheckedUpdateWithoutUsuarioInput = {
 export type EmpresaUncheckedUpdateManyWithoutUsuarioInput = {
   idEmpresa?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -912,6 +947,7 @@ export type EmpresaUncheckedUpdateManyWithoutUsuarioInput = {
 export type EmpresaCreateManyCategoriaInput = {
   idEmpresa?: bigint | number
   nombre?: string | null
+  nit: string
   descripcion?: string | null
   direccion?: string | null
   telefono?: string | null
@@ -926,6 +962,7 @@ export type EmpresaCreateManyCategoriaInput = {
 export type EmpresaUpdateWithoutCategoriaInput = {
   idEmpresa?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -941,6 +978,7 @@ export type EmpresaUpdateWithoutCategoriaInput = {
 export type EmpresaUncheckedUpdateWithoutCategoriaInput = {
   idEmpresa?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -956,6 +994,7 @@ export type EmpresaUncheckedUpdateWithoutCategoriaInput = {
 export type EmpresaUncheckedUpdateManyWithoutCategoriaInput = {
   idEmpresa?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   nombre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nit?: Prisma.StringFieldUpdateOperationsInput | string
   descripcion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1001,6 +1040,7 @@ export type EmpresaCountOutputTypeCountPublicacionArgs<ExtArgs extends runtime.T
 export type EmpresaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   idEmpresa?: boolean
   nombre?: boolean
+  nit?: boolean
   descripcion?: boolean
   direccion?: boolean
   telefono?: boolean
@@ -1020,6 +1060,7 @@ export type EmpresaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type EmpresaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   idEmpresa?: boolean
   nombre?: boolean
+  nit?: boolean
   descripcion?: boolean
   direccion?: boolean
   telefono?: boolean
@@ -1037,6 +1078,7 @@ export type EmpresaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type EmpresaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   idEmpresa?: boolean
   nombre?: boolean
+  nit?: boolean
   descripcion?: boolean
   direccion?: boolean
   telefono?: boolean
@@ -1054,6 +1096,7 @@ export type EmpresaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type EmpresaSelectScalar = {
   idEmpresa?: boolean
   nombre?: boolean
+  nit?: boolean
   descripcion?: boolean
   direccion?: boolean
   telefono?: boolean
@@ -1066,7 +1109,7 @@ export type EmpresaSelectScalar = {
   idCategoria?: boolean
 }
 
-export type EmpresaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"idEmpresa" | "nombre" | "descripcion" | "direccion" | "telefono" | "correo" | "logo" | "sitioWeb" | "estado" | "fechaRegistro" | "idUsuario" | "idCategoria", ExtArgs["result"]["empresa"]>
+export type EmpresaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"idEmpresa" | "nombre" | "nit" | "descripcion" | "direccion" | "telefono" | "correo" | "logo" | "sitioWeb" | "estado" | "fechaRegistro" | "idUsuario" | "idCategoria", ExtArgs["result"]["empresa"]>
 export type EmpresaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categoria?: boolean | Prisma.Empresa$categoriaArgs<ExtArgs>
   usuario?: boolean | Prisma.Empresa$usuarioArgs<ExtArgs>
@@ -1092,6 +1135,7 @@ export type $EmpresaPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     idEmpresa: bigint
     nombre: string | null
+    nit: string
     descripcion: string | null
     direccion: string | null
     telefono: string | null
@@ -1530,6 +1574,7 @@ export interface Prisma__EmpresaClient<T, Null = never, ExtArgs extends runtime.
 export interface EmpresaFieldRefs {
   readonly idEmpresa: Prisma.FieldRef<"Empresa", 'BigInt'>
   readonly nombre: Prisma.FieldRef<"Empresa", 'String'>
+  readonly nit: Prisma.FieldRef<"Empresa", 'String'>
   readonly descripcion: Prisma.FieldRef<"Empresa", 'String'>
   readonly direccion: Prisma.FieldRef<"Empresa", 'String'>
   readonly telefono: Prisma.FieldRef<"Empresa", 'String'>
@@ -1763,7 +1808,7 @@ export type EmpresaCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * The data needed to create a Empresa.
    */
-  data?: Prisma.XOR<Prisma.EmpresaCreateInput, Prisma.EmpresaUncheckedCreateInput>
+  data: Prisma.XOR<Prisma.EmpresaCreateInput, Prisma.EmpresaUncheckedCreateInput>
 }
 
 /**

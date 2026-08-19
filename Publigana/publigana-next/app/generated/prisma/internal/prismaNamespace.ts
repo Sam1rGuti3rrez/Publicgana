@@ -1695,6 +1695,7 @@ export type CategoriaEmpresaScalarFieldEnum = (typeof CategoriaEmpresaScalarFiel
 export const EmpresaScalarFieldEnum = {
   idEmpresa: 'idEmpresa',
   nombre: 'nombre',
+  nit: 'nit',
   descripcion: 'descripcion',
   direccion: 'direccion',
   telefono: 'telefono',

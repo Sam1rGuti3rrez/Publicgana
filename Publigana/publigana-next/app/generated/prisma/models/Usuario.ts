@@ -217,8 +217,8 @@ export type UsuarioGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 
 export type UsuarioGroupByOutputType = {
   id: string
-  nombres: string
-  apellidos: string
+  nombres: string | null
+  apellidos: string | null
   correo: string
   telefono: string | null
   contrasena: string
@@ -254,8 +254,8 @@ export type UsuarioWhereInput = {
   OR?: Prisma.UsuarioWhereInput[]
   NOT?: Prisma.UsuarioWhereInput | Prisma.UsuarioWhereInput[]
   id?: Prisma.UuidFilter<"Usuario"> | string
-  nombres?: Prisma.StringFilter<"Usuario"> | string
-  apellidos?: Prisma.StringFilter<"Usuario"> | string
+  nombres?: Prisma.StringNullableFilter<"Usuario"> | string | null
+  apellidos?: Prisma.StringNullableFilter<"Usuario"> | string | null
   correo?: Prisma.StringFilter<"Usuario"> | string
   telefono?: Prisma.StringNullableFilter<"Usuario"> | string | null
   contrasena?: Prisma.StringFilter<"Usuario"> | string
@@ -275,8 +275,8 @@ export type UsuarioWhereInput = {
 
 export type UsuarioOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  nombres?: Prisma.SortOrder
-  apellidos?: Prisma.SortOrder
+  nombres?: Prisma.SortOrderInput | Prisma.SortOrder
+  apellidos?: Prisma.SortOrderInput | Prisma.SortOrder
   correo?: Prisma.SortOrder
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
   contrasena?: Prisma.SortOrder
@@ -301,8 +301,8 @@ export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.UsuarioWhereInput | Prisma.UsuarioWhereInput[]
   OR?: Prisma.UsuarioWhereInput[]
   NOT?: Prisma.UsuarioWhereInput | Prisma.UsuarioWhereInput[]
-  nombres?: Prisma.StringFilter<"Usuario"> | string
-  apellidos?: Prisma.StringFilter<"Usuario"> | string
+  nombres?: Prisma.StringNullableFilter<"Usuario"> | string | null
+  apellidos?: Prisma.StringNullableFilter<"Usuario"> | string | null
   contrasena?: Prisma.StringFilter<"Usuario"> | string
   activo?: Prisma.BoolFilter<"Usuario"> | boolean
   ultimoAcceso?: Prisma.DateTimeNullableFilter<"Usuario"> | Date | string | null
@@ -320,8 +320,8 @@ export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
 
 export type UsuarioOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  nombres?: Prisma.SortOrder
-  apellidos?: Prisma.SortOrder
+  nombres?: Prisma.SortOrderInput | Prisma.SortOrder
+  apellidos?: Prisma.SortOrderInput | Prisma.SortOrder
   correo?: Prisma.SortOrder
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
   contrasena?: Prisma.SortOrder
@@ -342,8 +342,8 @@ export type UsuarioScalarWhereWithAggregatesInput = {
   OR?: Prisma.UsuarioScalarWhereWithAggregatesInput[]
   NOT?: Prisma.UsuarioScalarWhereWithAggregatesInput | Prisma.UsuarioScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"Usuario"> | string
-  nombres?: Prisma.StringWithAggregatesFilter<"Usuario"> | string
-  apellidos?: Prisma.StringWithAggregatesFilter<"Usuario"> | string
+  nombres?: Prisma.StringNullableWithAggregatesFilter<"Usuario"> | string | null
+  apellidos?: Prisma.StringNullableWithAggregatesFilter<"Usuario"> | string | null
   correo?: Prisma.StringWithAggregatesFilter<"Usuario"> | string
   telefono?: Prisma.StringNullableWithAggregatesFilter<"Usuario"> | string | null
   contrasena?: Prisma.StringWithAggregatesFilter<"Usuario"> | string
@@ -356,8 +356,8 @@ export type UsuarioScalarWhereWithAggregatesInput = {
 
 export type UsuarioCreateInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -376,8 +376,8 @@ export type UsuarioCreateInput = {
 
 export type UsuarioUncheckedCreateInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -396,8 +396,8 @@ export type UsuarioUncheckedCreateInput = {
 
 export type UsuarioUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -416,8 +416,8 @@ export type UsuarioUpdateInput = {
 
 export type UsuarioUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -436,8 +436,8 @@ export type UsuarioUncheckedUpdateInput = {
 
 export type UsuarioCreateManyInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -450,8 +450,8 @@ export type UsuarioCreateManyInput = {
 
 export type UsuarioUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -463,8 +463,8 @@ export type UsuarioUpdateManyMutationInput = {
 
 export type UsuarioUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -685,8 +685,8 @@ export type UsuarioUpdateOneWithoutAuditoriasNestedInput = {
 
 export type UsuarioCreateWithoutRolInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -704,8 +704,8 @@ export type UsuarioCreateWithoutRolInput = {
 
 export type UsuarioUncheckedCreateWithoutRolInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -752,8 +752,8 @@ export type UsuarioScalarWhereInput = {
   OR?: Prisma.UsuarioScalarWhereInput[]
   NOT?: Prisma.UsuarioScalarWhereInput | Prisma.UsuarioScalarWhereInput[]
   id?: Prisma.UuidFilter<"Usuario"> | string
-  nombres?: Prisma.StringFilter<"Usuario"> | string
-  apellidos?: Prisma.StringFilter<"Usuario"> | string
+  nombres?: Prisma.StringNullableFilter<"Usuario"> | string | null
+  apellidos?: Prisma.StringNullableFilter<"Usuario"> | string | null
   correo?: Prisma.StringFilter<"Usuario"> | string
   telefono?: Prisma.StringNullableFilter<"Usuario"> | string | null
   contrasena?: Prisma.StringFilter<"Usuario"> | string
@@ -766,8 +766,8 @@ export type UsuarioScalarWhereInput = {
 
 export type UsuarioCreateWithoutEmpresasInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -785,8 +785,8 @@ export type UsuarioCreateWithoutEmpresasInput = {
 
 export type UsuarioUncheckedCreateWithoutEmpresasInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -820,8 +820,8 @@ export type UsuarioUpdateToOneWithWhereWithoutEmpresasInput = {
 
 export type UsuarioUpdateWithoutEmpresasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -839,8 +839,8 @@ export type UsuarioUpdateWithoutEmpresasInput = {
 
 export type UsuarioUncheckedUpdateWithoutEmpresasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -858,8 +858,8 @@ export type UsuarioUncheckedUpdateWithoutEmpresasInput = {
 
 export type UsuarioCreateWithoutCampaniasInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -877,8 +877,8 @@ export type UsuarioCreateWithoutCampaniasInput = {
 
 export type UsuarioUncheckedCreateWithoutCampaniasInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -912,8 +912,8 @@ export type UsuarioUpdateToOneWithWhereWithoutCampaniasInput = {
 
 export type UsuarioUpdateWithoutCampaniasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -931,8 +931,8 @@ export type UsuarioUpdateWithoutCampaniasInput = {
 
 export type UsuarioUncheckedUpdateWithoutCampaniasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -950,8 +950,8 @@ export type UsuarioUncheckedUpdateWithoutCampaniasInput = {
 
 export type UsuarioCreateWithoutParticipacionesInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -969,8 +969,8 @@ export type UsuarioCreateWithoutParticipacionesInput = {
 
 export type UsuarioUncheckedCreateWithoutParticipacionesInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -1004,8 +1004,8 @@ export type UsuarioUpdateToOneWithWhereWithoutParticipacionesInput = {
 
 export type UsuarioUpdateWithoutParticipacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1023,8 +1023,8 @@ export type UsuarioUpdateWithoutParticipacionesInput = {
 
 export type UsuarioUncheckedUpdateWithoutParticipacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1042,8 +1042,8 @@ export type UsuarioUncheckedUpdateWithoutParticipacionesInput = {
 
 export type UsuarioCreateWithoutGanadoresInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -1061,8 +1061,8 @@ export type UsuarioCreateWithoutGanadoresInput = {
 
 export type UsuarioUncheckedCreateWithoutGanadoresInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -1096,8 +1096,8 @@ export type UsuarioUpdateToOneWithWhereWithoutGanadoresInput = {
 
 export type UsuarioUpdateWithoutGanadoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1115,8 +1115,8 @@ export type UsuarioUpdateWithoutGanadoresInput = {
 
 export type UsuarioUncheckedUpdateWithoutGanadoresInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1134,8 +1134,8 @@ export type UsuarioUncheckedUpdateWithoutGanadoresInput = {
 
 export type UsuarioCreateWithoutNotificacionesInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -1153,8 +1153,8 @@ export type UsuarioCreateWithoutNotificacionesInput = {
 
 export type UsuarioUncheckedCreateWithoutNotificacionesInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -1188,8 +1188,8 @@ export type UsuarioUpdateToOneWithWhereWithoutNotificacionesInput = {
 
 export type UsuarioUpdateWithoutNotificacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1207,8 +1207,8 @@ export type UsuarioUpdateWithoutNotificacionesInput = {
 
 export type UsuarioUncheckedUpdateWithoutNotificacionesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1226,8 +1226,8 @@ export type UsuarioUncheckedUpdateWithoutNotificacionesInput = {
 
 export type UsuarioCreateWithoutAuditoriasInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -1245,8 +1245,8 @@ export type UsuarioCreateWithoutAuditoriasInput = {
 
 export type UsuarioUncheckedCreateWithoutAuditoriasInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -1280,8 +1280,8 @@ export type UsuarioUpdateToOneWithWhereWithoutAuditoriasInput = {
 
 export type UsuarioUpdateWithoutAuditoriasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1299,8 +1299,8 @@ export type UsuarioUpdateWithoutAuditoriasInput = {
 
 export type UsuarioUncheckedUpdateWithoutAuditoriasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1318,8 +1318,8 @@ export type UsuarioUncheckedUpdateWithoutAuditoriasInput = {
 
 export type UsuarioCreateManyRolInput = {
   id?: string
-  nombres: string
-  apellidos: string
+  nombres?: string | null
+  apellidos?: string | null
   correo: string
   telefono?: string | null
   contrasena: string
@@ -1331,8 +1331,8 @@ export type UsuarioCreateManyRolInput = {
 
 export type UsuarioUpdateWithoutRolInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1350,8 +1350,8 @@ export type UsuarioUpdateWithoutRolInput = {
 
 export type UsuarioUncheckedUpdateWithoutRolInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1369,8 +1369,8 @@ export type UsuarioUncheckedUpdateWithoutRolInput = {
 
 export type UsuarioUncheckedUpdateManyWithoutRolInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  nombres?: Prisma.StringFieldUpdateOperationsInput | string
-  apellidos?: Prisma.StringFieldUpdateOperationsInput | string
+  nombres?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1553,8 +1553,8 @@ export type $UsuarioPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    nombres: string
-    apellidos: string
+    nombres: string | null
+    apellidos: string | null
     correo: string
     telefono: string | null
     contrasena: string
