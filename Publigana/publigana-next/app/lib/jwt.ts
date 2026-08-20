@@ -28,9 +28,17 @@ export function verifyToken(token: string): TokenPayload {
     throw new Error("Token inválido");
   }
 
+  const userId = (decoded as any).userId;
+  const rol = (decoded as any).rol;
+
+  // Validación defensiva: ambos campos son obligatorios
+  if (!userId || !rol) {
+    throw new Error(`Token incompleto: falta userId o rol`);
+  }
+
   return {
-    userId: String((decoded as any).userId),
-    rol: String((decoded as any).rol),
+    userId: String(userId),
+    rol: String(rol),
   };
 }
 

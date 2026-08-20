@@ -67,6 +67,18 @@ export async function POST(request: Request) {
       );
     }
 
+    // Validación defensiva: asegurar que el rol existe
+    if (!usuario.rol || !usuario.rol.nombre) {
+      console.error(
+        `[LOGIN ERROR] Usuario ${usuario.id} no tiene rol válido asociado`,
+        { rolData: usuario.rol }
+      );
+      return NextResponse.json(
+        { error: "Usuario sin rol configurado en la base de datos" },
+        { status: 500, headers: corsHeaders }
+      );
+    }
+
     await prisma.usuario.update({
       where: {
         id: usuario.id,
