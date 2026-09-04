@@ -27,7 +27,7 @@ export default function Hero() {
                 Quiero ganar compartiendo
               </a>
 
-              <a href="/app-demo.html" target="_blank" rel="noopener" className={secondaryButtonClassName}>
+              <a href="/demo" target="_blank" rel="noopener" className={secondaryButtonClassName}>
                 Ver demo de la app
               </a>
             </div>
@@ -45,3 +45,4 @@ export default function Hero() {
     </section>
   );
 }
+
