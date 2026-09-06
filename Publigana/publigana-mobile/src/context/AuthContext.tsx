@@ -7,9 +7,10 @@ import {
     saveAccessToken,
     saveRefreshToken,
 } from "@/storage/tokenStorage";
-import type { LoginResponse, UserResponse } from "@/types/auth";
+import type { AuthenticatedUserRole, LoginResponse, UserResponse } from "@/types/auth";
 
 export type AppRole = "promotor" | "empresa";
+export type ActiveRole = AppRole | "admin";
 
 interface AuthContextType {
     user: UserResponse | null;
@@ -18,7 +19,7 @@ interface AuthContextType {
     logout: () => Promise<void>;
     devRole: AppRole;
     setDevRole: (role: AppRole) => void;
-    activeRole: AppRole;
+    activeRole: ActiveRole;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -60,7 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(null);
     };
 
-    const activeRole: AppRole = user?.rol?.toLowerCase() === "empresa" ? "empresa" : devRole;
+    const activeRole: ActiveRole = getActiveRole(user?.rol, devRole);
 
     return (
         <AuthContext.Provider
@@ -89,4 +90,11 @@ export function useAuth() {
     }
 
     return context;
+}
+
+function getActiveRole(role: AuthenticatedUserRole | undefined, fallbackRole: AppRole): ActiveRole {
+    if (role === "ADMIN") return "admin";
+    if (role === "NEGOCIO") return "empresa";
+    if (role === "PROMOTOR") return "promotor";
+    return fallbackRole;
 }

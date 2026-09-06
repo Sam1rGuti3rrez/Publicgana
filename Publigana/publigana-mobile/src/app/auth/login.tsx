@@ -41,28 +41,41 @@ export default function LoginScreen() {
 
   const getErrorMessage = (error: unknown): string => {
     if (error instanceof AxiosError) {
+      // El backend no respondió
       if (!error.response) {
         return "No se pudo conectar con el servidor.";
       }
 
       const data = error.response.data as ApiErrorBody;
 
-      return (
-        data?.message ??
-        data?.error ??
-        `Error HTTP ${error.response.status}`
-      );
+      // Credenciales incorrectas
+      if (error.response.status === 401) {
+        return "Credenciales inválidas";
+      }
+
+      // Mensaje enviado por el backend
+      if (data?.message) {
+        return data.message;
+      }
+
+      if (data?.error) {
+        return data.error;
+      }
+
+      return "No se pudo iniciar sesión. Inténtalo nuevamente.";
     }
 
     if (error instanceof Error) {
       return error.message;
     }
 
-    return "Error desconocido.";
+    return "No se pudo iniciar sesión. Inténtalo nuevamente.";
   };
 
   const handleLogin = async () => {
-    if (!canSubmit) return;
+    if (!canSubmit) {
+      return;
+    }
 
     setLoading(true);
     setErrorMessage("");
@@ -73,23 +86,15 @@ export default function LoginScreen() {
         contrasena: contrasena.trim(),
       });
 
-      // Guardar token y actualizar el usuario en AuthContext
       await login(response);
 
-      // Obtener el rol del usuario autenticado
-      const role = response.usuario.rol?.toLowerCase();
+      const destination =
+        response.usuario?.rol === "NEGOCIO"
+          ? "/empresa/(tabs)"
+          : "/promotor/(tabs)";
 
-      // Redirigir según el rol
-      if (role === "empresa") {
-        router.replace("/empresa/(tabs)");
-      } else if (role === "promotor") {
-        router.replace("/promotor/(tabs)");
-      } else {
-        // Ruta general para otros roles
-        router.replace("/tabs");
-      }
+      router.replace(destination);
     } catch (error) {
-      console.error("Error al iniciar sesión:", error);
       setErrorMessage(getErrorMessage(error));
     } finally {
       setLoading(false);
@@ -122,29 +127,41 @@ export default function LoginScreen() {
 
           <View style={styles.section}>
             <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Correo</Text>
+              <Text style={styles.inputLabel}>
+                Correo
+              </Text>
 
               <TextInput
                 value={correo}
-                onChangeText={setCorreo}
+                onChangeText={(text) => {
+                  setCorreo(text);
+                  setErrorMessage("");
+                }}
                 placeholder="correo@dominio.com"
                 placeholderTextColor={colors.placeholder}
                 keyboardType="email-address"
                 autoCapitalize="none"
+                autoCorrect={false}
                 style={styles.input}
               />
             </View>
 
             <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Contraseña</Text>
+              <Text style={styles.inputLabel}>
+                Contraseña
+              </Text>
 
               <TextInput
                 value={contrasena}
-                onChangeText={setContrasena}
+                onChangeText={(text) => {
+                  setContrasena(text);
+                  setErrorMessage("");
+                }}
                 placeholder="Tu contraseña"
                 placeholderTextColor={colors.placeholder}
                 secureTextEntry
                 autoCapitalize="none"
+                autoCorrect={false}
                 style={styles.input}
               />
             </View>
@@ -279,7 +296,7 @@ const styles = StyleSheet.create({
   },
 
   secondaryActionText: {
-    color: colors.goldLight,
+    color: colors.primary,
     fontSize: 14,
     fontWeight: "600",
   },

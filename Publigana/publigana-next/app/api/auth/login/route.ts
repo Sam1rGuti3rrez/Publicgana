@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { prisma } from "@/app/lib/prisma";
-import { signAccessToken, signRefreshToken } from "@/app/lib/jwt";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "http://localhost:8081",
@@ -23,6 +22,16 @@ export async function POST(request: Request) {
     const correo = body.correo?.trim();
     const contrasena = body.contrasena;
 
+    console.info("[LOGIN DEBUG] Solicitud recibida", {
+      method: request.method,
+      endpoint: new URL(request.url).pathname,
+      bodyFields: Object.keys(body),
+      correo: typeof correo === "string" ? correo : null,
+      contrasenaType: typeof contrasena,
+      contrasenaLength:
+        typeof contrasena === "string" ? contrasena.length : null,
+    });
+
     if (!correo || !contrasena) {
       return NextResponse.json(
         { error: "Correo y contraseña son obligatorios" },
@@ -42,7 +51,29 @@ export async function POST(request: Request) {
       },
     });
 
+    console.info("[LOGIN DEBUG] Resultado de búsqueda", {
+      correo,
+      existe: Boolean(usuario),
+      activo: usuario?.activo ?? null,
+      tieneRol: Boolean(usuario?.rol),
+      rol: usuario?.rol?.nombre ?? null,
+      contrasenaType: usuario ? typeof usuario.contrasena : null,
+      contrasenaLength: usuario?.contrasena?.length ?? null,
+      formatoBcrypt:
+        typeof usuario?.contrasena === "string" &&
+        /^\$2[aby]?\$\d{2}\$/.test(usuario.contrasena),
+      rondasBcrypt:
+        typeof usuario?.contrasena === "string"
+          ? Number.parseInt(usuario.contrasena.slice(4, 6), 10) || null
+          : null,
+    });
+
     if (!usuario || !usuario.activo) {
+      console.warn("[LOGIN DEBUG] Rechazo antes de comparar contraseña", {
+        correo,
+        existe: Boolean(usuario),
+        activo: usuario?.activo ?? null,
+      });
       return NextResponse.json(
         { error: "Credenciales inválidas" },
         {
@@ -58,6 +89,12 @@ export async function POST(request: Request) {
     );
 
     if (!passwordValida) {
+      console.warn("[LOGIN DEBUG] bcrypt.compare devolvió false", {
+        correo,
+        hashTieneFormatoBcrypt:
+          /^\$2[aby]?\$\d{2}\$/.test(usuario.contrasena),
+        hashLength: usuario.contrasena.length,
+      });
       return NextResponse.json(
         { error: "Credenciales inválidas" },
         {
@@ -66,6 +103,8 @@ export async function POST(request: Request) {
         },
       );
     }
+
+    console.info("[LOGIN DEBUG] bcrypt.compare devolvió true", { correo });
 
     // Validación defensiva: asegurar que el rol existe
     if (!usuario.rol || !usuario.rol.nombre) {
@@ -87,6 +126,8 @@ export async function POST(request: Request) {
         ultimoAcceso: new Date(),
       },
     });
+
+    const { signAccessToken, signRefreshToken } = await import("@/app/lib/jwt");
 
     const payload = {
       userId: usuario.id,

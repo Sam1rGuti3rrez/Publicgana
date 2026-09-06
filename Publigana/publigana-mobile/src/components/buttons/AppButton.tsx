@@ -5,7 +5,7 @@ import { colors } from "@/theme/colors";
 interface AppButtonProps {
   label: string;
   onPress: () => void;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "gold";
   fullWidth?: boolean;
   loading?: boolean;
   disabled?: boolean;
@@ -22,6 +22,7 @@ export default function AppButton({
   style,
 }: AppButtonProps) {
   const isPrimary = variant === "primary";
+  const isGold = variant === "gold";
 
   return (
     <Pressable
@@ -29,7 +30,7 @@ export default function AppButton({
       disabled={disabled || loading}
       style={({ pressed }) => [
         styles.button,
-        isPrimary ? styles.primary : styles.secondary,
+        isPrimary ? styles.primary : isGold ? styles.gold : styles.secondary,
         fullWidth && styles.fullWidth,
         (disabled || loading) && styles.disabled,
         pressed && !(disabled || loading) && styles.pressed,
@@ -39,7 +40,7 @@ export default function AppButton({
       {loading ? (
         <ActivityIndicator color={isPrimary ? colors.textPrimary : colors.muted} />
       ) : (
-        <Text style={[styles.label, isPrimary ? styles.labelPrimary : styles.labelSecondary]}>{label}</Text>
+        <Text style={[styles.label, isGold ? styles.labelGold : isPrimary ? styles.labelPrimary : styles.labelSecondary]}>{label}</Text>
       )}
     </Pressable>
   );
@@ -61,6 +62,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
   },
+  gold: {
+    backgroundColor: colors.gold,
+  },
   fullWidth: {
     width: "100%",
   },
@@ -76,6 +80,9 @@ const styles = StyleSheet.create({
   },
   labelPrimary: {
     color: colors.textPrimary,
+  },
+  labelGold: {
+    color: colors.background,
   },
   labelSecondary: {
     color: colors.muted,

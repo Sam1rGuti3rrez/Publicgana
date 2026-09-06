@@ -20,8 +20,9 @@ export interface UserResponse {
   apellidos?: string;
   correo: string;
   telefono?: string;
-  rol: "promotor" | "negocio";
+  rol: AuthenticatedUserRole;
 }
+export type AuthenticatedUserRole = "ADMIN" | "PROMOTOR" | "NEGOCIO";
 
 export interface LoginResponse {
   accessToken: string;

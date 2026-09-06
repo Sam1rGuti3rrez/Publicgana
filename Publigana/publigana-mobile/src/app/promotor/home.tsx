@@ -115,9 +115,9 @@ export default function Home() {
       </View>
 
       <EarningsCard
-        title="Ganancias acumuladas"
-        amount="$250.000 COP"
-        growthLabel="+12% este mes"
+        title="Saldo disponible"
+        amount="$250.000"
+        growthLabel="▲ +35.6% este mes"
       />
 
       <SectionHeader

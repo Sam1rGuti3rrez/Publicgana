@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, ScrollView, Pressable, Alert } from "react-nati
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/theme/colors";
 import { useAuth } from "@/context/AuthContext";
+import type { AuthenticatedUserRole } from "@/types/auth";
 
 interface MenuItem {
   icon: React.ComponentProps<typeof Ionicons>["name"];
@@ -11,7 +12,15 @@ interface MenuItem {
   onPress?: () => void;
 }
 
-const SOCIAL_NETWORKS: {
+interface RoleConfig {
+  label: string;
+  sectionTitle: string;
+  menuItems: MenuItem[];
+  stats: { value: string; label: string; color?: string }[];
+}
+
+// Temporary visual data until the API exposes profile metrics and connected networks.
+const MOCK_SOCIAL_NETWORKS: {
   icon: React.ComponentProps<typeof Ionicons>["name"];
   label: string;
   color: string;
@@ -22,29 +31,82 @@ const SOCIAL_NETWORKS: {
   { icon: "logo-tiktok",    label: "TikTok",     color: "#FFFFFF", followers: "8.7K" },
 ];
 
-export default function Profile() {
-  const { logout } = useAuth();
+const ROLE_CONFIG: Record<AuthenticatedUserRole, RoleConfig> = {
+  ADMIN: {
+    label: "Administrador",
+    sectionTitle: "ADMINISTRACIÓN DE LA PLATAFORMA",
+    stats: [
+      { value: "47", label: "Publicaciones" },
+      { value: "195K", label: "Alcance", color: colors.secondary },
+      { value: "4", label: "Redes sociales", color: colors.success },
+    ],
+    menuItems: [
+      { icon: "people-outline", label: "Gestión de usuarios", detail: "Usuarios y permisos" },
+      { icon: "megaphone-outline", label: "Gestión de promotores", detail: "Cuentas promotor" },
+      { icon: "business-outline", label: "Gestión de negocios", detail: "Cuentas negocio" },
+      { icon: "newspaper-outline", label: "Gestión de publicaciones", detail: "Revisión y moderación" },
+      { icon: "share-social-outline", label: "Gestión de redes sociales", detail: "Plataformas conectadas" },
+      { icon: "bar-chart-outline", label: "Estadísticas generales", detail: "Resumen de la plataforma" },
+      { icon: "settings-outline", label: "Configuración", detail: "Parámetros del sistema" },
+    ],
+  },
+  PROMOTOR: {
+    label: "Promotor",
+    sectionTitle: "REDES SOCIALES CONECTADAS",
+    stats: [
+      { value: "47", label: "Publicaciones" },
+      { value: "$195K", label: "Ganado", color: colors.secondary },
+      { value: "4", label: "Redes sociales", color: colors.success },
+    ],
+    menuItems: [
+      { icon: "person-outline", label: "Mi perfil", detail: "Nombre, foto, bio" },
+      { icon: "newspaper-outline", label: "Mis publicaciones", detail: "Contenido publicado" },
+      { icon: "megaphone-outline", label: "Mis campañas", detail: "Campañas activas" },
+      { icon: "share-social-outline", label: "Mis redes sociales", detail: "Cuentas conectadas" },
+      { icon: "wallet-outline", label: "Mis ganancias", detail: "Balance y retiros" },
+      { icon: "bar-chart-outline", label: "Mis estadísticas", detail: "Rendimiento" },
+      { icon: "settings-outline", label: "Configuración", detail: "Preferencias" },
+    ],
+  },
+  NEGOCIO: {
+    label: "Negocio",
+    sectionTitle: "REDES SOCIALES DEL NEGOCIO",
+    stats: [
+      { value: "47", label: "Publicaciones" },
+      { value: "3", label: "Campañas", color: colors.secondary },
+      { value: "4", label: "Redes sociales", color: colors.success },
+    ],
+    menuItems: [
+      { icon: "business-outline", label: "Perfil del negocio", detail: "Información del negocio" },
+      { icon: "newspaper-outline", label: "Publicaciones", detail: "Contenido de la marca" },
+      { icon: "megaphone-outline", label: "Campañas", detail: "Campañas del negocio" },
+      { icon: "share-social-outline", label: "Redes sociales", detail: "Cuentas conectadas" },
+      { icon: "bar-chart-outline", label: "Estadísticas", detail: "Rendimiento de campañas" },
+      { icon: "create-outline", label: "Gestión de contenido", detail: "Contenido y publicaciones" },
+      { icon: "settings-outline", label: "Configuración", detail: "Preferencias" },
+    ],
+  },
+};
 
+export default function Profile() {
+  const { logout, user } = useAuth();
+  const currentRole = user?.rol ?? "PROMOTOR";
+  const roleConfig = ROLE_CONFIG[currentRole];
+  const profileName = user
+    ? [user.nombres, user.apellidos].filter(Boolean).join(" ") || user.correo
+    : "Cargando...";
+  const profileInitial = profileName.charAt(0).toUpperCase();
   const menuItems: MenuItem[] = [
-    {
-      icon: "person-outline",
-      label: "Editar perfil",
-      detail: "Nombre, foto, bio",
-    },
+    ...roleConfig.menuItems,
     {
       icon: "notifications-outline",
       label: "Notificaciones",
-      detail: "Activas",
+      detail: "Preferencias de avisos",
     },
     {
       icon: "shield-checkmark-outline",
       label: "Seguridad",
-      detail: "Contraseña, 2FA",
-    },
-    {
-      icon: "card-outline",
-      label: "Métodos de pago",
-      detail: "Bancolombia ****4521",
+      detail: "Contraseña y acceso",
     },
     {
       icon: "help-circle-outline",
@@ -71,40 +133,33 @@ export default function Profile() {
       {/* Avatar y nombre */}
       <View style={styles.profileHeader}>
         <View style={styles.avatarContainer}>
-          <Text style={styles.avatarText}>B</Text>
+          <Text style={styles.avatarText}>{profileInitial}</Text>
         </View>
-        <Text style={styles.profileName}>Brian R.</Text>
+        <Text style={styles.profileName}>{profileName}</Text>
         <View style={styles.rankBadge}>
           <Ionicons name="star" size={12} color={colors.secondary} />
-          <Text style={styles.rankText}>Pro</Text>
+          <Text style={styles.rankText}>{roleConfig.label}</Text>
         </View>
-        <Text style={styles.profileEmail}>brian@example.com</Text>
+        <Text style={styles.profileEmail}>{user?.correo ?? "Restaurando sesión..."}</Text>
       </View>
 
       {/* Stats */}
       <View style={styles.statsRow}>
-        <View style={styles.statItem}>
-          <Text style={styles.statValue}>47</Text>
-          <Text style={styles.statLabel}>Publicaciones</Text>
-        </View>
-        <View style={styles.statDivider} />
-        <View style={styles.statItem}>
-          <Text style={[styles.statValue, { color: colors.secondary }]}>
-            $195K
-          </Text>
-          <Text style={styles.statLabel}>Ganado</Text>
-        </View>
-        <View style={styles.statDivider} />
-        <View style={styles.statItem}>
-          <Text style={[styles.statValue, { color: colors.success }]}>4</Text>
-          <Text style={styles.statLabel}>Redes sociales</Text>
-        </View>
+        {roleConfig.stats.map((stat, index) => (
+          <View key={stat.label} style={styles.statItem}>
+            <Text style={[styles.statValue, stat.color && { color: stat.color }]}>
+              {stat.value}
+            </Text>
+            <Text style={styles.statLabel}>{stat.label}</Text>
+            {index < roleConfig.stats.length - 1 && <View style={styles.statDivider} />}
+          </View>
+        ))}
       </View>
 
       {/* Redes sociales */}
-      <Text style={styles.sectionLabel}>REDES SOCIALES CONECTADAS</Text>
+      <Text style={styles.sectionLabel}>{roleConfig.sectionTitle}</Text>
       <View style={styles.networksCard}>
-        {SOCIAL_NETWORKS.map((net, i) => (
+        {MOCK_SOCIAL_NETWORKS.map((net, i) => (
           <View key={net.label}>
             <View style={styles.networkItem}>
               <View style={[styles.networkIcon, { backgroundColor: net.color + "22" }]}>
@@ -119,7 +174,7 @@ export default function Profile() {
                 <Text style={styles.connectedText}>Conectado</Text>
               </View>
             </View>
-            {i < SOCIAL_NETWORKS.length - 1 && <View style={styles.divider} />}
+            {i < MOCK_SOCIAL_NETWORKS.length - 1 && <View style={styles.divider} />}
           </View>
         ))}
       </View>
