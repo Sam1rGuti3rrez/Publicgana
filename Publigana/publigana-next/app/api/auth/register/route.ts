@@ -170,9 +170,12 @@ export async function POST(request: Request) {
     // BUSCAR ROL
     // =========================================================
 
-    const rolDb = await prisma.rol.findUnique({
+    const rolDb = await prisma.rol.findFirst({
       where: {
-        nombre: rol,
+        nombre: {
+          equals: rol,
+          mode: "insensitive",
+        },
       },
     });
 
