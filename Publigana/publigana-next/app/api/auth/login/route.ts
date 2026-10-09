@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import { prisma } from "@/app/lib/prisma";
+import { getPrisma } from "@/app/lib/prisma";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "http://localhost:8081",
@@ -42,6 +42,7 @@ export async function POST(request: Request) {
       );
     }
 
+    const prisma = getPrisma();
     const usuario = await prisma.usuario.findUnique({
       where: {
         correo,

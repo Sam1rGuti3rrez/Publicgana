@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/app/lib/prisma";
+import { getPrisma } from "@/app/lib/prisma";
 import { verifyToken, type TokenPayload } from "@/app/lib/jwt";
 
 const unauthorized = (error: string) =>
@@ -14,7 +14,7 @@ type AuthResult =
   | { response: NextResponse };
 
 async function findActiveUser(userId: string) {
-  return prisma.usuario.findUnique({
+  return getPrisma().usuario.findUnique({
     where: { id: userId },
     include: { rol: true },
   });

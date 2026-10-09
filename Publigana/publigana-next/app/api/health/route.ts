@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/app/lib/prisma";
+import { getPrisma } from "@/app/lib/prisma";
 
 export async function GET() {
   try {
+    const prisma = getPrisma();
     await prisma.rol.findFirst();
 
     return NextResponse.json({

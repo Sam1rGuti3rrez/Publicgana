@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import { prisma } from "@/app/lib/prisma";
+import { getPrisma } from "@/app/lib/prisma";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "http://localhost:8081",
@@ -148,6 +148,7 @@ export async function POST(request: Request) {
     // VALIDAR CORREO EXISTENTE
     // =========================================================
 
+    const prisma = getPrisma();
     const usuarioExistente = await prisma.usuario.findUnique({
       where: {
         correo,

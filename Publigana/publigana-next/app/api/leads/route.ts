@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/app/lib/prisma";
+import { getPrisma } from "@/app/lib/prisma";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -87,6 +87,7 @@ export async function POST(request: Request) {
     }
 
     // Verificar si el correo ya existe
+    const prisma = getPrisma();
     const leadExistente = await prisma.leads.findUnique({
       where: {
         correo,

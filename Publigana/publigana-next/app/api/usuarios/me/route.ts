@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/app/lib/prisma";
+import { getPrisma } from "@/app/lib/prisma";
 import { verifyToken } from "@/app/lib/jwt";
 
 export async function GET(request: Request) {
@@ -32,6 +32,7 @@ export async function GET(request: Request) {
       );
     }
 
+    const prisma = getPrisma();
     const usuario = await prisma.usuario.findUnique({
       where: { id: payload.userId },
       include: { rol: true },
