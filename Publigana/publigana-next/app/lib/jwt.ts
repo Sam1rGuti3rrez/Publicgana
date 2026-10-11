@@ -22,14 +22,14 @@ export function signRefreshToken(payload: TokenPayload) {
 }
 
 export function verifyToken(token: string): TokenPayload {
-  const decoded = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
+  const decoded = jwt.verify(token, JWT_SECRET);
 
   if (!decoded || typeof decoded === "string") {
     throw new Error("Token inválido");
   }
 
-  const userId = (decoded as any).userId;
-  const rol = (decoded as any).rol;
+  const userId = decoded.userId;
+  const rol = decoded.rol;
 
   // Validación defensiva: ambos campos son obligatorios
   if (!userId || !rol) {
@@ -40,6 +40,16 @@ export function verifyToken(token: string): TokenPayload {
     userId: String(userId),
     rol: String(rol),
   };
+}
+
+export function getTokenExpiration(token: string): Date {
+  const decoded = jwt.verify(token, JWT_SECRET);
+
+  if (typeof decoded === "string" || typeof decoded.exp !== "number") {
+    throw new Error("Token sin fecha de expiración válida");
+  }
+
+  return new Date(decoded.exp * 1000);
 }
 
 export default jwt;

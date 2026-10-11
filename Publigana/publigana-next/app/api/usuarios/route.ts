@@ -1,8 +1,15 @@
 import { NextResponse } from "next/server";
+import { requireRole } from "@/app/lib/auth";
 import { getPrisma } from "@/app/lib/prisma";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const auth = await requireRole(request, "ADMIN");
+
+    if ("response" in auth) {
+      return auth.response;
+    }
+
     const prisma = getPrisma();
     const usuarios = await prisma.usuario.findMany({
       select: {
@@ -27,7 +34,9 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json(usuarios);
+    return NextResponse.json(usuarios, {
+      headers: { "Cache-Control": "no-store" },
+    });
   } catch (error) {
     console.error("Error obteniendo usuarios:", error);
 

@@ -1,6 +1,13 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { getPrisma } from "@/app/lib/prisma";
+import { getTokenExpiration } from "@/app/lib/jwt";
+import {
+  ADMIN_SESSION_COOKIE,
+  getAdminSessionCookieOptions,
+  isTrustedWebOrigin,
+  shouldIssueAdminSessionCookie,
+} from "@/app/lib/security";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "http://localhost:8081",
@@ -145,7 +152,7 @@ export async function POST(request: Request) {
       console.error("No se pudo generar refreshToken:", e);
     }
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         accessToken,
         refreshToken,
@@ -157,10 +164,26 @@ export async function POST(request: Request) {
           rol: usuario.rol.nombre,
         },
       },
-      {
-        headers: corsHeaders,
-      },
+      { headers: corsHeaders },
     );
+
+    if (isTrustedWebOrigin(request)) {
+      if (shouldIssueAdminSessionCookie(usuario.rol.nombre, request)) {
+        response.cookies.set(
+          ADMIN_SESSION_COOKIE,
+          accessToken,
+          getAdminSessionCookieOptions(getTokenExpiration(accessToken)),
+        );
+      } else {
+        response.cookies.set(
+          ADMIN_SESSION_COOKIE,
+          "",
+          getAdminSessionCookieOptions(new Date(0)),
+        );
+      }
+    }
+
+    return response;
   } catch (error) {
     console.error("Error en login:", error);
 

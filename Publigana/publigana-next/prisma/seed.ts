@@ -15,56 +15,27 @@ const adapter = new PrismaPg({
 
 const prisma = new PrismaClient({ adapter });
 
-async function main() {
-  console.log("🌱 Iniciando seed de PubliGana...");
+const adminEmail = "admin@publigana.com";
+const adminPassword = "Admin123*";
 
-  const roles = [
-    {
+async function main() {
+  const adminRole = await prisma.rol.upsert({
+    where: { nombre: "ADMIN" },
+    update: {
+      descripcion: "Administrador del sistema",
+      updatedAt: new Date(),
+    },
+    create: {
       nombre: "ADMIN",
       descripcion: "Administrador del sistema",
     },
-    {
-      nombre: "promotor",
-      descripcion:
-        "Usuario que participa en campañas compartiendo contenido",
-    },
-    {
-      nombre: "negocio",
-      descripcion: "Usuario que crea y gestiona campañas",
-    },
-  ];
-
-  for (const role of roles) {
-    await prisma.rol.upsert({
-      where: {
-        nombre: role.nombre,
-      },
-      update: {
-        descripcion: role.descripcion,
-        updatedAt: new Date(),
-      },
-      create: {
-        nombre: role.nombre,
-        descripcion: role.descripcion,
-      },
-    });
-  }
-
-  const adminRole = await prisma.rol.findUnique({
-    where: {
-      nombre: "ADMIN",
-    },
   });
 
-  if (!adminRole) {
-    throw new Error("No fue posible obtener el rol ADMIN");
-  }
+  const passwordHash = await bcrypt.hash(adminPassword, 10);
 
-  const passwordHash = await bcrypt.hash("Admin123*", 10);
-
-  await prisma.usuario.upsert({
+  const admin = await prisma.usuario.upsert({
     where: {
-      correo: "admin@publigana.com",
+      correo: adminEmail,
     },
     update: {
       nombres: "Administrador",
@@ -78,24 +49,28 @@ async function main() {
     create: {
       nombres: "Administrador",
       apellidos: "Publigana",
-      correo: "admin@publigana.com",
+      correo: adminEmail,
       telefono: "3000000000",
       contrasena: passwordHash,
       activo: true,
       rolId: adminRole.idRol,
     },
+    include: { rol: true },
   });
 
-  console.log("✅ Roles creados/verificados.");
-  console.log("✅ Usuario administrador creado/verificado.");
-  console.log("📧 admin@publigana.com");
-  console.log("🌱 Seed completado.");
+  const passwordMatches = await bcrypt.compare(adminPassword, admin.contrasena);
+
+  if (!admin.activo || admin.rol.nombre !== "ADMIN" || !passwordMatches) {
+    throw new Error("La verificación de la cuenta ADMIN falló");
+  }
+
+  console.info("La cuenta ADMIN de desarrollo está configurada y verificada.");
 }
 
 main()
-  .catch((error) => {
-    console.error("❌ Error ejecutando seed:", error);
-    process.exit(1);
+  .catch(() => {
+    console.error("No se pudo completar o verificar el seed de ADMIN.");
+    process.exitCode = 1;
   })
   .finally(async () => {
     await prisma.$disconnect();

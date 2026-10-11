@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { getPrisma } from "@/app/lib/prisma";
 import { verifyToken, type TokenPayload } from "@/app/lib/jwt";
+import {
+  getRequestToken,
+  hasRequiredRole,
+  isTrustedWebOrigin,
+} from "@/app/lib/security";
 
 const unauthorized = (error: string) =>
   NextResponse.json({ error }, { status: 401 });
@@ -23,9 +28,7 @@ async function findActiveUser(userId: string) {
 export async function getAuthenticatedUser(
   request: Request,
 ): Promise<AuthResult> {
-  const authorization = request.headers.get("authorization") ?? "";
-  const match = authorization.match(/^Bearer\s+(.+)$/i);
-  const token = match?.[1]?.trim();
+  const token = getRequestToken(request);
 
   if (!token) {
     return { response: unauthorized("No autorizado") };
@@ -61,7 +64,7 @@ export async function requireRole(
     return result;
   }
 
-  if (result.usuario.rol.nombre.toUpperCase() !== requiredRole.toUpperCase()) {
+  if (!hasRequiredRole(result.usuario.rol.nombre, requiredRole)) {
     return {
       response: NextResponse.json(
         { error: "No tienes permisos para realizar esta acción" },
@@ -71,4 +74,19 @@ export async function requireRole(
   }
 
   return result;
+}
+
+export async function requireAdminMutation(
+  request: Request,
+): Promise<AuthResult> {
+  if (!isTrustedWebOrigin(request)) {
+    return {
+      response: NextResponse.json(
+        { error: "Origen no permitido" },
+        { status: 403 },
+      ),
+    };
+  }
+
+  return requireRole(request, "ADMIN");
 }
