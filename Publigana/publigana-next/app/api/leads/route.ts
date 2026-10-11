@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
+import { Prisma } from "@/app/generated/prisma/client";
 import { getPrisma } from "@/app/lib/prisma";
+
+const duplicateEmailMessage =
+  "Este correo electrónico ya está registrado. Usa otro correo.";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -96,7 +100,7 @@ export async function POST(request: Request) {
 
     if (leadExistente) {
       return NextResponse.json(
-        { message: "El correo ya existe" },
+        { message: duplicateEmailMessage },
         {
           status: 400,
           headers: corsHeaders,
@@ -129,6 +133,22 @@ export async function POST(request: Request) {
       },
     );
   } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002" &&
+      (error.meta?.target === "correo" ||
+        (Array.isArray(error.meta?.target) &&
+          error.meta.target.includes("correo")))
+    ) {
+      return NextResponse.json(
+        { message: duplicateEmailMessage },
+        {
+          status: 409,
+          headers: corsHeaders,
+        },
+      );
+    }
+
     console.error("Error en POST /api/leads:", error);
 
     return NextResponse.json(
