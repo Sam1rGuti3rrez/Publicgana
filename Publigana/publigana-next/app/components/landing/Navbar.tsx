@@ -44,7 +44,7 @@ export default function Navbar() {
 
   return (
     <header ref={menuContainerRef} className="sticky top-0 z-50 border-b border-[rgba(246,241,231,0.14)] bg-[rgba(31,17,71,0.85)] backdrop-blur-[10px]">
-      <div className="flex items-center justify-between px-[20px] py-[12px] sm:px-[24px] md:py-[14px]">
+      <div className="mx-auto flex max-w-[1200px] items-center justify-between px-[16px] py-[10px] sm:px-[24px] sm:py-[12px] md:py-[14px]">
         <a href="#inicio" className="flex items-center rounded-[16px] p-[4px] sm:p-[6px]" aria-label="Ir al inicio">
           <img
             src="/images/logo.jpg"
@@ -79,7 +79,7 @@ export default function Navbar() {
           aria-expanded={isMenuOpen}
           aria-controls="mobile-nav-menu"
           aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
-          className="hidden border-none bg-transparent px-[15px] py-[10px] text-[1.5rem] text-[#F6F1E7] min-[0px]:max-[880px]:block min-[0px]:max-[880px]:-mx-[15px] min-[0px]:max-[880px]:-my-[10px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F5A623]"
+          className="hidden h-[44px] w-[44px] items-center justify-center rounded-[10px] border-none bg-transparent text-[1.5rem] text-[#F6F1E7] min-[0px]:max-[880px]:flex focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F5A623]"
         >
           <span aria-hidden="true">☰</span>
         </button>
@@ -92,14 +92,14 @@ export default function Navbar() {
           isMenuOpen ? "visible max-h-[320px] opacity-100" : "invisible pointer-events-none max-h-0 opacity-0"
         }`}
       >
-        <nav aria-label="Navegación principal móvil" className="flex flex-col px-[24px] py-[16px]">
+        <nav aria-label="Navegación principal móvil" className="flex flex-col px-[clamp(16px,5vw,24px)] py-[12px]">
           {navItems.map((item) => (
             <a
               key={`mobile-${item.href}`}
               href={item.href}
               onClick={closeMenu}
               tabIndex={isMenuOpen ? 0 : -1}
-              className="py-[10px] text-[0.95rem] font-[500] text-inherit opacity-80 transition-opacity duration-200 hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F5A623]"
+              className="flex min-h-[44px] items-center py-[10px] text-[0.95rem] font-[500] text-inherit opacity-80 transition-opacity duration-200 hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F5A623]"
             >
               {item.label}
             </a>
@@ -109,7 +109,7 @@ export default function Navbar() {
             href="#registro"
             onClick={closeMenu}
             tabIndex={isMenuOpen ? 0 : -1}
-            className="mt-[8px] inline-flex w-fit rounded-[100px] bg-[#F5A623] px-[20px] py-[10px] text-[0.9rem] font-[700] text-[#0F0626] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F5A623]"
+            className="mt-[8px] inline-flex min-h-[44px] w-fit items-center rounded-[100px] bg-[#F5A623] px-[20px] py-[10px] text-[0.9rem] font-[700] text-[#0F0626] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F5A623]"
           >
             Unirme
           </a>

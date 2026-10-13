@@ -313,10 +313,10 @@ export default function Contact() {
   return (
     <section
       id="registro"
-      className="px-[16px] py-[clamp(56px,8vw,96px)] sm:px-[24px]"
+      className="px-[16px] py-[clamp(44px,8vw,96px)] sm:px-[24px]"
       aria-label="Registro de interés"
     >
-      <div className="mx-auto max-w-[1200px] overflow-hidden rounded-[28px] border border-[rgba(201,192,222,0.14)] bg-[radial-gradient(ellipse_at_top_left,rgba(59,130,246,0.11),transparent_38%),linear-gradient(135deg,#1C0D42_0%,#160932_58%,#0F0626_100%)] px-[clamp(20px,5vw,64px)] py-[clamp(32px,6vw,68px)] shadow-[0_28px_80px_-38px_rgba(0,0,0,0.8)]">
+      <div className="mx-auto max-w-[1200px] overflow-hidden rounded-[22px] border border-[rgba(201,192,222,0.14)] bg-[radial-gradient(ellipse_at_top_left,rgba(59,130,246,0.11),transparent_38%),linear-gradient(135deg,#1C0D42_0%,#160932_58%,#0F0626_100%)] px-[clamp(18px,5vw,64px)] py-[clamp(28px,6vw,68px)] shadow-[0_28px_80px_-38px_rgba(0,0,0,0.8)] sm:rounded-[28px]">
         <div className="mx-auto max-w-[1080px]">
           <div className="grid grid-cols-2 items-start gap-[clamp(28px,5vw,64px)] max-[880px]:grid-cols-1">
             <div className="form-copy max-w-[480px] pt-[8px] max-[880px]:max-w-[680px]">

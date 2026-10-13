@@ -1,17 +1,12 @@
 
 export default function DemoPage() {
   return (
-    <main style={{ width: "100%", height: "100vh" }}>
+    <main className="h-[100dvh] min-h-[100svh] w-full">
       <iframe
         src="/simulador/app-demo.html"
         title="Demo Publigana"
-        style={{
-          width: "100%",
-          height: "100%",
-          border: "none",
-        }}
+        className="block h-full w-full border-0"
       />
     </main>
   );
 }
-

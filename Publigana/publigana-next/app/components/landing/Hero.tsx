@@ -6,28 +6,28 @@ const secondaryButtonClassName =
 
 export default function Hero() {
   return (
-    <section className="relative px-0 pb-0 pt-[48px]" id="inicio">
-      <div className="mx-auto max-w-[1120px] px-[20px] sm:px-[24px]">
-        <div className="mb-[52px] flex flex-col gap-[34px] lg:gap-[40px]">
+    <section className="relative px-0 pb-0 pt-[32px] sm:pt-[48px]" id="inicio">
+      <div className="mx-auto max-w-[1120px] px-[16px] sm:px-[24px]">
+        <div className="mb-[36px] flex flex-col gap-[28px] sm:mb-[52px] sm:gap-[34px] lg:gap-[40px]">
           <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
             <span className="mb-[24px] inline-flex items-center gap-[8px] rounded-[100px] border border-[rgba(212,165,55,0.35)] bg-[rgba(212,165,55,0.08)] px-[14px] py-[7px] text-[0.8rem] font-[700] uppercase tracking-[0.08em] text-[#FFD166]">
               ● Próximamente en Colombia
             </span>
 
-            <h1 className="mb-[22px] max-w-[820px] font-[Fraunces] text-[clamp(2.2rem,4.8vw,3.6rem)] leading-[1.06] tracking-[-0.01em] text-[#F6F1E7]">
+            <h1 className="mb-[18px] max-w-[820px] font-[Fraunces] text-[clamp(2rem,8.5vw,3.6rem)] leading-[1.06] tracking-[-0.01em] text-[#F6F1E7] sm:mb-[22px] sm:text-[clamp(2.2rem,4.8vw,3.6rem)]">
               Comparte publicidad. <em className="text-[#F5A623] not-italic italic">Gana dinero real.</em>
             </h1>
 
-            <p className="mb-[34px] max-w-[620px] text-[1.05rem] leading-[1.6] text-[#C9C0DE] sm:text-[1.12rem] lg:text-[1.15rem]">
+            <p className="mb-[26px] max-w-[620px] text-[clamp(0.98rem,3.8vw,1.12rem)] leading-[1.65] text-[#C9C0DE] sm:mb-[34px] sm:text-[1.12rem] lg:text-[1.15rem]">
               PubliGana conecta negocios locales con personas que comparten su publicidad en WhatsApp, Instagram y Facebook — y reciben una parte de lo que el negocio paga por cada campaña.
             </p>
 
-            <div className="flex flex-wrap justify-center gap-[14px] lg:justify-start">
-              <a href="#registro" className={primaryButtonClassName}>
+            <div className="flex w-full flex-col justify-center gap-[12px] sm:w-auto sm:flex-row sm:flex-wrap sm:gap-[14px] lg:justify-start">
+              <a href="#registro" className={`${primaryButtonClassName} justify-center text-center max-[520px]:w-full`}>
                 Quiero ganar compartiendo
               </a>
 
-              <a href="/demo" rel="noopener" className={secondaryButtonClassName}>
+              <a href="/demo" rel="noopener" className={`${secondaryButtonClassName} justify-center text-center max-[520px]:w-full`}>
                 Ver demo de la app
               </a>
             </div>
@@ -45,4 +45,3 @@ export default function Hero() {
     </section>
   );
 }
-

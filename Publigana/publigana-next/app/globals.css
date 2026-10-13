@@ -12,8 +12,9 @@ html {
 
 body {
   margin: 0;
-  min-width: 320px;
+  min-width: 0;
   min-height: 100vh;
+  min-height: 100svh;
   font-family: var(--font-sans);
   background: #0f0626;
   color: #f6f1e7;
@@ -26,6 +27,7 @@ body {
 
 main {
   min-height: 100vh;
+  min-height: 100svh;
 }
 
 a {
@@ -46,4 +48,10 @@ button {
 ::selection {
   background: rgba(245, 166, 35, 0.28);
   color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

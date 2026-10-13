@@ -17,9 +17,9 @@ const benefitsUsers = [
 
 export default function Benefits() {
   return (
-    <section className="px-0 py-[84px]" aria-label="Beneficios para negocios y usuarios">
-      <div className="mx-auto grid max-w-[1120px] grid-cols-2 gap-[24px] px-[24px] max-[880px]:grid-cols-1">
-        <article id="negocios" className="rounded-[20px] border border-[rgba(246,241,231,0.14)] bg-[#1C0D42] p-[36px]" aria-label="Para negocios">
+    <section className="px-0 py-[52px] sm:py-[84px]" aria-label="Beneficios para negocios y usuarios">
+      <div className="mx-auto grid max-w-[1120px] grid-cols-1 gap-[16px] px-[16px] min-[881px]:grid-cols-2 min-[881px]:gap-[24px] sm:px-[24px]">
+        <article id="negocios" className="min-w-0 rounded-[20px] border border-[rgba(246,241,231,0.14)] bg-[#1C0D42] p-[clamp(20px,5vw,36px)]" aria-label="Para negocios">
           <span className="mb-[12px] block text-[0.78rem] font-[700] uppercase tracking-[0.06em] text-[#FFD166]">
             Para negocios
           </span>
@@ -36,12 +36,12 @@ export default function Benefits() {
             ))}
           </ul>
 
-          <a href="#registro" className={primaryButtonClassName}>
+          <a href="#registro" className={`${primaryButtonClassName} max-[520px]:w-full max-[520px]:justify-center max-[520px]:text-center`}>
             Publicar mi primera campaña
           </a>
         </article>
 
-        <article id="usuarios" className="rounded-[20px] border border-[rgba(246,241,231,0.14)] bg-[#1C0D42] p-[36px]" aria-label="Para usuarios">
+        <article id="usuarios" className="min-w-0 rounded-[20px] border border-[rgba(246,241,231,0.14)] bg-[#1C0D42] p-[clamp(20px,5vw,36px)]" aria-label="Para usuarios">
           <span className="mb-[12px] block text-[0.78rem] font-[700] uppercase tracking-[0.06em] text-[#FFD166]">
             Para ti
           </span>
@@ -58,7 +58,7 @@ export default function Benefits() {
             ))}
           </ul>
 
-          <a href="#registro" className={primaryButtonClassName}>
+          <a href="#registro" className={`${primaryButtonClassName} max-[520px]:w-full max-[520px]:justify-center max-[520px]:text-center`}>
             Registrar mi interés
           </a>
         </article>

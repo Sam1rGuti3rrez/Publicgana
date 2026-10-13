@@ -10,6 +10,7 @@
   --docs-gold-soft: #fff4d7;
   display: flex;
   min-height: 100vh;
+  min-height: 100svh;
   background: var(--docs-paper);
   color: var(--docs-ink);
   font-family: var(--font-sans), sans-serif;
@@ -40,7 +41,8 @@
   flex-direction: column;
   width: 282px;
   height: 100vh;
-  min-height: 620px;
+  height: 100dvh;
+  min-height: 0;
   padding: 25px 18px 16px;
   color: #f8f5fb;
   background:
@@ -850,7 +852,8 @@
   right: 0;
   left: 0;
   overflow: hidden;
-  min-width: 270px;
+  width: max(100%, 270px);
+  max-width: calc(100vw - 28px);
   border: 1px solid #e4dce9;
   border-radius: 8px;
   color: #302639;
@@ -1052,8 +1055,8 @@
 
   .mobileClose {
     display: grid;
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
     place-items: center;
     border: 1px solid rgba(255, 255, 255, 0.13);
     border-radius: 6px;
@@ -1068,8 +1071,8 @@
 
   .mobileMenu {
     display: grid;
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
     flex: 0 0 auto;
     place-items: center;
     border: 1px solid #e8e1ec;
@@ -1231,7 +1234,8 @@
   .searchResults {
     right: auto;
     left: 0;
-    width: min(360px, calc(100vw - 28px));
+    width: 100%;
+    max-width: 100%;
   }
 }
 

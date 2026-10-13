@@ -1,8 +1,8 @@
 export default function HowItWorks() {
   return (
-    <section id="como-funciona" className="px-0 py-[84px]" aria-label="Cómo funciona PubliGana">
-      <div className="mx-auto max-w-[1120px] px-[24px]">
-        <div className="mb-[48px] max-w-[600px]">
+    <section id="como-funciona" className="px-0 py-[52px] sm:py-[84px]" aria-label="Cómo funciona PubliGana">
+      <div className="mx-auto max-w-[1120px] px-[16px] sm:px-[24px]">
+        <div className="mb-[32px] max-w-[600px] sm:mb-[48px]">
           <span className="mb-[16px] inline-flex items-center gap-[8px] rounded-[100px] border border-[rgba(212,165,55,0.35)] bg-[rgba(212,165,55,0.08)] px-[14px] py-[7px] text-[0.8rem] font-[700] uppercase tracking-[0.08em] text-[#FFD166]">
             Cómo funciona
           </span>
@@ -16,7 +16,7 @@ export default function HowItWorks() {
           </p>
         </div>
 
-        <div className="grid grid-cols-4 gap-[24px] max-[880px]:grid-cols-2 max-[520px]:grid-cols-1">
+        <div className="grid grid-cols-1 gap-[24px] min-[521px]:grid-cols-2 min-[881px]:grid-cols-4">
           {[
             ["01", "El negocio publica", "Define el contenido de su campaña y cuánto paga por participación."],
             ["02", "Tú compartes", "Eliges la campaña y la compartes en tu WhatsApp, Instagram o Facebook."],
