@@ -1,86 +1,94 @@
-# API
+# API web
 
 ## Alcance
 
-Las rutas son Route Handlers de `Publigana/publigana-next/app/api`. Los contratos siguientes se extrajeron de las implementaciones actuales, no de una especificación OpenAPI. No se encontraron pruebas automatizadas de estos endpoints. Salvo donde se indica, los handlers no validan un esquema JSON completo; un JSON malformado puede acabar en respuesta 500.
+Las rutas se implementan como Route Handlers en `Publigana/publigana-next/app/api`. Los contratos siguientes describen el código actual; no equivalen a una especificación OpenAPI. Las validaciones de cada ruta son manuales.
 
-| Método | Ruta | Autenticación/autorización | Operación principal |
+Las rutas que requieren Bearer esperan un JWT en el header `Authorization`, con esquema `Bearer`. Algunas rutas administrativas aceptan también la cookie web `publigana_admin_session`.
+
+| Método | Ruta | Acceso | Propósito |
 | --- | --- | --- | --- |
-| `POST` | `/api/auth/register` | Pública | Valida datos, busca rol, comprueba duplicados y crea usuario; para `negocio` crea también empresa en una transacción. |
-| `OPTIONS` | `/api/auth/register` | Pública | Preflight CORS. |
-| `POST` | `/api/auth/login` | Pública | Busca usuario, compara bcrypt, actualiza último acceso y emite access/refresh tokens. |
-| `OPTIONS` | `/api/auth/login` | Pública | Preflight CORS. |
-| `GET` | `/api/usuarios/me` | Bearer JWT; verifica usuario activo, sin exigir rol específico. | Devuelve perfil de la cuenta autenticada. |
-| `GET` | `/api/usuarios` | No implementada | Devuelve la lista de usuarios con campos personales seleccionados. |
-| `GET` | `/api/health` | No implementada | Consulta un rol y reporta estado de conexión. |
-| `POST` | `/api/leads` | No implementada | Valida y crea lead. |
-| `OPTIONS` | `/api/leads` | Pública | Preflight CORS. |
-| `GET` | `/api/test/admin` | Bearer JWT y rol `ADMIN` | Comprueba acceso administrativo y devuelve confirmación. |
+| `POST`, `OPTIONS` | `/api/auth/register` | Público; OPTIONS es preflight | Crear promotor o usuario negocio con residencia declarada en Colombia. |
+| `POST`, `OPTIONS` | `/api/auth/login` | Público; OPTIONS es preflight | Autenticar con correo/contraseña y emitir JWT. |
+| `GET` | `/api/auth/session` | ADMIN, Bearer o cookie de sesión | Devolver el perfil administrativo autenticado. |
+| `POST` | `/api/auth/logout` | Origen web confiable | Expirar la cookie administrativa. |
+| `GET` | `/api/usuarios/me` | Bearer requerido | Devolver el perfil de la cuenta activa; no requiere rol concreto. |
+| `GET` | `/api/usuarios` | ADMIN, Bearer o cookie | Listar campos seleccionados de usuarios. |
+| `GET` | `/api/health` | Público | Verificar consulta de base de datos. |
+| `POST`, `OPTIONS` | `/api/leads` | Público; OPTIONS es preflight | Validar y registrar un lead. |
+| `GET` | `/api/municipios` | Público | Entregar departamentos y municipios del catálogo local. |
+| `GET` | `/api/test/admin` | ADMIN, Bearer o cookie | Comprobar autorización ADMIN. |
 
-## Contratos
+## Registro
 
 ### `POST /api/auth/register`
 
-Entrada JSON: `rol`, `correo`, `contrasena`, `telefono`; si `rol` es `promotor`, exige `nombres` y `apellidos`; si es `negocio`, exige `nombreEmpresa` y `nit`. El handler convierte `rol` a minúsculas y permite solo esos dos valores. Requiere contraseña de al menos 8 caracteres. No se documenta validación por formato de teléfono ni política adicional de contraseña.
+Recibe JSON con `rol`, `correo`, `contrasena`, `telefono`, `countryCode`, `residencyConfirmed`, `departmentCode`, `municipalityCode` y opcional `locality`. Para `promotor` requiere `nombres` y `apellidos`; para `negocio`, `nombreEmpresa` y `nit`.
 
-| Resultado | Estado | Cuerpo observado |
-| --- | --- | --- |
-| Creado | 201 | `{ message, usuario: { id, nombres, apellidos, correo, telefono, rol } }` |
-| Falta campo / rol no permitido / datos de rol | 400 | `{ error }` |
-| Correo o NIT duplicado | 409 | `{ error }` |
-| Rol no configurado o fallo no controlado | 500 | `{ error }` |
+Valida en servidor: país `CO`, confirmación booleana de residencia, municipio de cinco dígitos perteneciente al departamento del catálogo, localidad textual de hasta 150 caracteres si se informa, rol admitido, campos requeridos y contraseña de mínimo 8 caracteres. La verificación de municipio no usa IP ni demuestra nacionalidad. La contraseña se hashea con bcrypt. La creación del usuario y de la empresa (si aplica) usa una transacción.
 
-El rol debe existir previamente en `Rol`. Para `negocio`, la creación de usuario y empresa ocurre dentro de `$transaction`.
+| Estado | Caso |
+| --- | --- |
+| 201 | Usuario registrado; el JSON incluye mensaje y campos seleccionados del usuario. |
+| 400 | JSON válido con cuerpo no objeto, declaración/ubicación ausente o inválida, campos faltantes, rol no permitido o contraseña corta. |
+| 409 | Correo o NIT ya registrado. |
+| 500 | JSON malformado, rol no configurado o fallo interno. |
 
 ### `POST /api/auth/login`
 
-Entrada JSON: `correo` y `contrasena`.
+Entrada: `{ "correo": "...", "contrasena": "..." }`.
 
-| Resultado | Estado | Cuerpo observado |
-| --- | --- | --- |
-| Autenticado | 200 | `{ accessToken, refreshToken, usuario: { id, nombres, apellidos, correo, rol } }` |
-| Faltan credenciales | 400 | `{ error }` |
-| Credenciales incorrectas o usuario inactivo | 401 | `{ error: "Credenciales inválidas" }` |
-| Rol faltante o error de operación | 500 | `{ error }` |
+- `200`: `accessToken`, `refreshToken` cuando pudo generarse y perfil resumido.
+- `400`: faltan credenciales.
+- `401`: usuario inactivo/inexistente o credenciales inválidas.
+- `500`: error interno o cuenta sin rol válido.
 
-El access token se firma con expiración de una hora y el refresh token con siete días. No existe ruta de refresh en el inventario actual. Login añade CORS para `http://localhost:8081`, métodos `POST, OPTIONS` y headers `Content-Type, Authorization`.
+El access token vence en una hora y el refresh token en siete días. No existe ruta para renovar el token. Desde un `WEB_ORIGIN` confiable, un usuario ADMIN recibe además la cookie de sesión web. El handler expone CORS para el origen fijo `http://localhost:8081` y responde a OPTIONS.
 
-### `GET /api/usuarios/me`
+### `GET /api/auth/session` y `POST /api/auth/logout`
 
-Requiere `Authorization: Bearer <token>`. Verifica firma y claims `userId`/`rol`, consulta al usuario y exige que esté activo. No compara el rol con una política específica.
+`GET /api/auth/session` requiere ADMIN y devuelve `id`, nombres, apellidos, correo y rol (200); errores de autenticación/autorización dan 401/403.
 
-| Estado | Condición observada |
-| --- | --- |
-| 200 | Devuelve `id`, `nombres`, `apellidos`, `correo`, `telefono` y `rol`. |
-| 401 | Falta token, token inválido/incompleto o usuario inexistente/inactivo. |
-| 500 | Error de base de datos u otro fallo interno. |
+`POST /api/auth/logout` exige origen igual al configurado como `WEB_ORIGIN` (403 si no es confiable), expira la cookie y devuelve `{ "ok": true }`. No revoca JWT ni refresh tokens.
 
-### `GET /api/usuarios`
+## Leads y catálogo
 
-No comprueba token ni rol. Devuelve una lista ordenada por fecha de creación con `id`, nombres, apellidos, correo, teléfono, activo, último acceso, rol (id/nombre) y fechas. Devuelve 200 con el array o 500 con `{ error }`. La falta de autenticación sobre datos personales es un riesgo que debe revisarse antes de producción.
+### `GET /api/municipios`
 
-### `GET /api/health`
-
-Sin autenticación. Ejecuta `findFirst` sobre `Rol` y responde `{ ok: true, database: "connected" }` con 200 o `{ ok: false, database: "disconnected" }` con 500. El error detallado solo se registra en el servidor.
+Devuelve `{ departments, municipalities }` desde el catálogo JSON versionado localmente, con respuesta `Cache-Control: no-store`. Cada municipio incluye código, nombre, código y nombre del departamento. No consulta Neon.
 
 ### `POST /api/leads`
 
-Entrada JSON: `{ nombre, correo, ciudad, tipoUsuario }`. Normaliza el correo a minúsculas; valida presencia, formato básico de correo y `tipoUsuario` igual a `usuario` o `negocio`. Busca correo duplicado y crea en `leads`.
+Entrada JSON: `{ nombre, correo, ciudad, tipoUsuario, countryCode, residencyConfirmed, departmentCode, municipalityCode, locality? }`.
 
-| Resultado | Estado | Cuerpo observado |
-| --- | --- | --- |
-| Creado | 201 | `{ id, nombre, correo, ciudad, tipoUsuario }` |
-| Campo requerido inválido, formato de correo inválido o duplicado | 400 | `{ message }` |
-| Error de base de datos u otro fallo | 500 | `{ message: "Error interno del servidor" }` |
+`tipoUsuario` admite `usuario` o `negocio`. El servidor exige `countryCode: "CO"`, `residencyConfirmed: true`, departamento/municipio válidos y concordantes. Si `ciudad` está incluida, debe coincidir con el nombre oficial normalizado. `locality` es opcional y se limita a 150 caracteres. El correo se normaliza a minúsculas. La fila guarda `country_code`, `municipality_code` y `locality`; la respuesta de éxito no incluye esos tres campos.
 
-`POST`/`OPTIONS` envían `Access-Control-Allow-Origin: *`, métodos `POST, OPTIONS` y header permitido `Content-Type`. La ruta no requiere autenticación.
+| Estado | Caso |
+| --- | --- |
+| 201 | Devuelve `id`, `nombre`, `correo`, ciudad canónica y `tipoUsuario`. |
+| 400 | JSON inválido, declaración o ubicación no válida, datos requeridos incorrectos o correo duplicado detectado antes de crear. |
+| 409 | Carrera con restricción única de correo detectada por Prisma. |
+| 500 | Fallo interno; el mensaje cliente es genérico. |
 
-### `GET /api/test/admin`
+La ruta expone CORS `*` para POST/OPTIONS. No requiere token. Las pruebas disponibles para este flujo están en `scripts/leads.test.ts`.
 
-Usa `requireRole(request, "ADMIN")`: exige Bearer JWT válido, usuario activo y que el rol actual de la base coincida con `ADMIN` sin distinguir mayúsculas. Devuelve 200 `{ ok, message, rol }`, 401 para identidad no válida y 403 para rol insuficiente. Errores de acceso a base no se capturan en este handler.
+## Perfil y usuarios
 
-## CORS y errores
+### `GET /api/usuarios/me`
 
-CORS solo está configurado explícitamente en leads, login y register. No se encontró una política CORS global. No asumas que el resto de rutas es accesible cross-origin.
+Exige Bearer JWT. Consulta el usuario y rol actuales y exige que la cuenta esté activa. Devuelve `id`, nombres, apellidos, correo, teléfono y nombre de rol; 401 si el token o la cuenta no son válidos y 500 ante fallo interno.
 
-Las respuestas 500 suelen ser genéricas para el cliente; revisa logs del servidor con cuidado. Login registra actualmente datos de diagnóstico que incluyen correo y metadatos de contraseña; consulta [Seguridad](SECURITY.md).
+### `GET /api/usuarios`
+
+Exige rol ADMIN. Devuelve lista sin caché, ordenada por creación, con id, nombres, apellidos, correo, teléfono, activo, último acceso, rol y fechas. Respuestas de identidad inválida/rol insuficiente: 401/403; fallo interno: 500.
+
+## Salud y prueba de rol
+
+- `GET /api/health`: consulta `Rol.findFirst()`. Devuelve 200 `{ ok: true, database: "connected" }` o 500 `{ ok: false, database: "disconnected" }`. No comprueba compatibilidad total del esquema ni estado de migraciones.
+- `GET /api/test/admin`: exige rol ADMIN; 200 devuelve `{ ok: true, message, rol: "ADMIN" }`, 401 si no hay identidad válida y 403 si el rol es insuficiente.
+
+## CORS y límites
+
+CORS se configura por ruta en leads, login y registro; no hay una política global confirmada. Login/registro fijan el origen móvil de desarrollo `http://localhost:8081`, mientras leads permite `*`. No se debe inferir disponibilidad cross-origin para las demás rutas.
+
+No se documentan endpoints de refresh de JWT ni de gestión de campañas, pagos, sorteos o publicaciones. Los endpoints anteriores no han sido objeto de verificación contra una API desplegada en esta actualización.

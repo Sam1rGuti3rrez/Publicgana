@@ -1,102 +1,87 @@
-# Puesta en marcha
+# Puesta en marcha, configuración y calidad
 
-## Requisitos verificados
+## Requisitos y ubicación
 
-| Herramienta | Valor comprobado | Observaciones |
-| --- | --- | --- |
-| Node.js | v24.21.0 en el entorno inspeccionado | Ningún `package.json` declara `engines`; versión mínima compatible pendiente de verificar. |
-| npm | 11.19.0 en el entorno inspeccionado | Cada aplicación tiene su propio lockfile. |
-| PostgreSQL | Motor configurado en Prisma | Versión, host y base de datos de desarrollo pendientes de verificar. |
-| Android/iOS | Dependen del entorno Expo y sus herramientas nativas | No se inspeccionaron SDKs o simuladores instalados. |
+No hay `package.json` en la raíz Git. Instala y ejecuta cada aplicación desde su propio directorio. Los manifiestos no fijan una versión mínima de Node.js; usa una versión compatible con Next.js/Expo y con los lockfiles presentes. La web requiere PostgreSQL accesible para las operaciones de datos.
 
-Versiones instaladas verificadas en el workspace: Next.js 16.4.0, React/React DOM web 19.2.8, Prisma y Prisma Client 7.10.0, `@prisma/adapter-pg` 7.9.1 y TypeScript web 5.9.3; Expo 57.0.24, Expo Router 57.0.22, React Native 0.86.3, React/React DOM móvil 19.2.3 y TypeScript móvil 6.0.3. Los rangos declarados están en los `package.json` respectivos; `npm ci` usa los lockfiles.
+## Web Next.js
 
-## Instalar dependencias
-
-Desde la raíz Git:
+Desde la raíz del repositorio:
 
 ```sh
 cd Publigana/publigana-next
 npm ci
 ```
 
-En otra terminal para la aplicación móvil:
+Variables leídas por el código web/Prisma:
 
-```sh
-cd Publigana/publigana-mobile
-npm ci
-```
+| Nombre | Requerida | Uso |
+| --- | --- | --- |
+| `DATABASE_URL` | Sí para Prisma CLI y consultas a base | URL PostgreSQL; `prisma.config.ts` la lee con `env()` y `app/lib/prisma.ts` la pasa a PrismaPg. |
+| `JWT_SECRET` | Sí para cargar el módulo JWT | Firma y verificación de tokens. Debe ser un valor secreto aleatorio gestionado fuera del código. |
+| `WEB_ORIGIN` | Recomendada; necesaria para sesión web ADMIN en producción | Origen HTTP(S) confiable de la web. En desarrollo, si no se configura, el código usa `http://localhost:3000`; en producción no hay fallback. |
+| `NODE_ENV` | Gestionada por Next.js | Controla, entre otros, la bandera `Secure` de la cookie y el fallback de desarrollo para `WEB_ORIGIN`. No suele configurarse manualmente en un despliegue Next.js. |
 
-## Configuración del servidor web
-
-No se encontraron archivos `.env` ni plantillas de entorno en el repositorio. Crea `Publigana/publigana-next/.env` localmente. El `.gitignore` propio de la web excluye `.env*`; no copies secretos a documentación, commits, capturas ni logs.
+No se incluye un `.env.example` versionado. Crea localmente `Publigana/publigana-next/.env` con valores proporcionados/generados para tu entorno; no copies secretos a documentos ni al control de versiones:
 
 ```dotenv
-DATABASE_URL="postgresql://<USUARIO>:<CONTRASENA>@<HOST>:<PUERTO>/<BASE_DE_DATOS>?schema=public"
-JWT_SECRET="<SECRETO_ALEATORIO_LARGO>"
+DATABASE_URL="postgresql://<USUARIO>:<CONTRASENA>@<HOST>:<PUERTO>/<BASE>?schema=public"
+JWT_SECRET="<SECRETO_ALEATORIO>"
+WEB_ORIGIN="http://localhost:3000"
 ```
 
-Sustituye los marcadores por valores proporcionados por quien administra PostgreSQL y genera `JWT_SECRET` con un gestor de secretos o una fuente criptográficamente segura. Los marcadores no son valores de conexión válidos. `DATABASE_URL` usa el formato PostgreSQL consumido por Prisma y `pg`; no se ha identificado una instancia real ni se ha probado la conectividad.
+Los marcadores son ficticios y no son credenciales utilizables. No se debe imprimir el archivo `.env`. `WEB_ORIGIN` en producción debe ser el origen canónico HTTPS que administra el equipo.
 
-`prisma.config.ts` carga `dotenv/config` y evalúa `env("DATABASE_URL")`; las operaciones del CLI de Prisma, incluida la generación del cliente, requieren esa variable. Next.js requiere `JWT_SECRET` al cargar `app/lib/jwt.ts`. En el estado inspeccionado, el build pasó sin `DATABASE_URL` después de diferir la creación del cliente, pero falló sin `JWT_SECRET` por la validación existente de JWT.
-
-En despliegue, configura ambas variables como secretos del entorno de ejecución. Si Prisma CLI o migraciones se ejecutan en CI/build, configura también `DATABASE_URL` en ese job. No uses URLs ficticias para omitir validaciones.
-
-## PostgreSQL y Prisma
-
-1. Solicita al administrador del entorno el host, puerto, nombre de base, usuario, contraseña, TLS y permisos requeridos. Esos datos están pendientes de verificar.
-2. Crea/configura la base PostgreSQL por el procedimiento del equipo. No se documenta aquí un proveedor ni una versión de servidor no comprobados.
-3. Guarda la URL en el `.env` local de la aplicación web o en el gestor de secretos del entorno.
-4. Desde `Publigana/publigana-next`, con la variable disponible, usa los comandos Prisma que correspondan:
+### Ejecutar
 
 ```sh
-npx prisma generate
-npx prisma migrate dev
-```
-
-Para aplicar migraciones ya aprobadas en un entorno de despliegue, Prisma proporciona `npx prisma migrate deploy`. No ejecutes migraciones contra datos existentes sin confirmar el entorno, respaldo y procedimiento del equipo. El CLI no pudo generar el cliente durante esta inspección porque no había `DATABASE_URL`.
-
-El archivo `prisma/seed.ts` existe, pero no se encontró un script npm ni configuración de seed en `prisma.config.ts`; no se documenta una forma de ejecutarlo como flujo soportado. Revisa [Seguridad](SECURITY.md) antes de usarlo: contiene una credencial administrativa fija.
-
-La carpeta `Publigana/publigana-database` mantiene SQL aparte. Su README menciona un nombre de archivo de esquema que no coincide exactamente con el nombre presente. Compara esquema, datos y migraciones antes de elegir una fuente para inicializar una base.
-
-## Ejecutar la web
-
-```sh
-cd Publigana/publigana-next
 npm run dev
 ```
 
-Scripts disponibles en `package.json`:
+Los scripts web declarados:
 
 | Comando | Uso |
 | --- | --- |
-| `npm run dev` | Servidor Next.js de desarrollo. |
-| `npm run build` | Build de producción. Requiere `JWT_SECRET` con el código actual. |
-| `npm run start` | Sirve el build ya generado. |
-| `npm run lint` | Ejecuta ESLint. |
-| `npx tsc --noEmit` | Comprueba TypeScript; es un comando directo, no un script npm. |
-| `npx prisma generate` | Genera Prisma Client; requiere `DATABASE_URL` por `prisma.config.ts`. |
+| `npm run dev` | Next.js desarrollo. |
+| `npm run build` | Build de producción. |
+| `npm run start` | Servir un build generado. |
+| `npm run lint` | ESLint. |
+| `npm run update:divipola` | Actualizar catálogo DIVIPOLA desde el script del proyecto; requiere revisión del cambio generado. |
+| `npm run test:leads` | Pruebas de creación/validación de leads. |
+| `npm run test:municipalities` | Pruebas del catálogo municipal. |
+| `npm run test:location-form` | Pruebas de estado del formulario de ubicación. |
+| `npm run test:register` | Pruebas del flujo de registro. |
+| `npm run test:security` | Pruebas de sesión y seguridad web. |
 
-No existe script `test` ni se encontraron archivos de pruebas web en la inspección.
+Comprobaciones adicionales:
 
-## Ejecutar la aplicación móvil
+```sh
+npx tsc --noEmit
+npx prisma validate
+```
+
+Prisma CLI carga `prisma.config.ts`; al acceder a `env("DATABASE_URL")`, puede requerir esa variable incluso para validar/generar. No se ejecuta ni se recomienda ninguna migración automáticamente como parte de la instalación.
+
+## Aplicación móvil
 
 ```sh
 cd Publigana/publigana-mobile
+npm ci
 npm start
 ```
 
-El script `start` ejecuta `expo start`. También existen `npm run android`, `npm run web` y `npm run lint`. No hay scripts declarados de `ios`, `build` o `test` en el `package.json` móvil.
+Scripts presentes en el manifiesto móvil: `start`, `reset-project`, `android`, `ios`, `web` y `lint`. No hay scripts declarados de test, typecheck o build. La URL base de API está codificada en `src/services/api.ts`; debe apuntar a un host alcanzable desde el dispositivo/emulador. No se observó una variable Expo pública para esa URL. No incluyas secretos de servidor en el bundle móvil.
 
-Antes de probar contra una API local, revisa `src/services/api.ts`: la base URL está codificada directamente y debe apuntar a un host accesible desde el dispositivo/emulador. El proyecto no lee una variable `EXPO_PUBLIC_*` para esa URL.
+## Prisma, migraciones y seed
 
-## Problemas conocidos
+`prisma.config.ts` declara `prisma/seed.ts`. Prisma Client se genera en `app/generated/prisma`. Antes de usar una base existente, revisa [Base de datos](DATABASE.md): hay discrepancias de historial Flyway/Prisma y diferencias de esquema reportadas. No ejecutes `migrate dev`, `migrate deploy`, `migrate resolve`, `db push` o `migrate reset` contra una base compartida/producción hasta tener un plan probado y autorizado.
 
-| Síntoma | Causa comprobada o probable | Acción |
-| --- | --- | --- |
-| Prisma CLI indica que no puede resolver `DATABASE_URL`. | `prisma.config.ts` evalúa `env("DATABASE_URL")`; no hay `.env` versionado. | Configura la URL real en el entorno local o CI sin publicarla. |
-| Web build indica `JWT_SECRET no está definida`. | `app/lib/jwt.ts` valida la variable durante la importación. | Configura `JWT_SECRET` antes de compilar y ejecutar. |
-| Health check devuelve `database: disconnected`. | Falta URL, no hay conectividad o la consulta a `rol` falla. | Revisa el log del servidor sin imprimir la URL y prueba acceso al host con el equipo de base de datos. |
-| Móvil no conecta al backend. | La URL está fijada a una IP local de desarrollo. | Configura en código una dirección alcanzable desde ese dispositivo/entorno; la externalización queda pendiente. |
-| Registro móvil rechaza o enruta un rol inesperadamente. | El cliente, el seed y el backend tienen diferencias de mayúsculas/nombres en roles. | Consulta [Seguridad](SECURITY.md) y [API](API.md); pendiente unificar contratos. |
+El seed incluye una credencial fija de administrador de desarrollo y realiza upserts; no lo ejecutes en un entorno compartido o producción. Debe revisarse y sustituirse antes de recomendar bootstrap de entornos nuevos.
+
+## Despliegue
+
+El repositorio contiene una aplicación Next.js que puede compilarse con `npm run build` y servirse con `npm run start`; esto no confirma un despliegue actual ni el proveedor/configuración efectiva de producción. La configuración de Vercel, dominio, variables y proyecto de base debe confirmarla su administrador antes de desplegar. Configura secretos en el gestor del entorno y no en Git.
+
+## Estado de validación
+
+Los scripts anteriores son comandos disponibles en `package.json`; su presencia no implica que se hayan ejecutado en la actualización documental. No se ejecutaron pruebas, lint, TypeScript ni build para este cambio, que modifica solo documentación. La base de datos, migraciones y el seed no se ejecutaron.

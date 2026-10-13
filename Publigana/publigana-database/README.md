@@ -1,7 +1,7 @@
-# Database
+# Artefactos SQL históricos
 
-1. Crear la base de datos PostgreSQL.
-2. Ejecutar `publigana_schema.sql`.
-3. Ejecutar `publigana_data.sql`.
+Este directorio contiene scripts SQL y respaldos históricos de PostgreSQL. No se ha demostrado que sus archivos reproduzcan exactamente el esquema actual de Prisma ni el estado actual de Neon.
 
-Los respaldos completos no deben versionarse en Git.
+No ejecutes estos scripts sobre una base existente o compartida sin revisar el contenido, identificar el destino, obtener un respaldo y probar el procedimiento en una copia aislada. No uses un respaldo como fuente vigente hasta que su fecha, integridad y relación con el esquema actual hayan sido confirmadas.
+
+Para modelos, configuración Prisma y el estado conocido de la reconciliación Flyway/Prisma, consulta [Base de datos y Prisma](../../docs/DATABASE.md). Esta documentación no ejecuta SQL ni certifica un servidor.

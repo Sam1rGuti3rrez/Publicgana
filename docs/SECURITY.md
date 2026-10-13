@@ -1,64 +1,41 @@
-# Seguridad
+# Seguridad: comportamiento y pendientes
 
-## Estado comprobado
+Este documento resume controles visibles en el código; no es una auditoría de penetración ni certifica la configuración desplegada.
 
-Esta sección distingue controles existentes de riesgos y recomendaciones. No equivale a una auditoría de penetración ni certifica un despliegue seguro.
+## Variables y secretos
 
-## Secretos y configuración
-
-| Variable/valor | Uso | Estado |
-| --- | --- | --- |
-| `DATABASE_URL` | `prisma.config.ts` y adaptador PostgreSQL del cliente Prisma. | Obligatoria para CLI/consultas; no había archivo de entorno ni conexión verificada. |
-| `JWT_SECRET` | Firma/verificación de tokens en `app/lib/jwt.ts`. | Obligatoria; se valida durante importación del módulo. |
-| URL base móvil | Constante en `publigana-mobile/src/services/api.ts`. | Codificada en fuente, sin variable de entorno observada. |
-
-La web excluye `.env*` en su `.gitignore`. El `.gitignore` de la raíz enumera varios nombres comunes, pero no es una regla amplia para cada variante; la app móvil ignora `.env*.local`. Comprueba `git status --ignored` y las reglas aplicables antes de crear cualquier archivo con secretos. Los valores reales deben permanecer en un gestor de secretos o entorno local excluido; no se registran en esta documentación.
-
-## Autenticación y tokens
-
-- Login compara contraseñas con bcrypt y emite JWT access token (1 hora) y refresh token (7 días), firmados con `JWT_SECRET`.
-- El payload incluye `userId` y `rol`; `/api/usuarios/me` verifica el token y consulta que la cuenta siga activa.
-- `requireRole` compara el rol actual recuperado de la base para una ruta; hoy se usa explícitamente solo en `/api/test/admin`.
-- No se encontró endpoint de refresh, logout del servidor, rotación de refresh tokens ni lista de revocación. El refresh token se genera, pero no hay flujo servidor verificado para renovarlo.
-- Móvil guarda tokens nativos con Expo SecureStore; en web usa `localStorage`. El interceptor Axios adjunta el access token a solicitudes.
-
-## Roles y autorización
-
-No hay enum ni catálogo de permisos en el esquema: `Rol.nombre` es texto único. `prisma/seed.ts` crea `ADMIN`, `promotor` y `negocio`; registro admite `promotor`/`negocio` y resuelve la fila sin distinguir mayúsculas. Login devuelve el nombre almacenado tal cual.
-
-El único permiso de rol implementado explícitamente en la API es `ADMIN` para `/api/test/admin`. `/api/usuarios/me` exige identidad válida, pero no rol; `/api/usuarios`, health y leads no exigen autenticación. No se debe inferir un sistema completo de autorización por rol a partir de las áreas visuales de la aplicación.
-
-Existe una diferencia de contrato: tipos móviles y el contexto esperan `PROMOTOR`/`NEGOCIO` en mayúsculas, mientras el seed crea esos nombres en minúsculas. El login móvil enruta comparando exactamente `NEGOCIO`; las diferencias pueden enviar un usuario negocio a la ruta de promotor. Unificar los valores es una recomendación pendiente, no un comportamiento corregido.
-
-## Datos, validación y operaciones sensibles
-
-- Registro hashea la contraseña con bcrypt, costo 10, y usa transacción para usuario y empresa.
-- Leads valida campos requeridos, correo con una expresión básica y tipo de usuario por lista permitida.
-- Las rutas no usan un validador de esquema común; hay validaciones manuales y cuerpos malformados pueden terminar en 500.
-- `GET /api/usuarios` no tiene autenticación y devuelve correos, teléfonos y otros datos de cuentas. Revisar y proteger antes de exponer el servicio.
-- Login registra correo, resultado de búsqueda y metadatos como longitud/formato del hash de contraseña. No registra la contraseña en claro en el código inspeccionado, pero conviene retirar estos logs de diagnóstico o limitar/redactar los datos personales.
-- `prisma/seed.ts` contiene una credencial fija para un usuario administrador de prueba. No se reproduce aquí. No ejecutes ese seed en un entorno compartido/producción; migrar su secreto a una provisión segura y rotarlo es una recomendación pendiente.
-- La API móvil usa HTTP y una URL de red local codificada; producción debe definir un origen HTTPS apropiado. No se verificó TLS de ningún entorno.
-
-## Dependencias y auditoría
-
-La web declara bcrypt, jsonwebtoken, Prisma, adaptador pg y PostgreSQL driver; el móvil incluye Expo SecureStore y Axios. Auditoría ejecutada el 2026-10-09 con `npm audit --omit=dev`:
-
-| Aplicación | Resultado observado |
+| Variable | Uso confirmado |
 | --- | --- |
-| Web | 0 vulnerabilidades. |
-| Móvil | 36 vulnerabilidades: 12 moderadas, 23 altas y 1 crítica. Hay dependencias transitivas de Expo/Metro; algunos arreglos sugeridos por npm requieren cambios mayores. |
+| `DATABASE_URL` | Conexión Prisma/pg desde el servidor y configuración CLI. |
+| `JWT_SECRET` | Firma y verificación de JWT. |
+| `WEB_ORIGIN` | Origen confiable para emitir y cerrar la cookie administrativa. En producción no hay valor por defecto. |
 
-No se ejecutó `npm audit fix` ni se alteraron dependencias. Revisa el informe completo con el equipo, confirma versiones compatibles con Expo SDK 57 y planifica actualizaciones no forzadas. No uses `npm audit fix --force` para resolver este informe sin una actualización planificada y pruebas de compatibilidad.
+Los valores no deben guardarse en Git, enviarse a logs ni exponerse en reportes. La URL móvil de API está codificada en el cliente, pero no se reproduce aquí. No hay un `.env.example` activo.
 
-No se encontró suite de pruebas de seguridad, rate limiting, protección contra abuso, CORS global ni verificación de cabeceras/políticas de despliegue. Su ausencia en el código inspeccionado no demuestra cómo configura infraestructura externa.
+## Autenticación y autorización implementadas
 
-## Recomendaciones pendientes
+- `POST /api/auth/login` comprueba bcrypt y devuelve access JWT de una hora y refresh JWT de siete días. No existe endpoint de refresh ni revocación de tokens.
+- La sesión web ADMIN usa la cookie `publigana_admin_session` con `HttpOnly`, `SameSite=Lax` y `Secure` en producción. El login solo la emite para rol ADMIN desde origen confiable (`WEB_ORIGIN`); el logout también valida origen y expira la cookie.
+- Las páginas administrativas y `GET /api/auth/session`, `GET /api/usuarios` y `GET /api/test/admin` requieren ADMIN en el servidor.
+- `GET /api/usuarios/me` requiere Bearer válido y cuenta activa, sin rol específico.
+- Registro público admite `promotor` y `negocio`; el registro no crea cuentas ADMIN.
+- El campo `Rol.nombre` es texto, no enum. La comparación de autorización se hace sin distinguir mayúsculas en el helper `requireRole`.
 
-1. Proteger `/api/usuarios` con autenticación y autorización, y revisar minimización de datos.
-2. Establecer valores canónicos de rol entre seed, API, tipos y navegación móvil.
-3. Sustituir la credencial fija del seed; definir provisión, expiración, rotación y refresh/revocación de tokens.
-4. Externalizar la URL móvil por entorno y exigir HTTPS fuera de desarrollo.
-5. Usar validación declarativa de entrada y límites de intentos/tamaño en endpoints públicos.
-6. Eliminar o redactar logs de autenticación antes de producción.
-7. Revisar y atender el resultado móvil de 36 vulnerabilidades, volver a ejecutar auditoría y añadir pruebas de autorización con credenciales no productivas.
+## Validación geográfica y datos
+
+El registro y `POST /api/leads` exigen `countryCode` CO, confirmación explícita de residencia y código de municipio/departamento consistente con el catálogo DIVIPOLA versionado. El servidor no usa IP como prueba de residencia. La localidad adicional es opcional. Las columnas geográficas son nullable en el esquema/migraciones para conservar compatibilidad con filas previas; el requisito se aplica en los flujos de alta.
+
+Las restricciones CHECK en migraciones limitan los códigos cuando no son NULL. El estado actual de las restricciones de la base productiva no se consultó durante esta actualización.
+
+## Pendientes/riesgos respaldados por el código
+
+- `GET /api/usuarios` ahora exige ADMIN, pero devuelve datos de contacto a administradores; mantener el acceso limitado y revisar minimización según necesidades.
+- El login registra mensajes de diagnóstico que incluyen correo y metadatos relacionados con contraseñas/hash. No registra la contraseña en claro en la implementación inspeccionada; aun así, revisar/redactar esos logs antes de producción.
+- `prisma/seed.ts` contiene una credencial fija para una cuenta ADMIN de desarrollo y escribe mediante upsert. No ejecutarlo en una base compartida/producción; migrar a un bootstrap seguro y rotar cualquier credencial expuesta.
+- Se devuelve refresh token, pero no hay endpoint de renovación ni revocación. El logout web solo expira la cookie del navegador.
+- CORS se configura por algunas rutas y no se identificó una política global. Leads usa origen `*`; login/registro usan origen de desarrollo codificado.
+- La URL móvil usa HTTP y está codificada para desarrollo; producción requiere origen HTTPS y administración por entorno, trabajo que no está implementado en el cliente actual.
+- No se identificaron controles de rate limiting en estos handlers.
+- La historia Prisma y el estado real de la base no están reconciliados/validados actualmente; véase [Base de datos](DATABASE.md).
+
+No se ha ejecutado un nuevo `npm audit` en esta actualización. Los resultados de auditorías antiguas no se consideran actuales y no se reproducen como estado vigente.

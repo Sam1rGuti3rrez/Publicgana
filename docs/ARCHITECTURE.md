@@ -1,58 +1,59 @@
 # Arquitectura
 
-## Estado comprobado
+## Áreas del repositorio
 
-PubliGana contiene tres áreas distintas bajo el repositorio Git: `Publigana/publigana-next` (web y API), `Publigana/publigana-mobile` (cliente Expo) y `Publigana/publigana-database` (archivos SQL y respaldos). No se encontró un workspace npm en la raíz Git ni una integración automatizada entre los archivos SQL y las migraciones Prisma.
-
-## Componentes
-
-| Componente | Responsabilidad observada | Estado |
+| Área | Responsabilidad actual | Grado de implementación |
 | --- | --- | --- |
-| Web Next.js | Sitio público en `/`, dashboard en `/dashboard`, demo en `/demo` y Route Handlers bajo `/api`. | Implementado |
-| API Next.js | Registro/login, consulta de usuario, health check, leads y comprobación protegida de rol ADMIN. | Implementado; los alcances se detallan en [API](API.md). |
-| Cliente móvil Expo | Navegación por archivos, pantallas de autenticación y áreas de promotor/empresa. | Implementado parcialmente; varios datos son estáticos. |
-| PostgreSQL | Persistencia relacional para los modelos definidos por Prisma. | Configuración presente; instancia y conexión activas pendientes de verificar. |
-| Prisma 7 + `@prisma/adapter-pg` | Cliente de base de datos en el servidor web. | Implementado; `DATABASE_URL` requerida al usar Prisma. |
-| Archivos SQL separados | SQL de esquema, datos y backup en `Publigana/publigana-database`. | Presentes; sincronización con Prisma pendiente de verificar. |
+| `Publigana/publigana-next` | Landing, páginas web, Route Handlers, lógica de autenticación y persistencia con Prisma. | Web/API funcionales para registro, leads y acceso administrativo. |
+| `Publigana/publigana-mobile` | Aplicación Expo/React Native, navegación, autenticación y áreas de promotor/negocio. | Autenticación conectada; varias vistas de dominio aún usan datos locales o simulados. |
+| `Publigana/publigana-database` | SQL y respaldo heredados. | Fuente e historial separados; correspondencia completa con Prisma pendiente. |
 
-## Diagrama de comunicación
+No hay un workspace de paquetes en la raíz. Cada aplicación administra sus propias dependencias y scripts.
 
-```mermaid
-flowchart LR
-    Browser[ navegador web ] --> NextUI[Next.js App Router]
-    NextUI --> NextAPI[Route Handlers /api]
-    Mobile[Aplicación Expo / React Native] -->|HTTP JSON; Bearer si existe token| NextAPI
-    NextAPI --> Prisma[Prisma Client 7]
-    Prisma --> Adapter[PrismaPg / pg]
-    Adapter --> PostgreSQL[(PostgreSQL)]
-    NextUI -->|POST /api/leads| NextAPI
+## Aplicación web y solicitud de leads
+
+La web usa el App Router de Next.js. `app/page.tsx` compone Navbar, Hero, secciones de marketing, formulario de contacto y Footer. El formulario carga el catálogo geográfico desde `GET /api/municipios` y envía el interés a `POST /api/leads`.
+
+Flujo del lead:
+
+```text
+Navegador -> Contact.tsx -> POST /api/leads
+                         -> lead-registration.ts
+                         -> validación de declaración CO y catálogo DIVIPOLA
+                         -> getPrisma() / Prisma Client
+                         -> PostgreSQL
 ```
 
-El cliente móvil usa una URL base HTTP definida directamente en `Publigana/publigana-mobile/src/services/api.ts`; el valor actual es específico de la red de desarrollo y no se reproduce aquí. No se encontró configuración móvil por variable de entorno. La disponibilidad de la dirección desde un emulador, dispositivo o despliegue debe configurarse según el entorno.
+La lógica de validación/persistencia del lead está separada del Route Handler para poder probarla con un repositorio sustituible. La localidad es opcional; no reemplaza la validación por código municipal.
 
-## Aplicación web
+## Registro y persistencia
 
-La web usa Next.js App Router. La página raíz compone secciones de landing; el formulario de contacto envía leads a `/api/leads`. El dashboard solicita `/api/usuarios/me` y comprueba `ADMIN` en el cliente además de validar el token en el servidor. La API y la página web pertenecen a la misma aplicación Next.js.
+`POST /api/auth/register` valida los datos en el servidor, exige una declaración confirmada de residencia en Colombia y un departamento/municipio compatible con el catálogo local DIVIPOLA. La contraseña se almacena como hash bcrypt. Para `negocio`, la creación de usuario y empresa se ejecuta en una transacción Prisma. No hay validación por geolocalización IP.
+
+El código de acceso a datos se concentra en `app/lib/prisma.ts`, que instancia Prisma Client con `PrismaPg` y `@prisma/adapter-pg`. El esquema y la configuración del CLI están en `prisma/schema.prisma` y `prisma.config.ts`. La URL la proporciona `DATABASE_URL`.
+
+## Autenticación y autorización
+
+- Login compara la contraseña con bcrypt y emite un access token JWT (1 hora) y un refresh token (7 días).
+- La cookie `publigana_admin_session` es `HttpOnly`, `SameSite=Lax` y `Secure` en producción; se emite para usuarios ADMIN cuando la solicitud proviene del `WEB_ORIGIN` confiable.
+- Las páginas administrativas verifican ADMIN en el servidor. `GET /api/auth/session`, `GET /api/usuarios` y `GET /api/test/admin` también requieren rol ADMIN mediante el helper de autenticación, aceptando token Bearer o cookie.
+- `POST /api/auth/logout` valida el origen confiable y expira la cookie. No invalida JWT emitidos.
+- `GET /api/usuarios/me` usa el header Bearer y comprueba que el usuario autenticado sigue activo; no exige rol específico.
+- El registro solo permite los roles `promotor` y `negocio`; no hay un catálogo de permisos Prisma. No inferir permisos de backend a partir de la navegación visual móvil.
+
+El refresh token se devuelve al cliente, pero no hay endpoint de renovación implementado en el inventario actual.
 
 ## Aplicación móvil
 
-Expo Router organiza pantallas en `src/app`: bienvenida, autenticación y áreas con pestañas de promotor y empresa. `AuthContext` restaura la sesión llamando a `GET /api/usuarios/me`; el cliente Axios añade el access token a las solicitudes. La navegación no constituye control de acceso del servidor.
+Expo Router organiza las rutas bajo `src/app`; `AuthContext` administra el estado de sesión, `src/services/auth` llama a registro/login/perfil y Axios añade el token disponible. El almacenamiento usa SecureStore en plataformas nativas y `localStorage` en web.
 
-Los servicios móviles de campañas, empresa, promotor y usuario existen como archivos pero están vacíos. Los paneles observados usan datos locales de ejemplo; no se confirma integración de esas pantallas con PostgreSQL.
+La URL del backend se encuentra codificada en `src/services/api.ts`; no se observó configuración `EXPO_PUBLIC_*`. Los servicios de campañas, empresa, promotor y usuario no constituyen una integración de dominio completa; varias pantallas usan datos de muestra o simulan acciones.
 
-## Persistencia
+## Funcionalidad que no debe darse por integrada
 
-Solo el servidor Next.js importa Prisma y configura el adaptador PostgreSQL. La aplicación móvil se comunica con la API; no conecta directamente a la base. El esquema y las relaciones verificadas se describen en [Base de datos](DATABASE.md).
+- Las tarjetas de Usuarios, Empresas, Campañas y Sorteos del dashboard muestran marcadores, no métricas reales.
+- No se identificó una API web de gestión de campañas, pagos, sorteos, publicaciones o analítica.
+- Los elementos de marketing sobre redes no demuestran publicación o conexión efectiva a proveedores de redes sociales.
+- Las operaciones SQL independientes no están sincronizadas de forma demostrada con Prisma.
 
-## Dependencias externas identificadas
-
-- PostgreSQL, como servicio de persistencia requerido.
-- Expo SecureStore para almacenar tokens en plataformas nativas; en web el almacenamiento usa `localStorage`.
-- No se identificó integración activa con un proveedor de pagos, correo, almacenamiento de archivos ni API de redes sociales. La presencia de nombres o pantallas de redes sociales no prueba una integración.
-
-## Pendiente de verificar
-
-- Ubicación, versión, disponibilidad y credenciales de PostgreSQL.
-- Si los SQL independientes representan el mismo estado que el esquema y las migraciones Prisma.
-- URL base móvil correcta para cada entorno.
-- Despliegue, infraestructura y servicios externos de producción.
+Consulte [API](API.md), [Base de datos](DATABASE.md), [Seguridad](SECURITY.md) y [Aplicación móvil](MOBILE.md) para detalles y limitaciones.
