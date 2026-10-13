@@ -7,6 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "update:divipola": "node scripts/update-divipola-catalog.mjs",
+    "test:leads": "tsx --test scripts/leads.test.ts",
+    "test:municipalities": "tsx --test scripts/municipalities.test.ts",
+    "test:location-form": "tsx --test scripts/location-form.test.ts",
+    "test:register": "tsx --test scripts/register.test.ts",
     "test:security": "node --experimental-strip-types --test scripts/security-session.test.mjs"
   },
   "dependencies": {

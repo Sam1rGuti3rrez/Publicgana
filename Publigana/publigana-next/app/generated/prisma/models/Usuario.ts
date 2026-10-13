@@ -40,6 +40,9 @@ export type UsuarioMinAggregateOutputType = {
   apellidos: string | null
   correo: string | null
   telefono: string | null
+  countryCode: string | null
+  municipalityCode: string | null
+  locality: string | null
   contrasena: string | null
   activo: boolean | null
   ultimoAcceso: Date | null
@@ -56,6 +59,9 @@ export type UsuarioMaxAggregateOutputType = {
   apellidos: string | null
   correo: string | null
   telefono: string | null
+  countryCode: string | null
+  municipalityCode: string | null
+  locality: string | null
   contrasena: string | null
   activo: boolean | null
   ultimoAcceso: Date | null
@@ -72,6 +78,9 @@ export type UsuarioCountAggregateOutputType = {
   apellidos: number
   correo: number
   telefono: number
+  countryCode: number
+  municipalityCode: number
+  locality: number
   contrasena: number
   activo: number
   ultimoAcceso: number
@@ -98,6 +107,9 @@ export type UsuarioMinAggregateInputType = {
   apellidos?: true
   correo?: true
   telefono?: true
+  countryCode?: true
+  municipalityCode?: true
+  locality?: true
   contrasena?: true
   activo?: true
   ultimoAcceso?: true
@@ -114,6 +126,9 @@ export type UsuarioMaxAggregateInputType = {
   apellidos?: true
   correo?: true
   telefono?: true
+  countryCode?: true
+  municipalityCode?: true
+  locality?: true
   contrasena?: true
   activo?: true
   ultimoAcceso?: true
@@ -130,6 +145,9 @@ export type UsuarioCountAggregateInputType = {
   apellidos?: true
   correo?: true
   telefono?: true
+  countryCode?: true
+  municipalityCode?: true
+  locality?: true
   contrasena?: true
   activo?: true
   ultimoAcceso?: true
@@ -233,6 +251,9 @@ export type UsuarioGroupByOutputType = {
   apellidos: string | null
   correo: string
   telefono: string | null
+  countryCode: string | null
+  municipalityCode: string | null
+  locality: string | null
   contrasena: string
   activo: boolean
   ultimoAcceso: Date | null
@@ -272,6 +293,9 @@ export type UsuarioWhereInput = {
   apellidos?: Prisma.StringNullableFilter<"Usuario"> | string | null
   correo?: Prisma.StringFilter<"Usuario"> | string
   telefono?: Prisma.StringNullableFilter<"Usuario"> | string | null
+  countryCode?: Prisma.StringNullableFilter<"Usuario"> | string | null
+  municipalityCode?: Prisma.StringNullableFilter<"Usuario"> | string | null
+  locality?: Prisma.StringNullableFilter<"Usuario"> | string | null
   contrasena?: Prisma.StringFilter<"Usuario"> | string
   activo?: Prisma.BoolFilter<"Usuario"> | boolean
   ultimoAcceso?: Prisma.DateTimeNullableFilter<"Usuario"> | Date | string | null
@@ -295,6 +319,9 @@ export type UsuarioOrderByWithRelationInput = {
   apellidos?: Prisma.SortOrderInput | Prisma.SortOrder
   correo?: Prisma.SortOrder
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
+  countryCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  municipalityCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  locality?: Prisma.SortOrderInput | Prisma.SortOrder
   contrasena?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   ultimoAcceso?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -321,6 +348,9 @@ export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
   nombres?: Prisma.StringFilter<"Usuario"> | string
   apellidos?: Prisma.StringNullableFilter<"Usuario"> | string | null
   telefono?: Prisma.StringNullableFilter<"Usuario"> | string | null
+  countryCode?: Prisma.StringNullableFilter<"Usuario"> | string | null
+  municipalityCode?: Prisma.StringNullableFilter<"Usuario"> | string | null
+  locality?: Prisma.StringNullableFilter<"Usuario"> | string | null
   contrasena?: Prisma.StringFilter<"Usuario"> | string
   activo?: Prisma.BoolFilter<"Usuario"> | boolean
   ultimoAcceso?: Prisma.DateTimeNullableFilter<"Usuario"> | Date | string | null
@@ -344,6 +374,9 @@ export type UsuarioOrderByWithAggregationInput = {
   apellidos?: Prisma.SortOrderInput | Prisma.SortOrder
   correo?: Prisma.SortOrder
   telefono?: Prisma.SortOrderInput | Prisma.SortOrder
+  countryCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  municipalityCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  locality?: Prisma.SortOrderInput | Prisma.SortOrder
   contrasena?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   ultimoAcceso?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -368,6 +401,9 @@ export type UsuarioScalarWhereWithAggregatesInput = {
   apellidos?: Prisma.StringNullableWithAggregatesFilter<"Usuario"> | string | null
   correo?: Prisma.StringWithAggregatesFilter<"Usuario"> | string
   telefono?: Prisma.StringNullableWithAggregatesFilter<"Usuario"> | string | null
+  countryCode?: Prisma.StringNullableWithAggregatesFilter<"Usuario"> | string | null
+  municipalityCode?: Prisma.StringNullableWithAggregatesFilter<"Usuario"> | string | null
+  locality?: Prisma.StringNullableWithAggregatesFilter<"Usuario"> | string | null
   contrasena?: Prisma.StringWithAggregatesFilter<"Usuario"> | string
   activo?: Prisma.BoolWithAggregatesFilter<"Usuario"> | boolean
   ultimoAcceso?: Prisma.DateTimeNullableWithAggregatesFilter<"Usuario"> | Date | string | null
@@ -384,6 +420,9 @@ export type UsuarioCreateInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -406,6 +445,9 @@ export type UsuarioUncheckedCreateInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -428,6 +470,9 @@ export type UsuarioUpdateInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -450,6 +495,9 @@ export type UsuarioUncheckedUpdateInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -472,6 +520,9 @@ export type UsuarioCreateManyInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -488,6 +539,9 @@ export type UsuarioUpdateManyMutationInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -503,6 +557,9 @@ export type UsuarioUncheckedUpdateManyInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -529,6 +586,9 @@ export type UsuarioCountOrderByAggregateInput = {
   apellidos?: Prisma.SortOrder
   correo?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
+  countryCode?: Prisma.SortOrder
+  municipalityCode?: Prisma.SortOrder
+  locality?: Prisma.SortOrder
   contrasena?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   ultimoAcceso?: Prisma.SortOrder
@@ -549,6 +609,9 @@ export type UsuarioMaxOrderByAggregateInput = {
   apellidos?: Prisma.SortOrder
   correo?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
+  countryCode?: Prisma.SortOrder
+  municipalityCode?: Prisma.SortOrder
+  locality?: Prisma.SortOrder
   contrasena?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   ultimoAcceso?: Prisma.SortOrder
@@ -565,6 +628,9 @@ export type UsuarioMinOrderByAggregateInput = {
   apellidos?: Prisma.SortOrder
   correo?: Prisma.SortOrder
   telefono?: Prisma.SortOrder
+  countryCode?: Prisma.SortOrder
+  municipalityCode?: Prisma.SortOrder
+  locality?: Prisma.SortOrder
   contrasena?: Prisma.SortOrder
   activo?: Prisma.SortOrder
   ultimoAcceso?: Prisma.SortOrder
@@ -733,6 +799,9 @@ export type UsuarioCreateWithoutRolInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -754,6 +823,9 @@ export type UsuarioUncheckedCreateWithoutRolInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -804,6 +876,9 @@ export type UsuarioScalarWhereInput = {
   apellidos?: Prisma.StringNullableFilter<"Usuario"> | string | null
   correo?: Prisma.StringFilter<"Usuario"> | string
   telefono?: Prisma.StringNullableFilter<"Usuario"> | string | null
+  countryCode?: Prisma.StringNullableFilter<"Usuario"> | string | null
+  municipalityCode?: Prisma.StringNullableFilter<"Usuario"> | string | null
+  locality?: Prisma.StringNullableFilter<"Usuario"> | string | null
   contrasena?: Prisma.StringFilter<"Usuario"> | string
   activo?: Prisma.BoolFilter<"Usuario"> | boolean
   ultimoAcceso?: Prisma.DateTimeNullableFilter<"Usuario"> | Date | string | null
@@ -820,6 +895,9 @@ export type UsuarioCreateWithoutEmpresasInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -841,6 +919,9 @@ export type UsuarioUncheckedCreateWithoutEmpresasInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -878,6 +959,9 @@ export type UsuarioUpdateWithoutEmpresasInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -899,6 +983,9 @@ export type UsuarioUncheckedUpdateWithoutEmpresasInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -920,6 +1007,9 @@ export type UsuarioCreateWithoutCampaniasInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -941,6 +1031,9 @@ export type UsuarioUncheckedCreateWithoutCampaniasInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -978,6 +1071,9 @@ export type UsuarioUpdateWithoutCampaniasInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -999,6 +1095,9 @@ export type UsuarioUncheckedUpdateWithoutCampaniasInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1020,6 +1119,9 @@ export type UsuarioCreateWithoutParticipacionesInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -1041,6 +1143,9 @@ export type UsuarioUncheckedCreateWithoutParticipacionesInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -1078,6 +1183,9 @@ export type UsuarioUpdateWithoutParticipacionesInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1099,6 +1207,9 @@ export type UsuarioUncheckedUpdateWithoutParticipacionesInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1120,6 +1231,9 @@ export type UsuarioCreateWithoutGanadoresInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -1141,6 +1255,9 @@ export type UsuarioUncheckedCreateWithoutGanadoresInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -1178,6 +1295,9 @@ export type UsuarioUpdateWithoutGanadoresInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1199,6 +1319,9 @@ export type UsuarioUncheckedUpdateWithoutGanadoresInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1220,6 +1343,9 @@ export type UsuarioCreateWithoutNotificacionesInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -1241,6 +1367,9 @@ export type UsuarioUncheckedCreateWithoutNotificacionesInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -1278,6 +1407,9 @@ export type UsuarioUpdateWithoutNotificacionesInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1299,6 +1431,9 @@ export type UsuarioUncheckedUpdateWithoutNotificacionesInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1320,6 +1455,9 @@ export type UsuarioCreateWithoutAuditoriasInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -1341,6 +1479,9 @@ export type UsuarioUncheckedCreateWithoutAuditoriasInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -1378,6 +1519,9 @@ export type UsuarioUpdateWithoutAuditoriasInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1399,6 +1543,9 @@ export type UsuarioUncheckedUpdateWithoutAuditoriasInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1420,6 +1567,9 @@ export type UsuarioCreateManyRolInput = {
   apellidos?: string | null
   correo: string
   telefono?: string | null
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   contrasena: string
   activo?: boolean
   ultimoAcceso?: Date | string | null
@@ -1435,6 +1585,9 @@ export type UsuarioUpdateWithoutRolInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1456,6 +1609,9 @@ export type UsuarioUncheckedUpdateWithoutRolInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1477,6 +1633,9 @@ export type UsuarioUncheckedUpdateManyWithoutRolInput = {
   apellidos?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   telefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contrasena?: Prisma.StringFieldUpdateOperationsInput | string
   activo?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ultimoAcceso?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1568,6 +1727,9 @@ export type UsuarioSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   apellidos?: boolean
   correo?: boolean
   telefono?: boolean
+  countryCode?: boolean
+  municipalityCode?: boolean
+  locality?: boolean
   contrasena?: boolean
   activo?: boolean
   ultimoAcceso?: boolean
@@ -1592,6 +1754,9 @@ export type UsuarioSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   apellidos?: boolean
   correo?: boolean
   telefono?: boolean
+  countryCode?: boolean
+  municipalityCode?: boolean
+  locality?: boolean
   contrasena?: boolean
   activo?: boolean
   ultimoAcceso?: boolean
@@ -1609,6 +1774,9 @@ export type UsuarioSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   apellidos?: boolean
   correo?: boolean
   telefono?: boolean
+  countryCode?: boolean
+  municipalityCode?: boolean
+  locality?: boolean
   contrasena?: boolean
   activo?: boolean
   ultimoAcceso?: boolean
@@ -1626,6 +1794,9 @@ export type UsuarioSelectScalar = {
   apellidos?: boolean
   correo?: boolean
   telefono?: boolean
+  countryCode?: boolean
+  municipalityCode?: boolean
+  locality?: boolean
   contrasena?: boolean
   activo?: boolean
   ultimoAcceso?: boolean
@@ -1636,7 +1807,7 @@ export type UsuarioSelectScalar = {
   bio?: boolean
 }
 
-export type UsuarioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombres" | "apellidos" | "correo" | "telefono" | "contrasena" | "activo" | "ultimoAcceso" | "rolId" | "createdAt" | "updatedAt" | "foto_url" | "bio", ExtArgs["result"]["usuario"]>
+export type UsuarioOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombres" | "apellidos" | "correo" | "telefono" | "countryCode" | "municipalityCode" | "locality" | "contrasena" | "activo" | "ultimoAcceso" | "rolId" | "createdAt" | "updatedAt" | "foto_url" | "bio", ExtArgs["result"]["usuario"]>
 export type UsuarioInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   auditorias?: boolean | Prisma.Usuario$auditoriasArgs<ExtArgs>
   campanias?: boolean | Prisma.Usuario$campaniasArgs<ExtArgs>
@@ -1671,6 +1842,9 @@ export type $UsuarioPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     apellidos: string | null
     correo: string
     telefono: string | null
+    countryCode: string | null
+    municipalityCode: string | null
+    locality: string | null
     contrasena: string
     activo: boolean
     ultimoAcceso: Date | null
@@ -2114,6 +2288,9 @@ export interface UsuarioFieldRefs {
   readonly apellidos: Prisma.FieldRef<"Usuario", 'String'>
   readonly correo: Prisma.FieldRef<"Usuario", 'String'>
   readonly telefono: Prisma.FieldRef<"Usuario", 'String'>
+  readonly countryCode: Prisma.FieldRef<"Usuario", 'String'>
+  readonly municipalityCode: Prisma.FieldRef<"Usuario", 'String'>
+  readonly locality: Prisma.FieldRef<"Usuario", 'String'>
   readonly contrasena: Prisma.FieldRef<"Usuario", 'String'>
   readonly activo: Prisma.FieldRef<"Usuario", 'Boolean'>
   readonly ultimoAcceso: Prisma.FieldRef<"Usuario", 'DateTime'>

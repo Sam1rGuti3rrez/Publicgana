@@ -1822,6 +1822,9 @@ export const UsuarioScalarFieldEnum = {
   apellidos: 'apellidos',
   correo: 'correo',
   telefono: 'telefono',
+  countryCode: 'countryCode',
+  municipalityCode: 'municipalityCode',
+  locality: 'locality',
   contrasena: 'contrasena',
   activo: 'activo',
   ultimoAcceso: 'ultimoAcceso',
@@ -2047,6 +2050,9 @@ export const LeadsScalarFieldEnum = {
   nombre: 'nombre',
   correo: 'correo',
   ciudad: 'ciudad',
+  countryCode: 'countryCode',
+  municipalityCode: 'municipalityCode',
+  locality: 'locality',
   tipo_usuario: 'tipo_usuario',
   fecha_registro: 'fecha_registro'
 } as const

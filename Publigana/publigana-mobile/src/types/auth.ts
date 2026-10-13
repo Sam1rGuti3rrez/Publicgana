@@ -7,6 +7,28 @@ export interface RegisterRequest {
   telefono: string;
   contrasena: string;
   rol: "promotor" | "negocio";
+  countryCode: "CO";
+  residencyConfirmed: true;
+  municipalityCode: string;
+  departmentCode: string;
+  locality?: string;
+}
+
+export interface ColombianLocationCatalog {
+  departments: ColombianDepartment[];
+  municipalities: ColombianMunicipality[];
+}
+
+export interface ColombianDepartment {
+  code: string;
+  name: string;
+}
+
+export interface ColombianMunicipality {
+  code: string;
+  name: string;
+  departmentCode: string;
+  department: string;
 }
 
 export interface LoginRequest {

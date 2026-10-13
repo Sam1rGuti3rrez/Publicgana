@@ -20,19 +20,22 @@ model Rol {
 }
 
 model Usuario {
-  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  nombres      String    @db.VarChar(100)
-  apellidos    String?   @db.VarChar(100)
-  correo       String    @unique @db.VarChar(150)
-  telefono     String?   @db.VarChar(20)
-  contrasena   String    @db.VarChar(255)
-  activo       Boolean   @default(true)
-  ultimoAcceso DateTime? @map("ultimo_acceso") @db.Timestamp(6)
-  rolId        Int       @map("rol_id")
-  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt    DateTime  @default(now()) @map("updated_at") @db.Timestamp(6)
-  foto_url     String?   @db.VarChar(255)
-  bio          String?   @db.VarChar(300)
+  id               String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nombres          String    @db.VarChar(100)
+  apellidos        String?   @db.VarChar(100)
+  correo           String    @unique @db.VarChar(150)
+  telefono         String?   @db.VarChar(20)
+  countryCode      String?   @map("country_code") @db.VarChar(2)
+  municipalityCode String?   @map("municipality_code") @db.VarChar(5)
+  locality         String?  @db.VarChar(150)
+  contrasena       String   @db.VarChar(255)
+  activo           Boolean   @default(true)
+  ultimoAcceso     DateTime? @map("ultimo_acceso") @db.Timestamp(6)
+  rolId            Int       @map("rol_id")
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt        DateTime  @default(now()) @map("updated_at") @db.Timestamp(6)
+  foto_url         String?   @db.VarChar(255)
+  bio              String?   @db.VarChar(300)
 
   auditorias      Auditoria[]
   campanias       Campania[]
@@ -309,10 +312,13 @@ model flyway_schema_history {
 }
 
 model leads {
-  id             String   @id @db.Uuid
-  nombre         String   @db.VarChar(150)
-  correo         String   @unique @db.VarChar(150)
-  ciudad         String   @db.VarChar(100)
-  tipo_usuario   String   @db.VarChar(50)
-  fecha_registro DateTime @default(now()) @db.Timestamp(6)
+  id               String   @id @db.Uuid
+  nombre           String   @db.VarChar(150)
+  correo           String   @unique @db.VarChar(150)
+  ciudad           String   @db.VarChar(100)
+  countryCode      String?  @map("country_code") @db.VarChar(2)
+  municipalityCode String?  @map("municipality_code") @db.VarChar(5)
+  locality         String?  @db.VarChar(150)
+  tipo_usuario     String   @db.VarChar(50)
+  fecha_registro   DateTime @default(now()) @db.Timestamp(6)
 }

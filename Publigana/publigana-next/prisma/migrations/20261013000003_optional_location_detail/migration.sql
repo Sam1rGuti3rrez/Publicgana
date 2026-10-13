@@ -1,0 +1,5 @@
+ALTER TABLE "usuario"
+ADD COLUMN "locality" VARCHAR(150);
+
+ALTER TABLE "leads"
+ADD COLUMN "locality" VARCHAR(150);

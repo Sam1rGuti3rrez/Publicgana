@@ -29,6 +29,9 @@ export type LeadsMinAggregateOutputType = {
   nombre: string | null
   correo: string | null
   ciudad: string | null
+  countryCode: string | null
+  municipalityCode: string | null
+  locality: string | null
   tipo_usuario: string | null
   fecha_registro: Date | null
 }
@@ -38,6 +41,9 @@ export type LeadsMaxAggregateOutputType = {
   nombre: string | null
   correo: string | null
   ciudad: string | null
+  countryCode: string | null
+  municipalityCode: string | null
+  locality: string | null
   tipo_usuario: string | null
   fecha_registro: Date | null
 }
@@ -47,6 +53,9 @@ export type LeadsCountAggregateOutputType = {
   nombre: number
   correo: number
   ciudad: number
+  countryCode: number
+  municipalityCode: number
+  locality: number
   tipo_usuario: number
   fecha_registro: number
   _all: number
@@ -58,6 +67,9 @@ export type LeadsMinAggregateInputType = {
   nombre?: true
   correo?: true
   ciudad?: true
+  countryCode?: true
+  municipalityCode?: true
+  locality?: true
   tipo_usuario?: true
   fecha_registro?: true
 }
@@ -67,6 +79,9 @@ export type LeadsMaxAggregateInputType = {
   nombre?: true
   correo?: true
   ciudad?: true
+  countryCode?: true
+  municipalityCode?: true
+  locality?: true
   tipo_usuario?: true
   fecha_registro?: true
 }
@@ -76,6 +91,9 @@ export type LeadsCountAggregateInputType = {
   nombre?: true
   correo?: true
   ciudad?: true
+  countryCode?: true
+  municipalityCode?: true
+  locality?: true
   tipo_usuario?: true
   fecha_registro?: true
   _all?: true
@@ -158,6 +176,9 @@ export type LeadsGroupByOutputType = {
   nombre: string
   correo: string
   ciudad: string
+  countryCode: string | null
+  municipalityCode: string | null
+  locality: string | null
   tipo_usuario: string
   fecha_registro: Date
   _count: LeadsCountAggregateOutputType | null
@@ -188,6 +209,9 @@ export type leadsWhereInput = {
   nombre?: Prisma.StringFilter<"leads"> | string
   correo?: Prisma.StringFilter<"leads"> | string
   ciudad?: Prisma.StringFilter<"leads"> | string
+  countryCode?: Prisma.StringNullableFilter<"leads"> | string | null
+  municipalityCode?: Prisma.StringNullableFilter<"leads"> | string | null
+  locality?: Prisma.StringNullableFilter<"leads"> | string | null
   tipo_usuario?: Prisma.StringFilter<"leads"> | string
   fecha_registro?: Prisma.DateTimeFilter<"leads"> | Date | string
 }
@@ -197,6 +221,9 @@ export type leadsOrderByWithRelationInput = {
   nombre?: Prisma.SortOrder
   correo?: Prisma.SortOrder
   ciudad?: Prisma.SortOrder
+  countryCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  municipalityCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  locality?: Prisma.SortOrderInput | Prisma.SortOrder
   tipo_usuario?: Prisma.SortOrder
   fecha_registro?: Prisma.SortOrder
 }
@@ -209,6 +236,9 @@ export type leadsWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.leadsWhereInput | Prisma.leadsWhereInput[]
   nombre?: Prisma.StringFilter<"leads"> | string
   ciudad?: Prisma.StringFilter<"leads"> | string
+  countryCode?: Prisma.StringNullableFilter<"leads"> | string | null
+  municipalityCode?: Prisma.StringNullableFilter<"leads"> | string | null
+  locality?: Prisma.StringNullableFilter<"leads"> | string | null
   tipo_usuario?: Prisma.StringFilter<"leads"> | string
   fecha_registro?: Prisma.DateTimeFilter<"leads"> | Date | string
 }, "id" | "correo">
@@ -218,6 +248,9 @@ export type leadsOrderByWithAggregationInput = {
   nombre?: Prisma.SortOrder
   correo?: Prisma.SortOrder
   ciudad?: Prisma.SortOrder
+  countryCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  municipalityCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  locality?: Prisma.SortOrderInput | Prisma.SortOrder
   tipo_usuario?: Prisma.SortOrder
   fecha_registro?: Prisma.SortOrder
   _count?: Prisma.leadsCountOrderByAggregateInput
@@ -233,6 +266,9 @@ export type leadsScalarWhereWithAggregatesInput = {
   nombre?: Prisma.StringWithAggregatesFilter<"leads"> | string
   correo?: Prisma.StringWithAggregatesFilter<"leads"> | string
   ciudad?: Prisma.StringWithAggregatesFilter<"leads"> | string
+  countryCode?: Prisma.StringNullableWithAggregatesFilter<"leads"> | string | null
+  municipalityCode?: Prisma.StringNullableWithAggregatesFilter<"leads"> | string | null
+  locality?: Prisma.StringNullableWithAggregatesFilter<"leads"> | string | null
   tipo_usuario?: Prisma.StringWithAggregatesFilter<"leads"> | string
   fecha_registro?: Prisma.DateTimeWithAggregatesFilter<"leads"> | Date | string
 }
@@ -242,6 +278,9 @@ export type leadsCreateInput = {
   nombre: string
   correo: string
   ciudad: string
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   tipo_usuario: string
   fecha_registro?: Date | string
 }
@@ -251,6 +290,9 @@ export type leadsUncheckedCreateInput = {
   nombre: string
   correo: string
   ciudad: string
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   tipo_usuario: string
   fecha_registro?: Date | string
 }
@@ -260,6 +302,9 @@ export type leadsUpdateInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   ciudad?: Prisma.StringFieldUpdateOperationsInput | string
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipo_usuario?: Prisma.StringFieldUpdateOperationsInput | string
   fecha_registro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -269,6 +314,9 @@ export type leadsUncheckedUpdateInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   ciudad?: Prisma.StringFieldUpdateOperationsInput | string
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipo_usuario?: Prisma.StringFieldUpdateOperationsInput | string
   fecha_registro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -278,6 +326,9 @@ export type leadsCreateManyInput = {
   nombre: string
   correo: string
   ciudad: string
+  countryCode?: string | null
+  municipalityCode?: string | null
+  locality?: string | null
   tipo_usuario: string
   fecha_registro?: Date | string
 }
@@ -287,6 +338,9 @@ export type leadsUpdateManyMutationInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   ciudad?: Prisma.StringFieldUpdateOperationsInput | string
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipo_usuario?: Prisma.StringFieldUpdateOperationsInput | string
   fecha_registro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -296,6 +350,9 @@ export type leadsUncheckedUpdateManyInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   correo?: Prisma.StringFieldUpdateOperationsInput | string
   ciudad?: Prisma.StringFieldUpdateOperationsInput | string
+  countryCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  municipalityCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locality?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tipo_usuario?: Prisma.StringFieldUpdateOperationsInput | string
   fecha_registro?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -305,6 +362,9 @@ export type leadsCountOrderByAggregateInput = {
   nombre?: Prisma.SortOrder
   correo?: Prisma.SortOrder
   ciudad?: Prisma.SortOrder
+  countryCode?: Prisma.SortOrder
+  municipalityCode?: Prisma.SortOrder
+  locality?: Prisma.SortOrder
   tipo_usuario?: Prisma.SortOrder
   fecha_registro?: Prisma.SortOrder
 }
@@ -314,6 +374,9 @@ export type leadsMaxOrderByAggregateInput = {
   nombre?: Prisma.SortOrder
   correo?: Prisma.SortOrder
   ciudad?: Prisma.SortOrder
+  countryCode?: Prisma.SortOrder
+  municipalityCode?: Prisma.SortOrder
+  locality?: Prisma.SortOrder
   tipo_usuario?: Prisma.SortOrder
   fecha_registro?: Prisma.SortOrder
 }
@@ -323,6 +386,9 @@ export type leadsMinOrderByAggregateInput = {
   nombre?: Prisma.SortOrder
   correo?: Prisma.SortOrder
   ciudad?: Prisma.SortOrder
+  countryCode?: Prisma.SortOrder
+  municipalityCode?: Prisma.SortOrder
+  locality?: Prisma.SortOrder
   tipo_usuario?: Prisma.SortOrder
   fecha_registro?: Prisma.SortOrder
 }
@@ -334,6 +400,9 @@ export type leadsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   nombre?: boolean
   correo?: boolean
   ciudad?: boolean
+  countryCode?: boolean
+  municipalityCode?: boolean
+  locality?: boolean
   tipo_usuario?: boolean
   fecha_registro?: boolean
 }, ExtArgs["result"]["leads"]>
@@ -343,6 +412,9 @@ export type leadsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   nombre?: boolean
   correo?: boolean
   ciudad?: boolean
+  countryCode?: boolean
+  municipalityCode?: boolean
+  locality?: boolean
   tipo_usuario?: boolean
   fecha_registro?: boolean
 }, ExtArgs["result"]["leads"]>
@@ -352,6 +424,9 @@ export type leadsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   nombre?: boolean
   correo?: boolean
   ciudad?: boolean
+  countryCode?: boolean
+  municipalityCode?: boolean
+  locality?: boolean
   tipo_usuario?: boolean
   fecha_registro?: boolean
 }, ExtArgs["result"]["leads"]>
@@ -361,11 +436,14 @@ export type leadsSelectScalar = {
   nombre?: boolean
   correo?: boolean
   ciudad?: boolean
+  countryCode?: boolean
+  municipalityCode?: boolean
+  locality?: boolean
   tipo_usuario?: boolean
   fecha_registro?: boolean
 }
 
-export type leadsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombre" | "correo" | "ciudad" | "tipo_usuario" | "fecha_registro", ExtArgs["result"]["leads"]>
+export type leadsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombre" | "correo" | "ciudad" | "countryCode" | "municipalityCode" | "locality" | "tipo_usuario" | "fecha_registro", ExtArgs["result"]["leads"]>
 
 export type $leadsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "leads"
@@ -375,6 +453,9 @@ export type $leadsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     nombre: string
     correo: string
     ciudad: string
+    countryCode: string | null
+    municipalityCode: string | null
+    locality: string | null
     tipo_usuario: string
     fecha_registro: Date
   }, ExtArgs["result"]["leads"]>
@@ -804,6 +885,9 @@ export interface leadsFieldRefs {
   readonly nombre: Prisma.FieldRef<"leads", 'String'>
   readonly correo: Prisma.FieldRef<"leads", 'String'>
   readonly ciudad: Prisma.FieldRef<"leads", 'String'>
+  readonly countryCode: Prisma.FieldRef<"leads", 'String'>
+  readonly municipalityCode: Prisma.FieldRef<"leads", 'String'>
+  readonly locality: Prisma.FieldRef<"leads", 'String'>
   readonly tipo_usuario: Prisma.FieldRef<"leads", 'String'>
   readonly fecha_registro: Prisma.FieldRef<"leads", 'DateTime'>
 }

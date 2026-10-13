@@ -345,7 +345,7 @@ export const docsPages: DocPage[] = [
         blocks: [
           {
             kind: "paragraph",
-            text: "El formulario de interés es un Client Component con estado React local; envía POST /api/leads, muestra el resultado y limpia los campos al éxito. La validación se realiza tanto en cliente HTML como en el handler.",
+            text: "El formulario de interés es un Client Component con estado React local; carga departamentos y municipios/distritos DIVIPOLA, exige selección vinculada y confirmación de residencia, y permite indicar una localidad opcional no verificada. Envía ambos códigos oficiales a POST /api/leads; el servidor valida su relación antes de consultar o crear el lead. DIVIPOLA no valida barrios, localidades, corregimientos o veredas.",
           },
           {
             kind: "callout",
@@ -388,12 +388,13 @@ export const docsPages: DocPage[] = [
             table: {
               headers: ["Método y ruta", "Uso observado", "Acceso"],
               rows: [
-                ["POST /api/auth/register", "Registra promotor o negocio; crea empresa para negocio.", "Público"],
+                ["POST /api/auth/register", "Registra promotor o negocio con residencia en Colombia declarada; crea empresa para negocio.", "Público"],
                 ["POST /api/auth/login", "Comprueba bcrypt, actualiza último acceso y emite JWT.", "Público"],
                 ["GET /api/usuarios/me", "Devuelve perfil del usuario activo.", "Bearer JWT"],
                 ["GET /api/usuarios", "Lista datos seleccionados de usuarios.", "Sin auth en el handler"],
                 ["GET /api/health", "Prueba una consulta a Rol.", "Público"],
-                ["POST /api/leads", "Valida y crea un lead.", "Público"],
+                ["POST /api/leads", "Valida código municipal DIVIPOLA y crea un lead.", "Público"],
+                ["GET /api/municipios", "Devuelve departamentos y municipios/distritos DIVIPOLA con códigos oficiales.", "Público"],
                 ["GET /api/test/admin", "Comprueba el rol ADMIN.", "Bearer JWT + ADMIN"],
               ],
             },
@@ -407,10 +408,10 @@ export const docsPages: DocPage[] = [
           {
             kind: "list",
             items: [
-              "Registro acepta rol promotor o negocio, exige correo, contraseña y teléfono; exige nombres/apellidos o nombreEmpresa/NIT según rol y una contraseña de al menos 8 caracteres.",
-              "Leads exige nombre, correo con formato básico, ciudad y tipoUsuario igual a usuario o negocio; correo duplicado devuelve 400.",
+              "Registro acepta rol promotor o negocio, exige correo, contraseña, teléfono, countryCode CO, residencia confirmada, y códigos de departamento y municipio/distrito con relación válida en DIVIPOLA; la localidad es opcional, texto limitado y no prueba ubicación. Exige nombres/apellidos o nombreEmpresa/NIT según rol y una contraseña de al menos 8 caracteres. La API valida la ubicación independientemente del cliente.",
+              "Leads exige nombre, correo con formato básico, tipoUsuario igual a usuario o negocio, countryCode CO, residencyConfirmed=true y códigos DIVIPOLA relacionados. Si se envía ciudad, debe coincidir con el nombre oficial; localidad es opcional y no se geovalida. El servidor persiste los códigos y el nombre canónicos. El correo duplicado conserva su control y la colisión de unicidad devuelve 409.",
               "Login diferencia ausencia de credenciales (400) de credenciales no válidas (401). Errores internos normalmente devuelven 500.",
-              "No se encontró un validador de esquema común. JSON inválido u otros errores inesperados pueden terminar en 500.",
+              "El endpoint de leads rechaza JSON inválido con 400. No hay un validador de esquema común.",
             ],
           },
         ],
@@ -487,7 +488,7 @@ export const docsPages: DocPage[] = [
               headers: ["Modelo", "Claves/campos relevantes", "Relaciones declaradas"],
               rows: [
                 ["Rol", "idRol; nombre único", "Usuarios"],
-                ["Usuario", "id UUID; correo único; activo; rolId", "Rol, empresa, campañas, participación, ganadores, notificaciones, auditorías"],
+                ["Usuario", "id UUID; correo único; activo; rolId; countryCode CO, municipalityCode DIVIPOLA y localidad opcional para altas nuevas", "Rol, empresa, campañas, participación, ganadores, notificaciones, auditorías"],
                 ["CategoriaEmpresa", "idCategoria BigInt; nombre único", "Empresas"],
                 ["Empresa", "idEmpresa BigInt; NIT único", "Categoría empresa opcional, usuario opcional, publicaciones"],
                 ["Categoria", "id UUID; nombre único", "Campañas"],
@@ -503,7 +504,7 @@ export const docsPages: DocPage[] = [
                 ["Auditoria", "id UUID; entidadId", "Usuario responsable opcional"],
                 ["publicacion", "id UUID; empresa_id", "Empresa"],
                 ["flyway_schema_history", "installed_rank; success", "Sin relaciones Prisma"],
-                ["leads", "id UUID; correo único", "Sin relaciones Prisma"],
+                ["leads", "id UUID; correo único; countryCode CO, municipalityCode DIVIPOLA y localidad opcional en altas nuevas", "Sin relaciones Prisma"],
               ],
             },
           },
@@ -536,13 +537,17 @@ export const docsPages: DocPage[] = [
               rows: [
                 ["0_baseline", "Crea esquema public, tablas, claves, índices y relaciones iniciales."],
                 ["20260920030123_init", "Añade nit, leads, flyway_schema_history y cambia columnas/índices."],
+                ["20261013000000_user_colombian_residency", "Añade country_code opcional a usuario con CHECK para CO o NULL."],
+                ["20261013000001_lead_colombian_residency", "Añade country_code opcional a leads con CHECK para CO o NULL."],
+                ["20261013000002_colombian_municipalities", "Añade municipality_code opcional a usuario y leads con CHECK de código y país."],
+                ["20261013000003_optional_location_detail", "Añade locality VARCHAR(150) nullable a usuario y leads; no modifica datos existentes."],
               ],
             },
           },
           {
             kind: "code",
             language: "typescript",
-            code: "const lead = await prisma.leads.create({\n  data: {\n    id: crypto.randomUUID(),\n    nombre,\n    correo,\n    ciudad,\n    tipo_usuario: tipoUsuario,\n  },\n});",
+            code: "await fetch(\"/api/leads\", {\n  method: \"POST\",\n  headers: { \"Content-Type\": \"application/json\" },\n  body: JSON.stringify({\n    nombre,\n    correo,\n    tipoUsuario,\n    countryCode: \"CO\",\n    residencyConfirmed: true,\n    departmentCode,\n    municipalityCode,\n  }),\n});",
           },
           {
             kind: "callout",
@@ -579,7 +584,7 @@ export const docsPages: DocPage[] = [
                 ["Premios, sorteos y ganadores", "Premio, Sorteo y Ganador.", "Modelos; flujo de sorteo no encontrado."],
                 ["Notificaciones y auditoría", "Notificacion y Auditoria.", "Modelos; servicios/endpoints no encontrados."],
                 ["Publicaciones", "publicacion y relación con Empresa.", "Modelo; endpoints de publicación no encontrados."],
-                ["Leads", "Formulario landing y POST /api/leads.", "Creación y unicidad de correo implementadas."],
+                ["Leads", "Formulario landing y POST /api/leads.", "Creación, municipio DIVIPOLA validado en servidor y unicidad de correo."],
               ],
             },
           },

@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { getPrisma } from "@/app/lib/prisma";
+import { getColombianMunicipality } from "@/app/lib/colombian-municipalities";
+import { parseOptionalLocationDetail } from "@/app/lib/location-detail";
+import { parseColombianResidencyDeclaration } from "@/app/lib/registration-country";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "http://localhost:8081",
@@ -18,6 +21,61 @@ export async function OPTIONS() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return NextResponse.json(
+        { error: "La solicitud de registro no es válida" },
+        {
+          status: 400,
+          headers: corsHeaders,
+        },
+      );
+    }
+
+    const countryCode = parseColombianResidencyDeclaration(
+      body.countryCode,
+      body.residencyConfirmed,
+    );
+
+    if (!countryCode) {
+      return NextResponse.json(
+        { error: "Debes confirmar que resides en Colombia para registrarte" },
+        {
+          status: 400,
+          headers: corsHeaders,
+        },
+      );
+    }
+
+    const municipality = getColombianMunicipality(
+      body.municipalityCode,
+      body.departmentCode,
+    );
+
+    if (!municipality) {
+      return NextResponse.json(
+        { error: "Selecciona un departamento y un municipio válidos de Colombia" },
+        {
+          status: 400,
+          headers: corsHeaders,
+        },
+      );
+    }
+
+    const locationDetail = parseOptionalLocationDetail(body.locality);
+
+    if (!locationDetail.valid) {
+      return NextResponse.json(
+        {
+          error:
+            "La localidad debe ser texto de hasta 150 caracteres y no contener caracteres de control",
+        },
+        {
+          status: 400,
+          headers: corsHeaders,
+        },
+      );
+    }
 
     // =========================================================
     // DATOS RECIBIDOS
@@ -233,6 +291,9 @@ export async function POST(request: Request) {
           apellidos,
           correo,
           telefono,
+          countryCode,
+          municipalityCode: municipality.code,
+          locality: locationDetail.value,
           contrasena: passwordHash,
           activo: true,
           rolId: rolDb.idRol,
