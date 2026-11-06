@@ -1,58 +1,16 @@
 import { NextResponse } from "next/server";
-import { getPrisma } from "@/app/lib/prisma";
-import { verifyToken } from "@/app/lib/jwt";
+import { requirePermission } from "@/app/lib/authorization/authorize";
+import { PERMISSIONS } from "@/app/lib/authorization/permissions";
 
 export async function GET(request: Request) {
   try {
-    const auth = request.headers.get("authorization") || "";
+    const auth = await requirePermission(request, PERMISSIONS.PROFILE_VIEW_OWN);
 
-    if (!auth.startsWith("Bearer ")) {
-      return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+    if ("response" in auth) {
+      return auth.response;
     }
 
-    const token = auth.replace(/^Bearer\s+/i, "");
-
-    let payload;
-    try {
-      payload = verifyToken(token);
-    } catch (e) {
-      console.error("[AUTH ERROR] Token verification failed:", (e as Error).message);
-      return NextResponse.json({ error: "Token inválido" }, { status: 401 });
-    }
-
-    // Validación defensiva: asegurar que el payload tiene los campos requeridos
-    if (!payload || !payload.userId || !payload.rol) {
-      console.error(
-        "[AUTH ERROR] Token payload incompleto",
-        { hasUserId: !!payload?.userId, hasRol: !!payload?.rol }
-      );
-      return NextResponse.json(
-        { error: "Token incompleto o inválido" },
-        { status: 401 }
-      );
-    }
-
-    const prisma = getPrisma();
-    const usuario = await prisma.usuario.findUnique({
-      where: { id: payload.userId },
-      include: { rol: true },
-    });
-
-    if (!usuario || !usuario.activo) {
-      return NextResponse.json({ error: "Usuario no encontrado" }, { status: 401 });
-    }
-
-    // Validación defensiva: asegurar que el usuario tiene un rol válido
-    if (!usuario.rol || !usuario.rol.nombre) {
-      console.error(
-        `[AUTH ERROR] Usuario ${usuario.id} no tiene rol válido en BD`,
-        { rolData: usuario.rol }
-      );
-      return NextResponse.json(
-        { error: "Usuario sin rol configurado en la base de datos" },
-        { status: 500 }
-      );
-    }
+    const usuario = auth.usuario;
 
     return NextResponse.json({
       id: usuario.id,

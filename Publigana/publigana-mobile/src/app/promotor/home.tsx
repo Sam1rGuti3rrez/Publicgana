@@ -65,7 +65,6 @@ export default function Home() {
 
   const {
     user,
-    devRole,
     setDevRole,
   } = useAuth();
 
@@ -81,6 +80,12 @@ export default function Home() {
   }, [width]);
 
   const handleRoleChange = (nextRole: "promotor" | "empresa") => {
+    if (user?.rol !== "NEGOCIO" && nextRole === "empresa") {
+      return;
+    }
+    if (user?.rol !== "PROMOTOR" && nextRole === "promotor") {
+      return;
+    }
     setDevRole(nextRole);
 
     router.replace(
@@ -100,7 +105,7 @@ export default function Home() {
       contentStyle={styles.content}
     >
       <RoleSwitcher
-        value={devRole}
+        value={user?.rol === "NEGOCIO" ? "empresa" : "promotor"}
         onChange={handleRoleChange}
       />
 

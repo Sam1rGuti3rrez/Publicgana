@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { requireRole } from "@/app/lib/auth";
+import { requireRoleAuthorization } from "@/app/lib/authorization/authorize";
 
 export async function GET(request: Request) {
-  const auth = await requireRole(request, "ADMIN");
+  const auth = await requireRoleAuthorization(request, ["ADMIN"]);
 
   if ("response" in auth) {
     return auth.response;

@@ -89,9 +89,11 @@ export default function LoginScreen() {
       await login(response);
 
       const destination =
-        response.usuario?.rol === "NEGOCIO"
-          ? "/empresa/(tabs)"
-          : "/promotor/(tabs)";
+        response.usuario?.rol === "ADMIN"
+          ? "/tabs/profile"
+          : response.usuario?.rol === "NEGOCIO"
+            ? "/empresa/(tabs)"
+            : "/promotor/(tabs)";
 
       router.replace(destination);
     } catch (error) {

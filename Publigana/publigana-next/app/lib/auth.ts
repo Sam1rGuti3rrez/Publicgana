@@ -6,15 +6,19 @@ import {
   hasRequiredRole,
   isTrustedWebOrigin,
 } from "@/app/lib/security";
+import {
+  isAuthenticatedRole,
+  normalizeRole,
+} from "@/app/lib/authorization/roles";
 
 const unauthorized = (error: string) =>
   NextResponse.json({ error }, { status: 401 });
 
-type AuthenticatedUser = Awaited<
+export type AuthenticatedUser = Awaited<
   ReturnType<typeof findActiveUser>
 >;
 
-type AuthResult =
+export type AuthResult =
   | { usuario: NonNullable<AuthenticatedUser>; payload: TokenPayload }
   | { response: NextResponse };
 
@@ -64,7 +68,14 @@ export async function requireRole(
     return result;
   }
 
-  if (!hasRequiredRole(result.usuario.rol.nombre, requiredRole)) {
+  const actualRole = normalizeRole(result.usuario.rol.nombre);
+  const expectedRole = normalizeRole(requiredRole);
+
+  if (
+    !isAuthenticatedRole(actualRole) ||
+    !isAuthenticatedRole(expectedRole) ||
+    !hasRequiredRole(actualRole, expectedRole)
+  ) {
     return {
       response: NextResponse.json(
         { error: "No tienes permisos para realizar esta acción" },

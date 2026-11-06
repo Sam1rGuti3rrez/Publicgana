@@ -58,10 +58,16 @@ const PAUSED_CAMPAIGNS: EmpresaCampaign[] = [
 
 export default function EmpresaDashboard() {
   const router = useRouter();
-  const { devRole, setDevRole } = useAuth();
+  const { user, setDevRole } = useAuth();
   const { width } = useWindowDimensions();
 
   const handleRoleChange = (nextRole: "promotor" | "empresa") => {
+    if (user?.rol !== "NEGOCIO" && nextRole === "empresa") {
+      return;
+    }
+    if (user?.rol !== "PROMOTOR" && nextRole === "promotor") {
+      return;
+    }
     setDevRole(nextRole);
     router.replace(nextRole === "empresa" ? "/empresa/(tabs)" : "/promotor/(tabs)");
   };
@@ -74,7 +80,11 @@ export default function EmpresaDashboard() {
 
   return (
     <ResponsiveContainer maxWidth={1120} contentStyle={styles.screenPadding}>
-      <RoleSwitcher value={devRole} onChange={handleRoleChange} style={styles.roleSwitcher} />
+      <RoleSwitcher
+        value={user?.rol === "PROMOTOR" ? "promotor" : "empresa"}
+        onChange={handleRoleChange}
+        style={styles.roleSwitcher}
+      />
 
       <View style={styles.headerCard}>
         <View style={styles.headerRow}>

@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
-import { requireRole } from "@/app/lib/auth";
+import { requirePermission } from "@/app/lib/authorization/authorize";
+import { PERMISSIONS } from "@/app/lib/authorization/permissions";
 import { getPrisma } from "@/app/lib/prisma";
 
 export async function GET(request: Request) {
   try {
-    const auth = await requireRole(request, "ADMIN");
+    const auth = await requirePermission(request, PERMISSIONS.USERS_LIST);
 
     if ("response" in auth) {
       return auth.response;

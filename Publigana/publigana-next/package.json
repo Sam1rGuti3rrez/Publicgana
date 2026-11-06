@@ -12,7 +12,8 @@
     "test:municipalities": "tsx --test scripts/municipalities.test.ts",
     "test:location-form": "tsx --test scripts/location-form.test.ts",
     "test:register": "tsx --test scripts/register.test.ts",
-    "test:security": "node --experimental-strip-types --test scripts/security-session.test.mjs"
+    "test:security": "node --experimental-strip-types --test scripts/security-session.test.mjs",
+    "test:authorization": "tsx --test scripts/authorization.test.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.9.1",
