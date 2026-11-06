@@ -127,3 +127,54 @@ test("fails closed when production WEB_ORIGIN is missing", () => {
     false,
   );
 });
+
+test("accepts the canonical www host when production WEB_ORIGIN is missing", () => {
+  process.env.NODE_ENV = "production";
+  delete process.env.WEB_ORIGIN;
+
+  assert.equal(
+    isTrustedWebOrigin(
+      new Request("https://www.publigana.com/api/auth/login", {
+        headers: {
+          Origin: "https://www.publigana.com",
+          Host: "www.publigana.com",
+        },
+      }),
+    ),
+    true,
+  );
+
+  assert.equal(
+    isTrustedWebOrigin(
+      new Request("https://www.publigana.com/api/auth/login", {
+        headers: {
+          Origin: "https://publigana.com",
+          Host: "www.publigana.com",
+        },
+      }),
+    ),
+    false,
+  );
+});
+
+test("accepts only the apex and www PubliGana pair when WEB_ORIGIN is misconfigured as apex", () => {
+  process.env.NODE_ENV = "production";
+  process.env.WEB_ORIGIN = "https://publigana.com";
+
+  assert.equal(
+    isTrustedWebOrigin(
+      new Request("https://www.publigana.com/api/auth/login", {
+        headers: { Origin: "https://www.publigana.com" },
+      }),
+    ),
+    true,
+  );
+  assert.equal(
+    isTrustedWebOrigin(
+      new Request("https://www.publigana.com/api/auth/login", {
+        headers: { Origin: "https://evil.example" },
+      }),
+    ),
+    false,
+  );
+});

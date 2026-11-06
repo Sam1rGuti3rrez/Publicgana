@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { createHash } from "node:crypto";
 import bcrypt from "bcrypt";
 import { getPrisma } from "@/app/lib/prisma";
 import { getTokenExpiration } from "@/app/lib/jwt";
@@ -15,6 +16,28 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
+function getDatabaseIdentity(databaseName: string) {
+  return createHash("sha256").update(databaseName).digest("hex").slice(0, 12);
+}
+
+function logAuthDiagnostic(
+  event:
+    | "body_received"
+    | "user_found"
+    | "user_not_found"
+    | "inactive_user"
+    | "bcrypt_match"
+    | "password_mismatch"
+    | "database_error"
+    | "database_identity_verified",
+  databaseIdentity?: string,
+) {
+  console.info("AUTH_DIAGNOSTIC", {
+    event,
+    ...(databaseIdentity ? { databaseIdentity } : {}),
+  });
+}
+
 export async function OPTIONS() {
   return new NextResponse(null, {
     status: 204,
@@ -25,19 +48,10 @@ export async function OPTIONS() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    logAuthDiagnostic("body_received");
 
     const correo = body.correo?.trim();
     const contrasena = body.contrasena;
-
-    console.info("[LOGIN DEBUG] Solicitud recibida", {
-      method: request.method,
-      endpoint: new URL(request.url).pathname,
-      bodyFields: Object.keys(body),
-      correo: typeof correo === "string" ? correo : null,
-      contrasenaType: typeof contrasena,
-      contrasenaLength:
-        typeof contrasena === "string" ? contrasena.length : null,
-    });
 
     if (!correo || !contrasena) {
       return NextResponse.json(
@@ -49,39 +63,53 @@ export async function POST(request: Request) {
       );
     }
 
-    const prisma = getPrisma();
-    const usuario = await prisma.usuario.findUnique({
-      where: {
-        correo,
-      },
-      include: {
-        rol: true,
-      },
-    });
+    let prisma;
+    let usuario;
 
-    console.info("[LOGIN DEBUG] Resultado de búsqueda", {
-      correo,
-      existe: Boolean(usuario),
-      activo: usuario?.activo ?? null,
-      tieneRol: Boolean(usuario?.rol),
-      rol: usuario?.rol?.nombre ?? null,
-      contrasenaType: usuario ? typeof usuario.contrasena : null,
-      contrasenaLength: usuario?.contrasena?.length ?? null,
-      formatoBcrypt:
-        typeof usuario?.contrasena === "string" &&
-        /^\$2[aby]?\$\d{2}\$/.test(usuario.contrasena),
-      rondasBcrypt:
-        typeof usuario?.contrasena === "string"
-          ? Number.parseInt(usuario.contrasena.slice(4, 6), 10) || null
-          : null,
-    });
+    try {
+      prisma = getPrisma();
+      const [{ databaseName }] = await prisma.$queryRaw<{
+        databaseName: string;
+      }[]>`SELECT current_database() AS "databaseName"`;
+      logAuthDiagnostic(
+        "database_identity_verified",
+        getDatabaseIdentity(databaseName),
+      );
 
-    if (!usuario || !usuario.activo) {
-      console.warn("[LOGIN DEBUG] Rechazo antes de comparar contraseña", {
-        correo,
-        existe: Boolean(usuario),
-        activo: usuario?.activo ?? null,
+      usuario = await prisma.usuario.findUnique({
+        where: {
+          correo,
+        },
+        include: {
+          rol: true,
+        },
       });
+    } catch {
+      logAuthDiagnostic("database_error");
+      return NextResponse.json(
+        { error: "Error interno del servidor" },
+        {
+          status: 500,
+          headers: corsHeaders,
+        },
+      );
+    }
+
+    if (!usuario) {
+      logAuthDiagnostic("user_not_found");
+      return NextResponse.json(
+        { error: "Credenciales inválidas" },
+        {
+          status: 401,
+          headers: corsHeaders,
+        },
+      );
+    }
+
+    logAuthDiagnostic("user_found");
+
+    if (!usuario.activo) {
+      logAuthDiagnostic("inactive_user");
       return NextResponse.json(
         { error: "Credenciales inválidas" },
         {
@@ -97,12 +125,7 @@ export async function POST(request: Request) {
     );
 
     if (!passwordValida) {
-      console.warn("[LOGIN DEBUG] bcrypt.compare devolvió false", {
-        correo,
-        hashTieneFormatoBcrypt:
-          /^\$2[aby]?\$\d{2}\$/.test(usuario.contrasena),
-        hashLength: usuario.contrasena.length,
-      });
+      logAuthDiagnostic("password_mismatch");
       return NextResponse.json(
         { error: "Credenciales inválidas" },
         {
@@ -112,14 +135,10 @@ export async function POST(request: Request) {
       );
     }
 
-    console.info("[LOGIN DEBUG] bcrypt.compare devolvió true", { correo });
+    logAuthDiagnostic("bcrypt_match");
 
     // Validación defensiva: asegurar que el rol existe
     if (!usuario.rol || !usuario.rol.nombre) {
-      console.error(
-        `[LOGIN ERROR] Usuario ${usuario.id} no tiene rol válido asociado`,
-        { rolData: usuario.rol }
-      );
       return NextResponse.json(
         { error: "Usuario sin rol configurado en la base de datos" },
         { status: 500, headers: corsHeaders }
@@ -148,8 +167,8 @@ export async function POST(request: Request) {
 
     try {
       refreshToken = signRefreshToken(payload);
-    } catch (e) {
-      console.error("No se pudo generar refreshToken:", e);
+    } catch {
+      console.error("No se pudo generar el refresh token");
     }
 
     const response = NextResponse.json(
@@ -184,8 +203,8 @@ export async function POST(request: Request) {
     }
 
     return response;
-  } catch (error) {
-    console.error("Error en login:", error);
+  } catch {
+    console.error("Error interno de autenticación");
 
     return NextResponse.json(
       { error: "Error interno del servidor" },

@@ -58,19 +58,58 @@ export function isTrustedWebOrigin(request: Pick<Request, "headers">) {
     process.env.WEB_ORIGIN ??
     (process.env.NODE_ENV === "production" ? null : "http://localhost:3000");
 
-  if (!requestOrigin || !configuredOrigin) {
+  if (!requestOrigin) {
     return false;
   }
 
   const parsedRequestOrigin = parseOrigin(requestOrigin);
-  const parsedConfiguredOrigin = parseOrigin(configuredOrigin);
+  if (!parsedRequestOrigin) {
+    return false;
+  }
 
-  return Boolean(
-    parsedRequestOrigin &&
-      parsedConfiguredOrigin &&
-      parsedRequestOrigin === requestOrigin &&
-      parsedRequestOrigin === parsedConfiguredOrigin,
-  );
+  if (configuredOrigin) {
+    const parsedConfiguredOrigin = parseOrigin(configuredOrigin);
+
+    if (!parsedConfiguredOrigin) {
+      return false;
+    }
+
+    if (parsedRequestOrigin === parsedConfiguredOrigin) {
+      return true;
+    }
+
+    const requestUrl = new URL(parsedRequestOrigin);
+    const configuredUrl = new URL(parsedConfiguredOrigin);
+    const isPubliganaPair =
+      requestUrl.protocol === "https:" &&
+      configuredUrl.protocol === "https:" &&
+      ((requestUrl.hostname === "www.publigana.com" &&
+        configuredUrl.hostname === "publigana.com") ||
+        (requestUrl.hostname === "publigana.com" &&
+          configuredUrl.hostname === "www.publigana.com"));
+
+    return isPubliganaPair;
+  }
+
+  if (process.env.NODE_ENV !== "production") {
+    return false;
+  }
+
+  const host = request.headers.get("host")?.trim();
+  if (!host) {
+    return false;
+  }
+
+  try {
+    const hostUrl = new URL(`https://${host}`);
+    if (hostUrl.username || hostUrl.password) {
+      return false;
+    }
+
+    return parsedRequestOrigin === hostUrl.origin;
+  } catch {
+    return false;
+  }
 }
 
 export function shouldIssueAdminSessionCookie(
