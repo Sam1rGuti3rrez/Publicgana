@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"error-container":"#93000a","on-tertiary-fixed-variant":"#005236","inverse-primary":"#8234c6","primary-fixed":"#f1dbff","secondary-container":"#6f00be","tertiary-fixed":"#6ffbbe","background":"#160f27","on-background":"#eaddfe","on-primary-container":"#e4c2ff","outline":"#988d9e","on-surface":"#eaddfe","primary-fixed-dim":"#deb7ff","surface-variant":"#39314a","on-primary-fixed":"#2d0050","surface-container-high":"#2e263f","on-tertiary-fixed":"#002113","secondary":"#ddb7ff","primary":"#deb7ff","surface-container-lowest":"#110a21","inverse-surface":"#eaddfe","on-primary-fixed-variant":"#680eac","on-secondary-fixed":"#2c0051","surface-container-low":"#1f172f","surface-container":"#231b34","secondary-fixed":"#f0dbff","on-primary":"#4a007f","on-secondary-fixed-variant":"#6900b3","outline-variant":"#4c4353","on-tertiary":"#003824","on-tertiary-container":"#58e7ab","on-secondary-container":"#d6a9ff","surface-tint":"#deb7ff","primary-container":"#7b2cbf","on-error-container":"#ffdad6","on-surface-variant":"#cfc2d5","error":"#ffb4ab","surface-bright":"#3d354f","surface-container-highest":"#39314a","on-secondary":"#490080","on-error":"#690005","tertiary":"#4edea3","secondary-fixed-dim":"#ddb7ff","tertiary-fixed-dim":"#4edea3","surface":"#160f27","inverse-on-surface":"#342c45","tertiary-container":"#006544","surface-dim":"#160f27"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"gutter":"1.5rem","space-lg":"1.5rem","space-xs":"0.25rem","margin":"2rem","space-sm":"0.5rem","space-md":"1rem","space-xl":"2.25rem","margin-sm":"1rem","gutter-sm":"1rem"},fontFamily:{"headline-xl-mobile":["Inter"],"headline-sm":["Inter"],"headline-md":["Inter"],"body-lg":["Inter"],"body-md":["Inter"],"label-md":["Inter"],"headline-lg":["Inter"],"label-lg":["Inter"],"body-sm":["Inter"],"headline-lg-mobile":["Inter"],"headline-xl":["Inter"],"label-sm":["Inter"]},fontSize:{"headline-xl-mobile":["2rem",{lineHeight:"1.2",letterSpacing:"-0.02em",fontWeight:"700"}],"headline-sm":["1.25rem",{lineHeight:"1.35",letterSpacing:"-0.01em",fontWeight:"600"}],"headline-md":["1.5rem",{lineHeight:"1.3",letterSpacing:"-0.015em",fontWeight:"600"}],"body-lg":["1.125rem",{lineHeight:"1.5",letterSpacing:"-0.005em",fontWeight:"400"}],"body-md":["0.9375rem",{lineHeight:"1.5",letterSpacing:"0em",fontWeight:"400"}],"label-md":["0.75rem",{lineHeight:"1.2",letterSpacing:"0.02em",fontWeight:"500"}],"headline-lg":["2.25rem",{lineHeight:"1.2",letterSpacing:"-0.02em",fontWeight:"600"}],"label-lg":["0.875rem",{lineHeight:"1.25",letterSpacing:"0.01em",fontWeight:"600"}],"body-sm":["0.8125rem",{lineHeight:"1.45",letterSpacing:"0.005em",fontWeight:"400"}],"headline-lg-mobile":["1.625rem",{lineHeight:"1.25",letterSpacing:"-0.015em",fontWeight:"600"}],"headline-xl":["3rem",{lineHeight:"1.15",letterSpacing:"-0.03em",fontWeight:"700"}],"label-sm":["0.6875rem",{lineHeight:"1.15",letterSpacing:"0.04em",fontWeight:"600"}]}}}};</script></head><body class="bg-surface-container-lowest text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-low z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center gap-space-sm bg-surface-container-low"><div class="w-9 h-9 rounded-lg bg-gradient-to-br from-primary-container to-primary flex items-center justify-center shadow-lg shadow-primary-container/20"><span class="material-symbols-outlined text-white text-[20px]">token</span></div><div class="flex flex-col"><span class="font-label-lg text-label-lg font-bold tracking-tight text-on-surface">PubliGana</span><span class="font-label-sm text-label-sm tracking-wider uppercase text-on-surface-variant">Console</span></div></div><div class="px-space-md py-space-sm"><nav class="flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-bold shadow-md shadow-primary-container/25"><a aria-current="page" class="flex items-center gap-space-md px-space-md py-space-sm rounded-xl transition-all bg-primary-container text-on-primary font-bold shadow-md shadow-primary-container/25" data-path="resumen" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span>Resumen</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="usuarios" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span>Usuarios</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="empresas" href="#"><span class="material-symbols-outlined text-[20px]">domain</span><span>Empresas</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="campanas" href="#"><span class="material-symbols-outlined text-[20px]">campaign</span><span>Campañas</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="sorteos" href="#"><span class="material-symbols-outlined text-[20px]">celebration</span><span>Sorteos</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="reportes" href="#"><span class="material-symbols-outlined text-[20px]">analytics</span><span>Reportes</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="configuracion" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span>Configuración</span></a></nav></div></div><div class="p-space-md flex flex-col gap-space-xs bg-surface-container-low"><button class="flex items-center justify-between w-full px-space-md py-space-sm rounded-xl font-body-sm text-body-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" type="button"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[18px]">menu_open</span><span>Colapsar menú</span></div><kbd class="px-1.5 py-0.5 rounded font-label-sm text-label-sm bg-surface-container-high text-on-surface-variant">[</kbd></button><a class="flex items-center gap-space-sm w-full px-space-md py-space-sm rounded-xl font-body-sm text-body-sm text-error hover:bg-error-container hover:text-on-error-container transition-colors" data-path="cerrar-sesion" href="#"><span class="material-symbols-outlined text-[18px]">logout</span><span>Cerrar sesión</span></a></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/80 backdrop-blur-xl z-40 flex items-center justify-between px-space-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm text-on-surface-variant font-label-md text-label-md"><span class="hover:text-on-surface transition-colors cursor-pointer">Panel</span><span class="material-symbols-outlined text-[14px]">chevron_right</span><span class="text-on-surface font-semibold">Consola Principal</span></div></div><div class="flex items-center gap-space-lg"><div class="relative flex items-center"><div class="absolute left-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">search</span></div><input class="w-80 h-10 pl-10 pr-16 bg-surface-container rounded-xl font-body-sm text-body-sm text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:ring-1 focus:ring-primary transition-all" placeholder="Buscar usuarios, campañas o transacciones..." type="text"/><div class="absolute right-2.5 flex items-center gap-1 pointer-events-none"><kbd class="px-1.5 py-0.5 rounded font-label-sm text-label-sm bg-surface-container-high text-on-surface-variant">⌘K</kbd></div></div><button class="flex items-center gap-space-xs h-10 px-space-md rounded-xl bg-primary-container text-on-primary font-label-lg text-label-lg font-semibold hover:bg-opacity-90 transition-all shadow-md shadow-primary-container/20" type="button"><span class="material-symbols-outlined text-[18px]">add</span><span>Nueva Campaña</span></button><button class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-tertiary ring-2 ring-surface-container"></span></button><div class="flex items-center gap-space-md pl-space-sm"><div class="flex flex-col items-end"><div class="flex items-center gap-space-xs"><span class="font-label-lg text-label-lg text-on-surface font-medium">Administrador PubliGana</span><span class="px-1.5 py-0.5 rounded font-label-sm text-label-sm font-semibold bg-secondary-container text-on-secondary-container">ADMIN</span></div><span class="font-label-sm text-label-sm text-on-surface-variant">root@publigana.com</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface-container-lowest min-h-screen"><div class="flex flex-col w-full">
+<div class="p-space-xl flex flex-col gap-space-xl max-w-[1600px] mx-auto w-full">
+<!-- 1. Encabezado de la página -->
+<header class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg pb-space-sm">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-space-sm">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Panel de Control General</h1>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-tertiary-container/30 text-tertiary font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary mr-1.5 animate-pulse"></span> Sistema en línea
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+          Bienvenido de nuevo, Administrador. Vista consolidada de métricas, rendimiento y actividad operativa.
+        </p>
+</div>
+<!-- Filtro temporal & Exportar -->
+<div class="flex items-center flex-wrap gap-space-sm self-start lg:self-center">
+<div class="inline-flex items-center bg-surface-container-low p-1 rounded-xl shadow-inner shadow-black/40">
+<button class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" onclick="setActiveFilter(this)" type="button">Hoy</button>
+<button class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" onclick="setActiveFilter(this)" type="button">Últimos 7 días</button>
+<button class="px-space-md py-1.5 rounded-lg font-label-md text-label-md bg-primary-container text-on-primary font-semibold shadow-md shadow-primary-container/30" onclick="setActiveFilter(this)" type="button">Este Mes</button>
+<button class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" onclick="setActiveFilter(this)" type="button">Este Año</button>
+</div>
+<button class="inline-flex items-center gap-space-xs h-10 px-space-md rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface transition-all font-label-lg text-label-lg active:scale-95 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">download</span>
+<span>Exportar PDF</span>
+</button>
+</div>
+</header>
+<!-- 2. Grid de 4 KPIs Estadísticos -->
+<section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-lg">
+<!-- Tarjeta 1: Usuarios -->
+<div class="bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col justify-between hover:bg-surface-container transition-all group relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-primary/5 blur-2xl pointer-events-none group-hover:bg-primary/10 transition-colors"></div>
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md tracking-wider uppercase text-on-surface-variant">USUARIOS REGISTRADOS</span>
+<div class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight mt-1">24,850</div>
+</div>
+<div class="w-12 h-12 rounded-xl bg-primary-container/20 text-primary flex items-center justify-center shadow-lg shadow-primary-container/10 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[24px]">group</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-md mt-space-md border-t border-outline-variant/20">
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md font-label-sm text-label-sm bg-tertiary-container/30 text-tertiary font-semibold">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span>+14.2%</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">1,840 nuevos este mes</span>
+</div>
+</div>
+<!-- Tarjeta 2: Empresas -->
+<div class="bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col justify-between hover:bg-surface-container transition-all group relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-secondary/5 blur-2xl pointer-events-none group-hover:bg-secondary/10 transition-colors"></div>
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md tracking-wider uppercase text-on-surface-variant">EMPRESAS ASOCIADAS</span>
+<div class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight mt-1">1,420</div>
+</div>
+<div class="w-12 h-12 rounded-xl bg-secondary-container/30 text-secondary-fixed flex items-center justify-center shadow-lg shadow-secondary-container/10 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[24px]">domain</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-md mt-space-md border-t border-outline-variant/20">
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md font-label-sm text-label-sm bg-tertiary-container/30 text-tertiary font-semibold">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span>+8.5%</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">38 pendientes de validación</span>
+</div>
+</div>
+<!-- Tarjeta 3: Campañas Activas -->
+<div class="bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col justify-between hover:bg-surface-container transition-all group relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-tertiary/10 blur-2xl pointer-events-none group-hover:bg-tertiary/15 transition-colors"></div>
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md tracking-wider uppercase text-on-surface-variant">CAMPAÑAS ACTIVAS</span>
+<div class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight mt-1">186</div>
+</div>
+<div class="w-12 h-12 rounded-xl bg-tertiary-container text-on-tertiary-container flex items-center justify-center shadow-lg shadow-tertiary-container/20 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[24px]">campaign</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-md mt-space-md border-t border-outline-variant/20">
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md font-label-sm text-label-sm bg-tertiary-container/30 text-tertiary font-semibold">
+<span class="material-symbols-outlined text-[14px]">bolt</span>
+<span>+22.4% hoy</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">54 finalizan esta semana</span>
+</div>
+</div>
+<!-- Tarjeta 4: Sorteos Ejecutados -->
+<div class="bg-surface-container-low p-space-lg rounded-xl shadow-lg flex flex-col justify-between hover:bg-surface-container transition-all group relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-28 h-28 rounded-full bg-primary-container/20 blur-2xl pointer-events-none group-hover:bg-primary-container/30 transition-colors"></div>
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-1">
+<span class="font-label-md text-label-md tracking-wider uppercase text-on-surface-variant">SORTEOS EJECUTADOS</span>
+<div class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight mt-1">64</div>
+</div>
+<div class="w-12 h-12 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center shadow-lg shadow-primary-container/20 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[24px]">trophy</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-md mt-space-md border-t border-outline-variant/20">
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md font-label-sm text-label-sm bg-primary-container/30 text-primary-fixed font-semibold">
+<span class="material-symbols-outlined text-[14px]">celebration</span>
+<span>+5 semana</span>
+</div>
+<span class="font-body-sm text-body-sm text-tertiary font-medium">S/. 142,500 en premios</span>
+</div>
+</div>
+</section>
+<!-- 3. Sección de Análisis y Gráficos (Bento 8 cols + 4 cols) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- Columna Izquierda: Evolución de Crecimiento (8 cols) -->
+<div class="lg:col-span-8 bg-surface-container-low p-space-lg rounded-xl shadow-xl flex flex-col justify-between">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md mb-space-lg">
+<div>
+<div class="flex items-center gap-space-sm">
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Evolución de Crecimiento de Usuarios</h2>
+<span class="px-2 py-0.5 rounded-md font-label-sm text-label-sm bg-tertiary-container/30 text-tertiary font-semibold">+28.4% YTD</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Tracción semestral acumulada de promotores y empresas comerciales</p>
+</div>
+<div class="flex items-center bg-surface-container p-1 rounded-xl self-start sm:self-auto">
+<button class="px-3 py-1 rounded-lg font-label-sm text-label-sm bg-primary-container text-on-primary font-medium shadow-sm" type="button">Total</button>
+<button class="px-3 py-1 rounded-lg font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors" type="button">Promotores</button>
+<button class="px-3 py-1 rounded-lg font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors" type="button">Negocios</button>
+</div>
+</div>
+<!-- SVG Gráfico Fluido -->
+<div class="relative w-full h-72 sm:h-80 flex flex-col justify-end">
+<!-- Tooltip flotante interactivo simulado -->
+<div class="absolute top-6 right-24 sm:right-32 z-10 bg-surface-container-highest px-3 py-2 rounded-xl shadow-xl border border-primary/30 flex flex-col pointer-events-none transform -translate-x-1/2 animate-bounce">
+<span class="font-label-sm text-label-sm text-primary-fixed uppercase tracking-wider">Junio 2025</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">24,850 reg.</span>
+<span class="font-label-sm text-label-sm text-tertiary font-medium">+1,840 este mes</span>
+</div>
+<!-- SVG Chart -->
+<svg aria-label="Gráfico de crecimiento de usuarios" class="w-full h-64 overflow-visible" preserveaspectratio="none" viewbox="0 0 760 220">
+<defs>
+<lineargradient id="purpleGlowGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#deb7ff" stop-opacity="0.38"></stop>
+<stop offset="70%" stop-color="#7b2cbf" stop-opacity="0.12"></stop>
+<stop offset="100%" stop-color="#7b2cbf" stop-opacity="0.0"></stop>
+</lineargradient>
+<lineargradient id="lineStrokeGradient" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#8234c6"></stop>
+<stop offset="50%" stop-color="#deb7ff"></stop>
+<stop offset="100%" stop-color="#4edea3"></stop>
+</lineargradient>
+</defs>
+<!-- Guías horizontales -->
+<line stroke="#39314a" stroke-dasharray="4 4" stroke-opacity="0.6" x1="40" x2="740" y1="20" y2="20"></line>
+<line stroke="#39314a" stroke-dasharray="4 4" stroke-opacity="0.6" x1="40" x2="740" y1="65" y2="65"></line>
+<line stroke="#39314a" stroke-dasharray="4 4" stroke-opacity="0.6" x1="40" x2="740" y1="110" y2="110"></line>
+<line stroke="#39314a" stroke-dasharray="4 4" stroke-opacity="0.6" x1="40" x2="740" y1="155" y2="155"></line>
+<line stroke="#39314a" stroke-opacity="0.8" x1="40" x2="740" y1="200" y2="200"></line>
+<!-- Eje Y Labels -->
+<text fill="#cfc2d5" font-family="Inter" font-size="11" x="5" y="24">25k</text>
+<text fill="#cfc2d5" font-family="Inter" font-size="11" x="5" y="69">20k</text>
+<text fill="#cfc2d5" font-family="Inter" font-size="11" x="5" y="114">15k</text>
+<text fill="#cfc2d5" font-family="Inter" font-size="11" x="5" y="159">10k</text>
+<text fill="#cfc2d5" font-family="Inter" font-size="11" x="12" y="204">5k</text>
+<!-- Área rellenada -->
+<path d="M 60 185 C 160 175, 230 150, 310 130 C 390 110, 460 90, 540 60 C 620 30, 680 25, 720 20 L 720 200 L 60 200 Z" fill="url(#purpleGlowGradient)"></path>
+<!-- Línea de tendencia -->
+<path d="M 60 185 C 160 175, 230 150, 310 130 C 390 110, 460 90, 540 60 C 620 30, 680 25, 720 20" fill="none" stroke="url(#lineStrokeGradient)" stroke-linecap="round" stroke-width="3.5"></path>
+<!-- Nodos de hitos -->
+<circle cx="60" cy="185" fill="#deb7ff" r="4"></circle>
+<circle cx="190" cy="165" fill="#deb7ff" r="4"></circle>
+<circle cx="310" cy="130" fill="#deb7ff" r="4"></circle>
+<circle cx="440" cy="95" fill="#deb7ff" r="4"></circle>
+<circle cx="560" cy="50" fill="#4edea3" r="5"></circle>
+<circle class="filter drop-shadow-[0_0_8px_rgba(78,222,163,0.8)]" cx="720" cy="20" fill="#4edea3" r="7"></circle>
+</svg>
+<!-- Eje X Meses -->
+<div class="flex justify-between pl-12 pr-6 pt-3 font-label-sm text-label-sm text-on-surface-variant">
+<span>Ene</span>
+<span>Feb</span>
+<span>Mar</span>
+<span>Abr</span>
+<span>May</span>
+<span class="text-tertiary font-bold">Jun (Actual)</span>
+</div>
+</div>
+</div>
+<!-- Columna Derecha: Distribución de Campañas (4 cols) -->
+<div class="lg:col-span-4 bg-surface-container-low p-space-lg rounded-xl shadow-xl flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-space-md border-b border-outline-variant/20">
+<div>
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Distribución de Campañas</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Estatus en ciclo de vida publicitario</p>
+</div>
+<div class="text-right">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">186</span>
+<span class="block font-label-sm text-label-sm text-on-surface-variant">Totales</span>
+</div>
+</div>
+<!-- Barra Segmentada Visual -->
+<div class="w-full h-3.5 bg-surface-container-highest rounded-full overflow-hidden flex my-space-lg shadow-inner">
+<div class="bg-tertiary transition-all" style="width: 58%;" title="Activas: 58%"></div>
+<div class="bg-[#F59E0B] transition-all" style="width: 22%;" title="Pendientes: 22%"></div>
+<div class="bg-primary transition-all" style="width: 15%;" title="Finalizadas: 15%"></div>
+<div class="bg-error transition-all" style="width: 5%;" title="Rechazadas: 5%"></div>
+</div>
+<!-- Leyenda Detallada -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container/60 hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Activas</span>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="font-label-md text-label-md text-tertiary font-bold">58%</span>
+<span class="font-label-md text-label-md text-on-surface-variant w-8 text-right">108</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container/60 hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-[#F59E0B]"></span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Pendientes de Aprobación</span>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="font-label-md text-label-md text-[#F59E0B] font-bold">22%</span>
+<span class="font-label-md text-label-md text-on-surface-variant w-8 text-right">41</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container/60 hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Finalizadas</span>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="font-label-md text-label-md text-primary font-bold">15%</span>
+<span class="font-label-md text-label-md text-on-surface-variant w-8 text-right">28</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container/60 hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Canceladas / Rechazadas</span>
+</div>
+<div class="flex items-center gap-space-md">
+<span class="font-label-md text-label-md text-error font-bold">5%</span>
+<span class="font-label-md text-label-md text-on-surface-variant w-8 text-right">9</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 2 Mini Bloques de Eficiencia -->
+<div class="grid grid-cols-2 gap-space-sm pt-space-md mt-space-md border-t border-outline-variant/20">
+<div class="bg-surface-container p-3 rounded-xl">
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase tracking-wider">Tasa de Cierre</span>
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface mt-1">94.2%</div>
+<span class="font-label-sm text-label-sm text-tertiary flex items-center gap-0.5 mt-0.5">
+<span class="material-symbols-outlined text-[13px]">arrow_upward</span> Cumplimiento
+            </span>
+</div>
+<div class="bg-surface-container p-3 rounded-xl">
+<span class="font-label-sm text-label-sm text-on-surface-variant block uppercase tracking-wider">ROAS Promedio</span>
+<div class="font-headline-sm text-headline-sm font-bold text-on-surface mt-1">4.8x</div>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-0.5 mt-0.5">
+<span class="material-symbols-outlined text-[13px]">stars</span> Alto impacto
+            </span>
+</div>
+</div>
+</div>
+</section>
+<!-- 4. Sección Operativa Inferior: Últimas Campañas + Usuarios & Feed -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Columna 1 (Campañas - 60% aprox = 7 cols en grid de 12) -->
+<div class="lg:col-span-7 bg-surface-container-low p-space-lg rounded-xl shadow-xl flex flex-col">
+<div class="flex items-center justify-between pb-space-md border-b border-outline-variant/20 mb-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px]">campaign</span>
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Últimas Campañas Creadas</h2>
+</div>
+<a class="font-label-md text-label-md text-primary hover:text-primary-fixed-dim transition-colors flex items-center gap-1 font-semibold group" data-path="campanas" href="#">
+<span>Gestionar todas</span>
+<span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<!-- Tabla Estilizada sin bordes estándar -->
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="font-label-sm text-label-sm uppercase text-on-surface-variant bg-surface-container/40">
+<th class="py-2.5 px-3 rounded-l-lg font-medium">Campaña</th>
+<th class="py-2.5 px-3 font-medium">Empresa</th>
+<th class="py-2.5 px-3 font-medium text-right">Participantes</th>
+<th class="py-2.5 px-3 font-medium text-right">Presupuesto</th>
+<th class="py-2.5 px-3 font-medium text-center">Estado</th>
+<th class="py-2.5 px-3 rounded-r-lg font-medium text-right">Acción</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10 font-body-sm text-body-sm">
+<!-- Fila 1 -->
+<tr class="hover:bg-surface-container/60 transition-colors group">
+<td class="py-3 px-3">
+<div class="font-medium text-on-surface group-hover:text-primary transition-colors">Promo Black Friday 2025</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">ID: #CMP-8941</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-primary-container/30 text-primary-fixed flex items-center justify-center font-bold text-xs">T</div>
+<span class="text-on-surface">TechStore Perú</span>
+</div>
+</td>
+<td class="py-3 px-3 text-right font-medium text-on-surface">1,840</td>
+<td class="py-3 px-3 text-right font-semibold text-tertiary">S/. 5,000</td>
+<td class="py-3 px-3 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-tertiary-container/30 text-tertiary font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span> Activa
+                  </span>
+</td>
+<td class="py-3 px-3 text-right">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Detalles" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Fila 2 -->
+<tr class="hover:bg-surface-container/60 transition-colors group">
+<td class="py-3 px-3">
+<div class="font-medium text-on-surface group-hover:text-primary transition-colors">Sorteo Aniversario Oro</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">ID: #CMP-8939</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-secondary-container/40 text-secondary-fixed flex items-center justify-center font-bold text-xs">C</div>
+<span class="text-on-surface">Café Andino</span>
+</div>
+</td>
+<td class="py-3 px-3 text-right font-medium text-on-surface">620</td>
+<td class="py-3 px-3 text-right font-semibold text-tertiary">S/. 1,500</td>
+<td class="py-3 px-3 text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-[#F59E0B]/20 text-[#F59E0B] font-semibold">
+                    Pendiente
+                  </span>
+</td>
+<td class="py-3 px-3 text-right">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Detalles" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Fila 3 -->
+<tr class="hover:bg-surface-container/60 transition-colors group">
+<td class="py-3 px-3">
+<div class="font-medium text-on-surface group-hover:text-primary transition-colors">Gana con PubliGana Verano</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">ID: #CMP-8935</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-tertiary-container text-on-tertiary-container flex items-center justify-center font-bold text-xs">M</div>
+<span class="text-on-surface">Moda Urbana</span>
+</div>
+</td>
+<td class="py-3 px-3 text-right font-medium text-on-surface">3,210</td>
+<td class="py-3 px-3 text-right font-semibold text-tertiary">S/. 10,000</td>
+<td class="py-3 px-3 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-tertiary-container/30 text-tertiary font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span> Activa
+                  </span>
+</td>
+<td class="py-3 px-3 text-right">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Detalles" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Fila 4 -->
+<tr class="hover:bg-surface-container/60 transition-colors group">
+<td class="py-3 px-3">
+<div class="font-medium text-on-surface group-hover:text-primary transition-colors">Lanzamiento App Delivery</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">ID: #CMP-8928</div>
+</td>
+<td class="py-3 px-3">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xs">F</div>
+<span class="text-on-surface">FastFood Express</span>
+</div>
+</td>
+<td class="py-3 px-3 text-right font-medium text-on-surface">940</td>
+<td class="py-3 px-3 text-right font-semibold text-tertiary">S/. 2,200</td>
+<td class="py-3 px-3 text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-primary-container/30 text-primary-fixed font-semibold">
+                    En Revisión
+                  </span>
+</td>
+<td class="py-3 px-3 text-right">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Detalles" type="button">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Banner contextual de soporte/acción -->
+<div class="mt-space-md p-3.5 rounded-xl bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">verified</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">3 empresas han subido sus comprobantes tributarios para activación inmediata.</span>
+</div>
+<button class="font-label-sm text-label-sm text-primary hover:text-on-surface font-semibold underline underline-offset-4" type="button">Revisar cola (3)</button>
+</div>
+</div>
+<!-- Columna 2 (Usuarios Registrados + Timeline Feed - 40% aprox = 5 cols) -->
+<div class="lg:col-span-5 flex flex-col gap-space-lg">
+<!-- Bloque Superior: Nuevos Registros -->
+<div class="bg-surface-container-low p-space-lg rounded-xl shadow-xl flex flex-col">
+<div class="flex items-center justify-between pb-space-sm border-b border-outline-variant/20 mb-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px]">person_add</span>
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Nuevos Registros</h2>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Recientes</span>
+</div>
+<div class="flex flex-col gap-space-sm">
+<!-- Usuario 1 -->
+<div class="flex items-center justify-between p-2 rounded-xl hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-primary-container text-on-primary-container font-semibold flex items-center justify-center font-label-md text-label-md shadow-sm">
+                  CT
+                </div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-medium text-on-surface">Camila Torres</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">camila.t@gmail.com</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-secondary-container/40 text-secondary-fixed font-semibold">PROMOTOR</span>
+<span class="w-2 h-2 rounded-full bg-tertiary" title="En línea"></span>
+</div>
+</div>
+<!-- Usuario 2 -->
+<div class="flex items-center justify-between p-2 rounded-xl hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-container-highest text-on-surface font-semibold flex items-center justify-center font-label-md text-label-md shadow-sm">
+                  RM
+                </div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-medium text-on-surface">Rodrigo Mendoza</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">rmendoza@negocios.pe</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-tertiary-container/30 text-tertiary font-semibold">NEGOCIO</span>
+<span class="w-2 h-2 rounded-full bg-tertiary" title="En línea"></span>
+</div>
+</div>
+<!-- Usuario 3 -->
+<div class="flex items-center justify-between p-2 rounded-xl hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-primary-container/50 text-on-primary-container font-semibold flex items-center justify-center font-label-md text-label-md shadow-sm">
+                  SV
+                </div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-medium text-on-surface">Sofía Valdés</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">sofia.valdes@live.com</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-secondary-container/40 text-secondary-fixed font-semibold">PROMOTOR</span>
+<span class="w-2 h-2 rounded-full bg-outline" title="Desconectado"></span>
+</div>
+</div>
+<!-- Usuario 4 -->
+<div class="flex items-center justify-between p-2 rounded-xl hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-primary text-on-primary font-semibold flex items-center justify-center font-label-md text-label-md shadow-sm">
+                  CH
+                </div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-medium text-on-surface">Carlos Huamán</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">carlos.h@publigana.com</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-primary-container text-on-primary font-semibold">ADMIN</span>
+<span class="w-2 h-2 rounded-full bg-tertiary" title="En línea"></span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bloque Inferior: Feed de Actividad en Vivo -->
+<div class="bg-surface-container-low p-space-lg rounded-xl shadow-xl flex flex-col">
+<div class="flex items-center justify-between pb-space-sm border-b border-outline-variant/20 mb-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-[22px]">radar</span>
+<h2 class="font-headline-sm text-headline-sm font-semibold text-on-surface">Actividad en Vivo</h2>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary flex items-center gap-1 font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-ping"></span> Realtime
+            </span>
+</div>
+<!-- Timeline -->
+<div class="relative pl-6 space-y-space-md before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-outline-variant/30">
+<!-- Item 1: Negocio verificado -->
+<div class="relative flex flex-col">
+<div class="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full bg-tertiary ring-4 ring-surface-container-low"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-semibold text-on-surface">Negocio Verificado Exitosamente</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Hace 4 min</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+<strong class="text-tertiary">Café Andino S.A.C.</strong> completó validación RUC 20601284912.
+              </p>
+</div>
+<!-- Item 2: Sorteo finalizado -->
+<div class="relative flex flex-col">
+<div class="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full bg-primary ring-4 ring-surface-container-low"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-semibold text-on-surface">Sorteo Automatizado Ejecutado</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Hace 18 min</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                Sorteo <strong class="text-primary-fixed">#SRT-204</strong> entregó 10 tarjetas de regalo de S/. 250 c/u.
+              </p>
+</div>
+<!-- Item 3: Solicitud de retiro -->
+<div class="relative flex flex-col">
+<div class="absolute -left-[27px] top-1 w-3.5 h-3.5 rounded-full bg-[#F59E0B] ring-4 ring-surface-container-low"></div>
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg font-semibold text-on-surface">Solicitud de Retiro de Fondos</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Hace 32 min</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                Promotor <strong class="text-on-surface">Rodrigo M.</strong> solicitó transferir S/. 850 a cuenta BCP.
+              </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<script>
+  function setActiveFilter(btn) {
+    const parent = btn.parentElement;
+    const buttons = parent.querySelectorAll('button');
+    buttons.forEach(b => {
+      b.className = 'px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors';
+    });
+    btn.className = 'px-space-md py-1.5 rounded-lg font-label-md text-label-md bg-primary-container text-on-primary font-semibold shadow-md shadow-primary-container/30';
+  }
+</script></main></div></body></html>
